@@ -75,14 +75,144 @@ const TRANSLATIONS = {
     'dash.pendingPricingTitle': '⚠️ Some products still need a price',
     'dash.pendingPricingSub': 'These show ₱0.00 in your sales and reports until you set their pricing.',
     'dash.setPricingBtn': 'Set pricing',
+    'dash.freePlanPrefix': 'Free plan —',
+    'dash.freePlanSuffix': 'sessions used',
+    'dash.latestComputationTitle': 'Latest Income Computation',
+    'dash.viewPlansBtn': 'View Plans',
     'auth.email': 'Email',
     'auth.password': 'Password',
     'auth.show': 'SHOW',
     'auth.hide': 'HIDE',
     'auth.forgotPassword': 'Forgot password?',
     'auth.logIn': 'Log in',
-    'auth.noAccount': "Don't have an account?",
+    'auth.noAccount': 'Don\'t have an account?',
     'auth.registerHere': 'Register here',
+    'common.action': 'Action',
+    'common.actualIncome': 'Actual Income',
+    'common.addBtn': '+ Add',
+    'common.close': 'Close',
+    'common.computedNetIncome': 'Computed Net Income',
+    'common.date': 'Date',
+    'common.expenses': 'Expenses',
+    'common.month': 'Month',
+    'common.ok': 'OK',
+    'common.others': 'Others',
+    'common.product': 'Product',
+    'common.sales': 'Sales',
+    'common.skip': 'Skip',
+    'common.totalExpenses': 'Total Expenses',
+    'common.totalSales': 'Total Sales',
+    'comp.expensesEntered': 'Linked Expenses:',
+    'comp.gotIt': 'Got it',
+    'comp.modalTitle': 'Computation Result',
+    'comp.productSales': 'Product Sales:',
+    'expense.addAnotherBtn': '+ Add another expense',
+    'expense.cropNameLabel': 'Crop / produce name',
+    'expense.cropNamePlaceholder': 'e.g. Tomato',
+    'expense.saveBtn': 'Save Product & Expenses',
+    'expense.totalPreviewLabel': 'Total Expense:',
+    'harvest.harvestQuestion': '\'s harvest?',
+    'harvest.howWas': 'How was',
+    'harvest.rateTitle': 'Rate this Harvest',
+    'harvest.ratingNote': 'This rating will also show up on the Admin dashboard.',
+    'income.compTitle': 'Computation & Comparison (Per Month / Product)',
+    'income.computeBtn': 'Compute',
+    'income.dateReceivedLabel': 'Date Received / Encoded',
+    'income.enterActualLabel': 'Enter Actual Income (Collected or On-hand Cash)',
+    'income.expensesAutoLabel': 'Expenses for this Product (auto-calculated from linked expense records)',
+    'income.historyTitle': 'Actual Income Monitoring History',
+    'income.perProductTitle': 'Income Monitoring per Product',
+    'income.saveBtn': 'Save Actual Income',
+    'income.selectMonth': 'Select Month',
+    'income.selectProduct': 'Select Product',
+    'income.statusNoteDefault': 'Select a product and month, then tap Compute to see the sales vs. expenses comparison for it.',
+    'income.thActualCollected': 'Actual Income Collected',
+    'income.thTotalActualIncome': 'Total Actual Income',
+    'income.thDateSaved': 'Date Saved',
+    'income.thDiscrepancy': 'Discrepancy / Difference',
+    'income.thEntries': 'Entries',
+    'income.thProducts': 'Product(s) This Month',
+    'income.thTotalComputedNet': 'Total Computed Net',
+    'income.thTotalDiscrepancy': 'Total Discrepancy',
+    'lang.modalSub': 'Pick your preferred language for the app. You can change this anytime up top, next to your username.',
+    'lang.modalTitle': 'Choose your language',
+    'modal.addAnotherBtn': 'Add Another Entry',
+    'modal.nameType': 'Name / Type:',
+    'modal.successSub': 'New data has been recorded into your farm monitoring.',
+    'modal.successTitle': 'Successfully Saved!',
+    'modal.totalAmount': 'Total Amount:',
+    'modal.viewRecordsBtn': 'View Records',
+    'pd.autoProfitPct': 'Automatic Profit (Percentage):',
+    'pd.basedOnKilos': 'Based on number of kilos:',
+    'pd.calcDisclaimer': 'This is based only on your own expenses and profit margin — it does not account for market price, so you\'re guaranteed to recover your capital.',
+    'pd.calcTitle': 'Pricing Calculator',
+    'pd.countdownLabel': 'Countdown',
+    'pd.countdownNote': 'This is only an estimate based on typical growing duration for this crop — it can vary by location and climate.',
+    'pd.countdownTitle': 'Estimated Harvest Countdown',
+    'pd.dateRecorded': 'Date recorded:',
+    'pd.estHarvestDate': 'Estimated harvest date:',
+    'pd.linkedExpensesBasis': 'Total linked expenses (basis):',
+    'pd.linkedExpensesNote': 'Missing an expense (e.g. fertilizer)? Add a new one. Extra or wrong entry? Delete it — it\'ll be subtracted from this product\'s total expenses right away.',
+    'pd.linkedExpensesTitle': 'Linked Expenses (e.g. Fertilizer)',
+    'pd.lockedBanner': 'This product\'s harvest cycle is finished (Actual Income already recorded). It can no longer be changed.',
+    'pd.priceByKiloNote': 'Price per Kilo depends on how much you expect to harvest (choose the closest to your expected yield):',
+    'pd.pricePerKilo': 'Price per kilo:',
+    'pd.pricingSavedSub': 'This product\'s new price has been recorded.',
+    'pd.pricingSavedTitle': 'Pricing Saved!',
+    'pd.profitMarginLabel': 'Enter Profit Margin (1 - 50%)',
+    'pd.salesTarget': 'Total Sales Target (cost recovery + profit)',
+    'pd.savePricingBtn': 'Save Pricing',
+    'pd.targetProfit': 'Target Profit (amount)',
+    'pd.totalLinkedExpenses': 'Total linked expenses:',
+    'pd.typicalDuration': 'Typical growing duration for',
+    'records.detailsTitle': 'Expenses Details',
+    'records.searchPlaceholder': 'Search by product name...',
+    'records.thPossibleProfit': 'Possible Profit',
+    'records.thProductProduce': 'Product / Produce',
+    'records.thSalesPerUnit': 'Sales per Unit',
+    'reports.catBreakdownTitle': 'Expense Breakdown by Category',
+    'reports.mergedTitle': 'Merged Product Financial Summary',
+    'reports.overviewTitle': 'Monthly Financial Monitoring Overview',
+    'reports.thCategory': 'Expense Category',
+    'reports.thCategoryShare': 'Category Share (%)',
+    'reports.thEstExpenses': 'Estimated Expenses',
+    'reports.thProfitMargin': 'Profit Margin (%)',
+    'reports.thSalesShare': 'Sales Share (%)',
+    'reports.thTotalQty': 'Total Qty',
+    'reports.thTotalSpent': 'Total Amount Spent',
+    'reports.trendTitle': 'Monthly Trend (Bar Graph)',
+    'subChoice.maybeLater': 'Maybe later',
+    'subChoice.sub': 'Choose a plan to continue recording your harvests, expenses, and income.',
+    'subChoice.title': 'You\'re Out of Sessions',
+    'subscribe.currentPlanTitle': 'Current Plan',
+    'subscribe.gcashPayPrefix': 'Send',
+    'subscribe.gcashPaySuffix': 'via GCash to:',
+    'subscribe.pricePerSessionDesc': 'A session is 1 product + its expenses + its actual income. Choose a plan below, send the amount via GCash, and enter the reference number to add sessions directly to your account.',
+    'subscribe.pricePerSessionTitle': 'Price per Session',
+    'subscribe.refLabel': 'GCash Reference Number',
+    'subscribe.scanQrNote': 'Or scan the QR using your GCash app',
+    'subscribe.subscribeNowBtn': 'Subscribe Now',
+    'support.anonymous': 'Anonymous',
+    'support.messageLabel': 'Message',
+    'support.messagePlaceholder': 'Type your concern here...',
+    'support.sendAsLabel': 'Send this message as',
+    'support.sendBtn': 'Send',
+    'support.sendTitle': 'Send a concern',
+    'support.subjectLabel': 'Subject (optional)',
+    'support.subjectPlaceholder': '-- Choose a subject --',
+    'support.withDetails': 'With My Details',
+    'support.yourConcernsTitle': 'Your concerns',
+    'support.emptyNoSent': "You haven't sent any concerns yet.",
+    'support.emptyNoReceived': 'No concerns received yet.',
+    'subscribe.emptyNoRequests': 'No subscription requests yet.',
+    'income.emptyHistory': 'No saved actual income records yet.',
+    'dash.emptyRecentRecords': 'No records added yet.',
+    'records.emptyNoRecords': 'No product / expense records found.',
+    'pd.emptyLinkedExpenses': "No linked expenses yet. Add one below.",
+    'reports.emptyNoRecords': 'No records yet.',
+    'reports.emptyNoExpenses': 'No expense records found.',
+    'reports.emptyNoProducts': 'No product records found.',
+    'reports.emptyNoGraphData': 'No data yet to plot.',
   },
   tl: {
     'topbar.dashboard': 'Home dashboard',
@@ -103,6 +233,14 @@ const TRANSLATIONS = {
     'dash.addIncomeBtn': '+ Magdagdag ng Aktwal na Kita',
     'dash.recentRecords': 'Kamakailang mga record',
     'dash.viewAll': 'Tingnan lahat',
+    'dash.sessionExplainer': 'Nagagamit ang isang session tuwing magdadagdag ka ng bagong Produkto at ang mga Gastos nito. Libre lagi ang pag-log ng Aktwal na Kita. Kapag naubos na ang iyong mga session, mai-lock ang pagdagdag ng bagong produkto hangga\'t hindi ka nag-subscribe.',
+    'dash.pendingPricingTitle': '⚠️ May mga produktong kailangan pa ng presyo',
+    'dash.pendingPricingSub': 'Nagpapakita ang mga ito ng ₱0.00 sa benta at reports mo hangga\'t hindi mo naitatakda ang presyo nila.',
+    'dash.setPricingBtn': 'Itakda ang presyo',
+    'dash.freePlanPrefix': 'Libreng plano —',
+    'dash.freePlanSuffix': 'sessions na nagamit',
+    'dash.latestComputationTitle': 'Pinakabagong Kalkulasyon ng Kita',
+    'dash.viewPlansBtn': 'Tingnan ang mga Plano',
     'auth.email': 'Email',
     'auth.password': 'Password',
     'auth.show': 'IPAKITA',
@@ -111,13 +249,140 @@ const TRANSLATIONS = {
     'auth.logIn': 'Mag-log in',
     'auth.noAccount': 'Wala ka pang account?',
     'auth.registerHere': 'Magrehistro dito',
-    'dash.pendingPricingTitle': '⚠️ May mga produktong kailangan pa ng presyo',
-    'dash.pendingPricingSub': "Nagpapakita ang mga ito ng \u20b10.00 sa benta at reports mo hangga't hindi mo naitatakda ang presyo nila.",
-    'dash.setPricingBtn': 'Itakda ang presyo',
+    'common.action': 'Aksyon',
+    'common.actualIncome': 'Aktwal na Kita',
+    'common.addBtn': '+ Idagdag',
+    'common.close': 'Isara',
+    'common.computedNetIncome': 'Kinukuwentang Netong Kita',
+    'common.date': 'Petsa',
+    'common.expenses': 'Gastos',
+    'common.month': 'Buwan',
+    'common.ok': 'OK',
+    'common.others': 'Iba pa',
+    'common.product': 'Produkto',
+    'common.sales': 'Benta',
+    'common.skip': 'Laktawan',
+    'common.totalExpenses': 'Kabuuang Gastos',
+    'common.totalSales': 'Kabuuang Benta',
+    'comp.expensesEntered': 'Naka-link na Gastos:',
+    'comp.gotIt': 'Nakuha ko',
+    'comp.modalTitle': 'Resulta ng Kalkulasyon',
+    'comp.productSales': 'Benta ng Produkto:',
+    'expense.addAnotherBtn': '+ Magdagdag ng isa pang gastos',
+    'expense.cropNameLabel': 'Pangalan ng pananim / ani',
+    'expense.cropNamePlaceholder': 'hal. Kamatis',
+    'expense.saveBtn': 'I-save ang Produkto at Gastos',
+    'expense.totalPreviewLabel': 'Kabuuang Gastos:',
+    'harvest.harvestQuestion': ' na ani?',
+    'harvest.howWas': 'Kumusta ang',
+    'harvest.rateTitle': 'I-rate ang Harvest na Ito',
+    'harvest.ratingNote': 'Makikita rin ang rating na ito sa Admin dashboard.',
+    'income.compTitle': 'Kalkulasyon at Paghahambing (Bawat Buwan / Produkto)',
+    'income.computeBtn': 'Kalkulahin',
+    'income.dateReceivedLabel': 'Petsa ng Pagtanggap / Pagpasok',
+    'income.enterActualLabel': 'Ilagay ang Aktwal na Kita (Nakolekta o Cash na Nasa Kamay)',
+    'income.expensesAutoLabel': 'Gastos para sa Produktong Ito (awtomatikong kinukuwenta mula sa naka-link na mga gastos)',
+    'income.historyTitle': 'Kasaysayan ng Pagmomonitor ng Aktwal na Kita',
+    'income.perProductTitle': 'Pagmomonitor ng Kita Bawat Produkto',
+    'income.saveBtn': 'I-save ang Aktwal na Kita',
+    'income.selectMonth': 'Piliin ang Buwan',
+    'income.selectProduct': 'Piliin ang Produkto',
+    'income.statusNoteDefault': 'Pumili ng produkto at buwan, pagkatapos i-tap ang Compute para makita ang paghahambing ng benta laban sa gastos.',
+    'income.thActualCollected': 'Nakolektang Aktwal na Kita',
+    'income.thTotalActualIncome': 'Kabuuang Aktwal na Kita',
+    'income.thDateSaved': 'Petsang Na-save',
+    'income.thDiscrepancy': 'Pagkakaiba / Discrepancy',
+    'income.thEntries': 'Mga Entry',
+    'income.thProducts': 'Produkto(s) Ngayong Buwan',
+    'income.thTotalComputedNet': 'Kabuuang Kinukuwentang Net',
+    'income.thTotalDiscrepancy': 'Kabuuang Pagkakaiba',
+    'lang.modalSub': 'Piliin ang gusto mong wika para sa app. Puwede mo itong baguhin anumang oras sa itaas, sa tabi ng iyong username.',
+    'lang.modalTitle': 'Piliin ang Iyong Wika',
+    'modal.addAnotherBtn': 'Magdagdag ng Isa Pang Entry',
+    'modal.nameType': 'Pangalan / Uri:',
+    'modal.successSub': 'Naitala na ang bagong datos sa iyong farm monitoring.',
+    'modal.successTitle': 'Matagumpay na Na-save!',
+    'modal.totalAmount': 'Kabuuang Halaga:',
+    'modal.viewRecordsBtn': 'Tingnan ang mga Record',
+    'pd.autoProfitPct': 'Awtomatikong Tubo (Porsyento):',
+    'pd.basedOnKilos': 'Batay sa bilang ng kilo:',
+    'pd.calcDisclaimer': 'Batay lamang ito sa iyong sariling gastos at profit margin — hindi kasama ang presyo sa merkado, kaya garantisadong mababawi mo ang iyong puhunan.',
+    'pd.calcTitle': 'Calculator ng Presyo',
+    'pd.countdownLabel': 'Countdown',
+    'pd.countdownNote': 'Isa lamang itong tantiya batay sa karaniwang tagal ng paglaki ng pananim na ito — maaaring magbago depende sa lokasyon at klima.',
+    'pd.countdownTitle': 'Tinatayang Countdown sa Pag-ani',
+    'pd.dateRecorded': 'Petsa ng pagtala:',
+    'pd.estHarvestDate': 'Tinatayang petsa ng pag-ani:',
+    'pd.linkedExpensesBasis': 'Kabuuang naka-link na gastos (basehan):',
+    'pd.linkedExpensesNote': 'May kulang na gastos (hal. pataba)? Magdagdag ng bago. May sobra o maling entry? Burahin ito — awtomatiko itong ikakaltas sa kabuuang gastos ng produktong ito.',
+    'pd.linkedExpensesTitle': 'Naka-link na Gastos (hal. Pataba)',
+    'pd.lockedBanner': 'Tapos na ang harvest cycle ng produktong ito (naitala na ang Aktwal na Kita). Hindi na ito maaaring baguhin.',
+    'pd.priceByKiloNote': 'Ang Presyo Bawat Kilo ay depende sa inaasahan mong aanihin (piliin ang pinakamalapit sa inaasahan mong ani):',
+    'pd.pricePerKilo': 'Presyo bawat kilo:',
+    'pd.pricingSavedSub': 'Naitala na ang bagong presyo ng produktong ito.',
+    'pd.pricingSavedTitle': 'Na-save ang Presyo!',
+    'pd.profitMarginLabel': 'Ilagay ang Profit Margin (1 - 50%)',
+    'pd.salesTarget': 'Target na Kabuuang Benta (pambawi sa puhunan + tubo)',
+    'pd.savePricingBtn': 'I-save ang Presyo',
+    'pd.targetProfit': 'Target na Tubo (halaga)',
+    'pd.totalLinkedExpenses': 'Kabuuang naka-link na gastos:',
+    'pd.typicalDuration': 'Karaniwang tagal ng paglaki para sa',
+    'records.detailsTitle': 'Detalye ng mga Gastos',
+    'records.searchPlaceholder': 'Maghanap gamit ang pangalan ng produkto...',
+    'records.thPossibleProfit': 'Posibleng Tubo',
+    'records.thProductProduce': 'Produkto / Ani',
+    'records.thSalesPerUnit': 'Benta Bawat Unit',
+    'reports.catBreakdownTitle': 'Paghahati-hati ng Gastos ayon sa Kategorya',
+    'reports.mergedTitle': 'Pinagsamang Buod ng Pananalapi ng Produkto',
+    'reports.overviewTitle': 'Buod ng Buwanang Pagmomonitor ng Pananalapi',
+    'reports.thCategory': 'Kategorya ng Gastos',
+    'reports.thCategoryShare': 'Share ng Kategorya (%)',
+    'reports.thEstExpenses': 'Tinatayang Gastos',
+    'reports.thProfitMargin': 'Profit Margin (%)',
+    'reports.thSalesShare': 'Share ng Benta (%)',
+    'reports.thTotalQty': 'Kabuuang Dami',
+    'reports.thTotalSpent': 'Kabuuang Nagastos',
+    'reports.trendTitle': 'Buwanang Trend (Bar Graph)',
+    'subChoice.maybeLater': 'Sa ibang pagkakataon na lang',
+    'subChoice.sub': 'Pumili ng plano para magpatuloy sa pagtala ng iyong mga ani, gastos, at kita.',
+    'subChoice.title': 'Naubos na ang Iyong mga Session',
+    'subscribe.currentPlanTitle': 'Kasalukuyang Plano',
+    'subscribe.gcashPayPrefix': 'Magpadala ng',
+    'subscribe.gcashPaySuffix': 'sa pamamagitan ng GCash sa:',
+    'subscribe.pricePerSessionDesc': 'Ang isang session ay 1 produkto + ang mga gastos nito + ang aktwal na kita nito. Pumili ng plano sa ibaba, magpadala ng halaga gamit ang GCash, at ilagay ang reference number para idagdag ang mga session diretso sa iyong account.',
+    'subscribe.pricePerSessionTitle': 'Presyo Bawat Session',
+    'subscribe.refLabel': 'GCash Reference Number',
+    'subscribe.scanQrNote': 'O i-scan ang QR gamit ang iyong GCash app',
+    'subscribe.subscribeNowBtn': 'Mag-subscribe Ngayon',
+    'support.anonymous': 'Hindi Kilala',
+    'support.messageLabel': 'Mensahe',
+    'support.messagePlaceholder': 'I-type ang iyong concern dito...',
+    'support.sendAsLabel': 'Ipadala ang mensaheng ito bilang',
+    'support.sendBtn': 'Ipadala',
+    'support.sendTitle': 'Magpadala ng Concern',
+    'support.subjectLabel': 'Paksa (opsyonal)',
+    'support.subjectPlaceholder': '-- Pumili ng paksa --',
+    'support.withDetails': 'May Detalye Ko',
+    'support.yourConcernsTitle': 'Iyong mga Concern',
+    'support.emptyNoSent': 'Wala ka pang naipadalang concern.',
+    'support.emptyNoReceived': 'Wala pang natatanggap na concern.',
+    'subscribe.emptyNoRequests': 'Wala pang subscription requests.',
+    'income.emptyHistory': 'Wala pang na-save na aktwal na kita.',
+    'dash.emptyRecentRecords': 'Wala pang naidagdag na record.',
+    'records.emptyNoRecords': 'Walang nakitang produkto / gastos na record.',
+    'pd.emptyLinkedExpenses': 'Wala pang naka-link na expense. Mag-add sa ibaba.',
+    'reports.emptyNoRecords': 'Wala pang record.',
+    'reports.emptyNoExpenses': 'Walang nakitang expense record.',
+    'reports.emptyNoProducts': 'Walang nakitang product record.',
+    'reports.emptyNoGraphData': 'Wala pang datos na ipe-plot.',
   },
 };
 let currentLanguage = localStorage.getItem('harvestly_lang') || 'en';
 
+function t(key) {
+  const dict = TRANSLATIONS[currentLanguage] || TRANSLATIONS.en;
+  return (dict && dict[key]) || (TRANSLATIONS.en && TRANSLATIONS.en[key]) || key;
+}
 function applyLanguage(lang) {
   if (!TRANSLATIONS[lang]) lang = 'en';
   currentLanguage = lang;
@@ -126,6 +391,10 @@ function applyLanguage(lang) {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (dict[key]) el.textContent = dict[key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (dict[key]) el.setAttribute('placeholder', dict[key]);
   });
   const pillLabel = document.getElementById('lang-pill-label');
   const adminPillLabel = document.getElementById('admin-lang-pill-label');
@@ -142,6 +411,21 @@ function applyLanguage(lang) {
 // napiling wika, tapos i-a-apply agad sa buong UI.
 async function saveLanguagePreference(lang) {
   applyLanguage(lang);
+  // Re-render screens whose content is generated dynamically in JS (table
+  // rows, auto-filled status notes, etc.) so already-rendered text also
+  // flips language, not just the static markup. Safe to call here (unlike
+  // inside applyLanguage) because by the time a user can actually click the
+  // language button, the rest of script.js — including the `records` /
+  // `actualIncomeHistory` arrays these renderers read — has already loaded.
+  if (typeof refreshAutoExpensesField === 'function') refreshAutoExpensesField();
+  if (typeof renderIncomeHistoryTable === 'function') renderIncomeHistoryTable();
+  if (typeof renderIncomeMonitoringByProduct === 'function') renderIncomeMonitoringByProduct();
+  if (typeof renderReports === 'function' && document.getElementById('screen-reports')?.classList?.contains('active')) renderReports();
+  if (typeof renderRecords === 'function' && document.getElementById('screen-records')?.classList?.contains('active')) renderRecords();
+  if (typeof updateDashboard === 'function' && document.getElementById('screen-dashboard')?.classList?.contains('active')) updateDashboard();
+  if (typeof renderMySupportMessages === 'function' && document.getElementById('screen-support')?.classList?.contains('active')) renderMySupportMessages();
+  if (typeof renderAdminSupportMessages === 'function' && document.getElementById('screen-admin-support')?.classList?.contains('active')) renderAdminSupportMessages();
+  if (typeof renderAdminSubscriptions === 'function' && document.getElementById('screen-admin-subscriptions')?.classList?.contains('active')) renderAdminSubscriptions();
   try {
     await fetch('/api/language', {
       method: 'POST',
@@ -1137,7 +1421,7 @@ async function renderMySupportMessages() {
     const msgs = data.messages || [];
     listEl.innerHTML = '';
     if (msgs.length === 0) {
-      listEl.innerHTML = '<div class="empty-state">Wala ka pang naipadalang concern.</div>';
+      listEl.innerHTML = `<div class="empty-state">${t('support.emptyNoSent')}</div>`;
       return;
     }
     msgs.forEach(m => {
@@ -1183,7 +1467,7 @@ async function renderAdminSupportMessages() {
     }
     listEl.innerHTML = '';
     if (msgs.length === 0) {
-      listEl.innerHTML = '<div class="empty-state">Wala pang natatanggap na concern.</div>';
+      listEl.innerHTML = `<div class="empty-state">${t('support.emptyNoReceived')}</div>`;
       return;
     }
     msgs.forEach(m => {
@@ -1490,7 +1774,7 @@ async function renderAdminSubscriptions() {
     }
     listEl.innerHTML = '';
     if (reqs.length === 0) {
-      listEl.innerHTML = '<div class="empty-state">Wala pang subscription requests.</div>';
+      listEl.innerHTML = `<div class="empty-state">${t('subscribe.emptyNoRequests')}</div>`;
       return;
     }
     const statusLabels = { pending: 'Pending', approved: 'Approved', rejected: 'Rejected' };
@@ -1637,18 +1921,46 @@ function populateMonthSelectDropdown() {
 function initComputationDropdowns() {
   populateProductSelectDropdown();
   populateMonthSelectDropdown();
+  refreshAutoExpensesField();
 }
-document.getElementById('comp-product-select')?.addEventListener('change', () => {
+// Sums the expense records that are actually linked (via produceId) to the
+// produce/sales records for the given product name + month. This is the
+// same linkage used on the Product Detail screen (renderProduceLinkedExpenses),
+// so the comparison here uses real recorded expenses instead of a manually
+// typed guess.
+function getLinkedExpensesForProductMonth(product, month) {
+  if (!product) return 0;
+  const saleIds = records
+    .filter(r => r.type === 'produce' && r.name === product && (!month || getMonthKey(r.date) === month))
+    .map(r => r.id);
+  if (saleIds.length === 0) return 0;
+  return records
+    .filter(r => r.type === 'expense' && saleIds.some(id => String(id) === String(r.produceId)))
+    .reduce((s, r) => s + r.amount, 0);
+}
+function refreshAutoExpensesField() {
+  const product = document.getElementById('comp-product-select')?.value || '';
+  const month = document.getElementById('comp-month-select')?.value || '';
+  const expField = document.getElementById('comp-product-expenses');
   const noteEl = document.getElementById('comp-prod-status-note');
-  if (noteEl) noteEl.textContent = 'Select a product and month, then tap Compute to see the sales vs. expenses comparison for it.';
-});
+  if (!product) {
+    if (expField) expField.value = '0.00';
+    if (noteEl) noteEl.textContent = 'Select a product and month, then tap Compute to see the sales vs. expenses comparison for it.';
+    return;
+  }
+  const linkedExpenses = getLinkedExpensesForProductMonth(product, month);
+  if (expField) expField.value = linkedExpenses.toFixed(2);
+  const monthLabel = month ? getMonthLabel(month) : 'all months';
+  if (noteEl) noteEl.textContent = `Auto-filled ₱${linkedExpenses.toFixed(2)} from expense records linked to ${product} (${monthLabel}). Tap Compute to see the full comparison.`;
+}
+document.getElementById('comp-product-select')?.addEventListener('change', refreshAutoExpensesField);
+document.getElementById('comp-month-select')?.addEventListener('change', refreshAutoExpensesField);
 let lastComputation = null; // { label, sales, expenses, net, when }
 // Per Month/Product computation: kino-compute lang pag pinindot ang "Compute" button,
 // tapos ang resulta ay lumalabas sa isang popup, at siya rin ang ipinapakita sa Dashboard.
 function computeProductComparison() {
   const product = document.getElementById('comp-product-select')?.value || '';
   const month = document.getElementById('comp-month-select')?.value || '';
-  const enteredExp = parseFloat(document.getElementById('comp-product-expenses')?.value) || 0;
   const noteEl = document.getElementById('comp-prod-status-note');
   if (!product) {
     if (noteEl) noteEl.textContent = 'Add a farm product record first to see its comparison.';
@@ -1656,12 +1968,15 @@ function computeProductComparison() {
   }
   const matchingSales = records.filter(r => r.type === 'produce' && r.name === product && (!month || getMonthKey(r.date) === month));
   const productSales = matchingSales.reduce((s, r) => s + r.amount, 0);
-  const computedNet = productSales - enteredExp;
+  const linkedExpenses = getLinkedExpensesForProductMonth(product, month);
+  const expField = document.getElementById('comp-product-expenses');
+  if (expField) expField.value = linkedExpenses.toFixed(2);
+  const computedNet = productSales - linkedExpenses;
   return {
     product,
     month,
     sales: productSales,
-    expenses: enteredExp,
+    expenses: linkedExpenses,
     net: computedNet,
   };
 }
@@ -1720,16 +2035,20 @@ function navigateToScreen(targetScreen) {
   const activeScreen = document.getElementById(`screen-${targetScreen}`);
   if (activeScreen) activeScreen.classList.add('active');
   const titleMap = {
-    'dashboard': 'Home dashboard',
-    'actual-income': 'Income (Actual vs Computed)',
-    'add-expense': 'Add Product & Expenses',
-    'records': 'View / Search Records',
-    'reports': 'Reports',
-    'support': 'Customer Service',
-    'subscribe': 'Subscribe'
+    'dashboard': 'topbar.dashboard',
+    'actual-income': 'topbar.income',
+    'add-expense': 'topbar.addExpense',
+    'records': 'topbar.records',
+    'reports': 'topbar.reports',
+    'support': 'topbar.support',
+    'subscribe': 'topbar.subscribe'
   };
   const topbarTitle = document.getElementById('topbar-title');
-  if (topbarTitle) topbarTitle.textContent = titleMap[targetScreen] || 'Dashboard';
+  if (topbarTitle) {
+    const key = titleMap[targetScreen] || 'topbar.dashboard';
+    topbarTitle.setAttribute('data-i18n', key);
+    topbarTitle.textContent = t(key);
+  }
   sidebar?.classList?.remove('open');
   if (targetScreen === 'actual-income') {
     initComputationDropdowns();
@@ -1920,11 +2239,11 @@ if (formActualIncome) {
     // Per Month/Product na pinili sa Computation & Comparison panel.
     const selectedProduct = document.getElementById('comp-product-select')?.value || '';
     const selectedMonth = document.getElementById('comp-month-select')?.value || getMonthKey(incDate);
-    const enteredExp = parseFloat(document.getElementById('comp-product-expenses')?.value) || 0;
     const matchedProduceRecords = records.filter(r => r.type === 'produce' && r.name === selectedProduct && (!selectedMonth || getMonthKey(r.date) === selectedMonth));
     const productSales = matchedProduceRecords.reduce((s, r) => s + r.amount, 0);
+    const linkedExpenses = getLinkedExpensesForProductMonth(selectedProduct, selectedMonth);
     const productName = selectedProduct || getProductsForMonth(incDate);
-    const computedNet = productSales - enteredExp;
+    const computedNet = productSales - linkedExpenses;
     const newIncomeRecord = {
       productName: productName,
       amount: val,
@@ -1979,7 +2298,7 @@ function renderIncomeHistoryTable() {
   if (!tbody) return;
   tbody.innerHTML = '';
   if (actualIncomeHistory.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No saved actual income records yet.</td></tr>';
+    tbody.innerHTML = `<tr><td colspan="6" class="empty-state">${t('income.emptyHistory')}</td></tr>`;
     return;
   }
   // Group entries by month so each month shows which product(s) were recorded
@@ -2020,7 +2339,7 @@ function renderIncomeMonitoringByProduct() {
   if (!tbody) return;
   tbody.innerHTML = '';
   if (actualIncomeHistory.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No saved actual income records yet.</td></tr>';
+    tbody.innerHTML = `<tr><td colspan="5" class="empty-state">${t('income.emptyHistory')}</td></tr>`;
     return;
   }
   const productTotals = {};
@@ -2335,7 +2654,7 @@ function updateDashboard() {
 
   if (recent.length === 0) {
     recentList.innerHTML =
-      '<div class="empty-state">No records added yet.</div>';
+      `<div class="empty-state">${t('dash.emptyRecentRecords')}</div>`;
     return;
   }
 
@@ -2549,7 +2868,7 @@ function renderRecords() {
 
   if (prodRecords.length === 0) {
     pTbody.innerHTML =
-      '<tr><td colspan="6" class="empty-state">No product / expense records found.</td></tr>';
+      `<tr><td colspan="6" class="empty-state">${t('records.emptyNoRecords')}</td></tr>`;
     return;
   }
 
@@ -2778,7 +3097,7 @@ function renderProduceLinkedExpenses(produceId) {
   const total = linked.reduce((s, r) => s + r.amount, 0);
   if (totalEl) totalEl.textContent = `₱${total.toFixed(2)}`;
   if (linked.length === 0) {
-    listEl.innerHTML = '<div class="empty-state">Wala pang naka-link na expense. Mag-add sa ibaba.</div>';
+    listEl.innerHTML = `<div class="empty-state">${t('pd.emptyLinkedExpenses')}</div>`;
     return;
   }
   listEl.innerHTML = '';
@@ -2901,7 +3220,7 @@ function renderReports() {
   if (mBody) {
     mBody.innerHTML = '';
     if (monthsToShow.length === 0) {
-      mBody.innerHTML = '<tr><td colspan="4" class="empty-state">No records yet.</td></tr>';
+      mBody.innerHTML = `<tr><td colspan="4" class="empty-state">${t('reports.emptyNoRecords')}</td></tr>`;
     } else {
       monthsToShow.forEach(mKey => {
         const monthSales = records.filter(r => r.type === 'produce' && getMonthKey(r.date) === mKey).reduce((s, r) => s + r.amount, 0);
@@ -2933,7 +3252,7 @@ function renderReports() {
     });
     const grandTotal = Object.values(catTotals).reduce((s, v) => s + v, 0);
     if (Object.keys(catTotals).length === 0) {
-      catBody.innerHTML = '<tr><td colspan="3" class="empty-state">No expense records found.</td></tr>';
+      catBody.innerHTML = `<tr><td colspan="3" class="empty-state">${t('reports.emptyNoExpenses')}</td></tr>`;
     } else {
       Object.entries(catTotals).forEach(([cat, amt]) => {
         const share = grandTotal > 0 ? ((amt / grandTotal) * 100).toFixed(1) : '0.0';
@@ -2963,7 +3282,7 @@ function renderReports() {
       prodTotals[r.name].sales += r.amount;
     });
     if (Object.keys(prodTotals).length === 0) {
-      prodBody.innerHTML = '<tr><td colspan="6" class="empty-state">No product records found.</td></tr>';
+      prodBody.innerHTML = `<tr><td colspan="6" class="empty-state">${t('reports.emptyNoProducts')}</td></tr>`;
     } else {
       Object.entries(prodTotals).forEach(([name, data]) => {
         const estExpenses = totalSalesAll > 0 ? totalExpAll * (data.sales / totalSalesAll) : 0;
@@ -2989,7 +3308,7 @@ function renderMonthlyBarGraph(monthsToShow) {
   if (!box) return;
   box.innerHTML = '';
   if (!monthsToShow || monthsToShow.length === 0) {
-    box.innerHTML = '<div class="empty-state">No data yet to plot.</div>';
+    box.innerHTML = `<div class="empty-state">${t('reports.emptyNoGraphData')}</div>`;
     return;
   }
   const data = monthsToShow.map(mKey => {
