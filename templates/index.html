@@ -125,15 +125,15 @@
       <div class="plan-picker" id="subscribe-choice-plans">
         <button type="button" class="plan-option" data-plan="starter" data-price="30" data-sessions="4">
           <span class="plan-option-price">₱30</span>
-          <span class="plan-option-sessions">4 sessions</span>
+          <span class="plan-option-sessions">4 <span data-i18n="plan.sessionsWord">sessions</span></span>
         </button>
         <button type="button" class="plan-option" data-plan="basic" data-price="80" data-sessions="10">
           <span class="plan-option-price">₱80</span>
-          <span class="plan-option-sessions">10 sessions</span>
+          <span class="plan-option-sessions">10 <span data-i18n="plan.sessionsWord">sessions</span></span>
         </button>
         <button type="button" class="plan-option" data-plan="pro" data-price="150" data-sessions="20">
           <span class="plan-option-price">₱150</span>
-          <span class="plan-option-sessions">20 sessions</span>
+          <span class="plan-option-sessions">20 <span data-i18n="plan.sessionsWord">sessions</span></span>
         </button>
       </div>
       <div class="modal-actions">
@@ -507,20 +507,18 @@
     </button>
     <div class="auth-wrap">
       <div class="auth-card about-card">
-        <h1 class="about-title">About Us</h1>
-        <p class="about-text">Ang Harvestly ay isang digital record-keeping app na ginawa para tulungan ang mga farmer na madaling subaybayan ang kanilang mga produce, gastos, at kita — sa halip na papel at manu-manong pagkuwenta.</p>
-        <p class="about-text">Layunin naming gawing mas simple at mas organisado ang pagre-record ng bawat cycle ng pagtatanim, para may malinaw kang makikita kung gaano kalaki ang kita mo bawat harvest.</p>
+        <h1 class="about-title" data-i18n="about.title">About Us</h1>
+        <p class="about-text" data-i18n="about.p1">Harvestly is a digital record-keeping application made to help farmers keep track of their farm produce, expenses, and income. We created Harvestly because recording everything on paper can be difficult, especially when there are many expenses and harvests to keep track of.</p>
+        <p class="about-text" data-i18n="about.p2">Our goal is to make farm record keeping easier, faster, and more organized. With Harvestly, farmers can record their produce, expenses, and income in one place. They can also keep track of expenses such as seeds, fertilizer, pesticides, labor, fuel, transportation, and other farm expenses.</p>
+        <p class="about-text" data-i18n="about.p3">Harvestly also helps farmers monitor their harvests and estimate their possible income. It has a pricing calculator that can help calculate the target sales, target profit, and price per kilo based on the expenses and desired profit margin. Farmers can also record their actual income after selling their produce and compare it with their expected income.</p>
+        <p class="about-text" data-i18n="about.p4">We also included a harvest countdown to help farmers keep track of their estimated harvest date. This can make it easier for them to monitor their crops and plan ahead. We wanted Harvestly to be simple and easy to use, so we included both English and Tagalog languages. We also added a customer service feature where users can send their questions or concerns through the application.</p>
+        <p class="about-text" data-i18n="about.p5">Overall, Harvestly was made to help farmers organize their records and have a better view of their farm expenses, produce, and income. We hope that this application can make record keeping less stressful and help farmers manage their farming activities more easily.</p>
+        <p class="about-text about-tagline" data-i18n="about.tagline">Harvestly, a simple way to keep track of your farm, from expenses to harvest.</p>
         <div class="about-contact-block">
-          <p class="about-contact-label">Contact Us</p>
-          <p class="about-text">May tanong ka ba o kailangan ng tulong? Gamitin ang Customer Service sa loob ng app pagkatapos mag-login, o makipag-ugnayan sa amin.</p>
+          <p class="about-contact-label" data-i18n="about.contactLabel">Contact Us</p>
+          <p class="about-text" data-i18n="about.contactText">Have a question or need help? Use Customer Service inside the app after logging in, or get in touch with us.</p>
         </div>
       </div>
-    </div>
-    <div class="screen-bottom-bar">
-      <button type="button" class="about-us-btn js-about-back">
-        <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-        Bumalik sa Log in / Register
-      </button>
     </div>
   </section>
   <!-- DATA PRIVACY NOTICE SCREEN (formerly "EULA screen" — element IDs kept
@@ -1051,15 +1049,15 @@
           <div class="plan-picker" id="plan-picker">
             <button type="button" class="plan-option" data-plan="starter" data-price="30" data-sessions="4">
               <span class="plan-option-price">₱30</span>
-              <span class="plan-option-sessions">4 sessions</span>
+              <span class="plan-option-sessions">4 <span data-i18n="plan.sessionsWord">sessions</span></span>
             </button>
             <button type="button" class="plan-option" data-plan="basic" data-price="80" data-sessions="10">
               <span class="plan-option-price">₱80</span>
-              <span class="plan-option-sessions">10 sessions</span>
+              <span class="plan-option-sessions">10 <span data-i18n="plan.sessionsWord">sessions</span></span>
             </button>
             <button type="button" class="plan-option" data-plan="pro" data-price="150" data-sessions="20">
               <span class="plan-option-price">₱150</span>
-              <span class="plan-option-sessions">20 sessions</span>
+              <span class="plan-option-sessions">20 <span data-i18n="plan.sessionsWord">sessions</span></span>
             </button>
           </div>
           <div id="gcash-payment-box" style="display: none; margin-top: 12px;">
