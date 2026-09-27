@@ -219,6 +219,44 @@ const TRANSLATIONS = {
     'reports.emptyNoExpenses': 'No expense records found.',
     'reports.emptyNoProducts': 'No product records found.',
     'reports.emptyNoGraphData': 'No data yet to plot.',
+
+    // ---- Data Privacy Notice (RA 10173) — Login/Register screen ----
+    'auth.tutorialBtn': 'How it works',
+    'dpn.title': 'Data Privacy Notice',
+    'dpn.sub': 'Please read and accept this notice, issued in compliance with the Data Privacy Act of 2012 (Republic Act No. 10173), before creating a new Harvestly account.',
+    'dpn.s1Title': '1. Introduction',
+    'dpn.s1Body': 'Harvestly ("we", "us") is committed to protecting your personal data in accordance with the Data Privacy Act of 2012 (Republic Act No. 10173), its Implementing Rules and Regulations, and issuances of the National Privacy Commission (NPC). This notice explains what information we collect, why, and how we protect it.',
+    'dpn.s2Title': '2. Information We Collect',
+    'dpn.s2Body': 'We collect information you provide directly, such as your name, email address, and password, as well as the farm records you choose to log — produce and harvest entries, actual income, and operational expenses (e.g. seeds, fertilizer, pesticides, fuel, labor).',
+    'dpn.s3Title': '3. Purpose and Legal Basis for Processing',
+    'dpn.s3Body': 'We process your data to create and secure your account, operate the core record-keeping features of the app, respond to support requests, and administer paid subscriptions. Processing is based on your consent as a data subject and on what is necessary to perform our contract with you, consistent with Sections 12 and 13 of RA 10173.',
+    'dpn.s4Title': '4. How We Protect Your Data',
+    'dpn.s4Body': 'We apply reasonable organizational, physical, and technical security measures — including password hashing, access controls, and encrypted connections — to protect your data against unauthorized access, alteration, or disclosure, as required under Section 20 of RA 10173.',
+    'dpn.s5Title': '5. Data Sharing and Disclosure',
+    'dpn.s5Body': 'We do not sell your personal data. Your farm records are visible only to you and to authorized Harvestly administrators for support, moderation, and platform-improvement purposes. Aggregated or anonymized data may be used for statistics and will not identify you.',
+    'dpn.s6Title': '6. Data Retention',
+    'dpn.s6Body': 'We keep your personal and farm data for as long as your account remains active, or as needed to comply with legal, accounting, or reporting obligations. You may request deletion of your account and associated data at any time through Customer Service.',
+    'dpn.s7Title': '7. Your Rights as a Data Subject',
+    'dpn.s7Body': 'Under Section 16 of RA 10173, you have the right to be informed, to access, to object, to correct, to erase or block, to data portability, to file a complaint with the National Privacy Commission, and to claim damages for inaccurate, unlawfully obtained, or unauthorized use of your personal data.',
+    'dpn.s8Title': '8. Changes to this Notice',
+    'dpn.s8Body': 'We may update this notice from time to time. Continued use of the app after any changes means you accept the updated notice. Material changes will be flagged in-app.',
+    'dpn.checkbox': 'I have read and accept this Data Privacy Notice.',
+    'dpn.error': 'You must accept the Data Privacy Notice before continuing.',
+    'dpn.decline': 'Decline',
+    'dpn.accept': 'I Agree — Continue to Registration',
+
+    // ---- Onboarding carousel (pre-login product tour) ----
+    'onboarding.back': 'Back',
+    'onboarding.next': 'Next',
+    'onboarding.done': 'Get Started',
+    'onboarding.step1Title': 'Welcome to Harvestly',
+    'onboarding.step1Body': 'Track your farm produce, harvests, and expenses in one simple app — no more paper logs.',
+    'onboarding.step2Title': 'Log harvests & expenses',
+    'onboarding.step2Body': 'Record every product along with the costs behind it — seeds, fertilizer, pesticides, fuel, and labor.',
+    'onboarding.step3Title': 'See your real income',
+    'onboarding.step3Body': 'Compare your actual income against your computed income so you always know your true profit.',
+    'onboarding.step4Title': 'Get support anytime',
+    'onboarding.step4Body': 'Send a message through Customer Service and an admin will get back to you.',
   },
   tl: {
     'topbar.dashboard': 'Home dashboard',
@@ -387,6 +425,44 @@ const TRANSLATIONS = {
     'reports.emptyNoExpenses': 'Walang nakitang expense record.',
     'reports.emptyNoProducts': 'Walang nakitang product record.',
     'reports.emptyNoGraphData': 'Wala pang datos na ipe-plot.',
+
+    // ---- Data Privacy Notice (RA 10173) — Login/Register screen ----
+    'auth.tutorialBtn': 'Paano ito gumagana',
+    'dpn.title': 'Paunawa sa Pagkapribado ng Datos',
+    'dpn.sub': 'Basahin at tanggapin muna ang paunawang ito, na inisyu alinsunod sa Data Privacy Act of 2012 (Republic Act No. 10173), bago gumawa ng bagong account sa Harvestly.',
+    'dpn.s1Title': '1. Panimula',
+    'dpn.s1Body': 'Ang Harvestly ("kami") ay nakatuon sa pagprotekta ng iyong personal na datos alinsunod sa Data Privacy Act of 2012 (Republic Act No. 10173), sa Implementing Rules and Regulations nito, at sa mga isyunsa ng National Privacy Commission (NPC). Ipinapaliwanag ng paunawang ito kung anong impormasyon ang kinokolekta namin, bakit, at paano ito pinoprotektahan.',
+    'dpn.s2Title': '2. Impormasyong Kinokolekta Namin',
+    'dpn.s2Body': 'Kinokolekta namin ang impormasyong direktang ibinibigay mo, tulad ng iyong pangalan, email address, at password, gayundin ang mga farm record na itinatala mo — produce at ani, aktwal na kita, at mga gastos sa operasyon (hal. binhi, abono, pestisidyo, gasolina, labor).',
+    'dpn.s3Title': '3. Layunin at Legal na Batayan sa Pagproseso',
+    'dpn.s3Body': 'Pinoproseso namin ang iyong datos upang likhain at protektahan ang iyong account, patakbuhin ang pangunahing record-keeping features ng app, tumugon sa mga kahilingan sa suporta, at pangasiwaan ang mga bayad na subscription. Ang pagproseso ay batay sa iyong pahintulot bilang data subject at sa kung ano ang kinakailangan para tuparin ang kontrata namin sa iyo, alinsunod sa Sections 12 at 13 ng RA 10173.',
+    'dpn.s4Title': '4. Paano Namin Pinoprotektahan ang Iyong Datos',
+    'dpn.s4Body': 'Naglalapat kami ng makatwirang organisasyonal, pisikal, at teknikal na mga hakbang sa seguridad — kabilang ang password hashing, access controls, at encrypted na koneksyon — upang protektahan ang iyong datos laban sa hindi awtorisadong access, pagbabago, o pagsisiwalat, ayon sa hinihingi ng Section 20 ng RA 10173.',
+    'dpn.s5Title': '5. Pagbabahagi at Pagsisiwalat ng Datos',
+    'dpn.s5Body': 'Hindi namin ibinebenta ang iyong personal na datos. Ang iyong mga farm record ay makikita lamang ng iyong sarili at ng mga awtorisadong Harvestly administrator para sa suporta, moderation, at pagpapahusay ng platform. Ang aggregated o anonymized na datos ay maaaring gamitin para sa istatistika at hindi ito magtuturo sa iyong pagkakakilanlan.',
+    'dpn.s6Title': '6. Pagpapanatili ng Datos',
+    'dpn.s6Body': 'Iniingatan namin ang iyong personal at farm data hangga\'t aktibo ang iyong account, o kung kinakailangan para sumunod sa legal, accounting, o reporting obligations. Maaari kang humiling ng pagbura ng iyong account at kaugnay na datos anumang oras sa pamamagitan ng Customer Service.',
+    'dpn.s7Title': '7. Ang Iyong mga Karapatan Bilang Data Subject',
+    'dpn.s7Body': 'Ayon sa Section 16 ng RA 10173, may karapatan kang mabigyang-alam, ma-access, tumutol, itama, mabura o mai-block, mag-data portability, magsampa ng reklamo sa National Privacy Commission, at humingi ng danyos para sa hindi wasto, ilegal na nakuha, o hindi awtorisadong paggamit ng iyong personal na datos.',
+    'dpn.s8Title': '8. Mga Pagbabago sa Paunawang Ito',
+    'dpn.s8Body': 'Maaaring i-update namin ang paunawang ito paminsan-minsan. Ang patuloy na paggamit ng app pagkatapos ng anumang pagbabago ay nangangahulugang tinatanggap mo ang na-update na paunawa. Ipapaalam ang mga mahahalagang pagbabago sa loob ng app.',
+    'dpn.checkbox': 'Nabasa at tinatanggap ko ang Paunawa sa Pagkapribado ng Datos na ito.',
+    'dpn.error': 'Kailangan mo munang tanggapin ang Paunawa sa Pagkapribado ng Datos bago magpatuloy.',
+    'dpn.decline': 'Decline',
+    'dpn.accept': 'Sang-ayon Ako — Magpatuloy sa Rehistrasyon',
+
+    // ---- Onboarding carousel (pre-login product tour) ----
+    'onboarding.back': 'Bumalik',
+    'onboarding.next': 'Susunod',
+    'onboarding.done': 'Simulan Na',
+    'onboarding.step1Title': 'Maligayang pagdating sa Harvestly',
+    'onboarding.step1Body': 'Subaybayan ang iyong produce, ani, at gastos sa isang simpleng app — wala nang papel na tala.',
+    'onboarding.step2Title': 'Itala ang ani at gastos',
+    'onboarding.step2Body': 'Itala ang bawat produkto kasama ang mga gastos dito — binhi, abono, pestisidyo, gasolina, at labor.',
+    'onboarding.step3Title': 'Makita ang totoong kita',
+    'onboarding.step3Body': 'Ikumpara ang aktwal mong kita sa kinukwentang kita para laging malaman ang tunay mong kita.',
+    'onboarding.step4Title': 'Humingi ng tulong anumang oras',
+    'onboarding.step4Body': 'Magpadala ng mensahe sa Customer Service at sasagutin ka ng admin.',
   },
 };
 let currentLanguage = localStorage.getItem('harvestly_lang') || 'en';
@@ -410,9 +486,11 @@ function applyLanguage(lang) {
   });
   const pillLabel = document.getElementById('lang-pill-label');
   const adminPillLabel = document.getElementById('admin-lang-pill-label');
+  const authPillLabel = document.getElementById('auth-lang-pill-label');
   const label = lang === 'tl' ? 'TL' : 'EN';
   if (pillLabel) pillLabel.textContent = label;
   if (adminPillLabel) adminPillLabel.textContent = label;
+  if (authPillLabel) authPillLabel.textContent = label;
   document.querySelectorAll('.lang-choice-btn').forEach(btn => {
     btn.classList.toggle('selected', btn.dataset.lang === lang);
   });
@@ -464,6 +542,7 @@ document.querySelectorAll('.lang-choice-btn').forEach(btn => {
 });
 document.getElementById('btn-lang-switch')?.addEventListener('click', openLanguageModal);
 document.getElementById('btn-admin-lang-switch')?.addEventListener('click', openLanguageModal);
+document.getElementById('btn-auth-lang-switch')?.addEventListener('click', openLanguageModal);
 // I-a-apply agad ang naka-cache na wika (kung meron) bago pa man mag-login,
 // para tama na rin ang tingin ng splash/auth screens.
 applyLanguage(currentLanguage);
@@ -697,9 +776,10 @@ document.querySelectorAll('.auth-switch-link').forEach(btn => {
   btn.addEventListener('click', (e) => {
     const tab = e.target.dataset.tab;
     if (!tab) return;
-    // EULA GATE: bago makapasok sa Registration page, kailangang tanggapin
-    // muna ng (bagong) user ang End User License Agreement. Ipinapakita ang
-    // screen-eula sa halip na diretsong pumunta sa signup panel.
+    // DATA PRIVACY NOTICE GATE: bago makapasok sa Registration page,
+    // kailangang tanggapin muna ng (bagong) user ang Data Privacy Notice
+    // (RA 10173). Ipinapakita ang screen-eula sa halip na diretsong pumunta
+    // sa signup panel.
     if (tab === 'signup') {
       showEulaScreen();
       return;
@@ -707,7 +787,11 @@ document.querySelectorAll('.auth-switch-link').forEach(btn => {
     showAuthPanel(tab);
   });
 });
-// ==================== EULA (End User License Agreement) ====================
+// ==================== DATA PRIVACY NOTICE (RA 10173) ====================
+// Element/function names below keep their original "eula" naming for
+// backward compatibility with existing HTML ids and CSS selectors — only
+// the user-facing copy changed (see TRANSLATIONS' dpn.* keys and the
+// screen-eula markup in index.html).
 const screenEula = document.getElementById('screen-eula');
 const eulaAcceptCheckbox = document.getElementById('eula-accept-checkbox');
 const btnEulaAccept = document.getElementById('btn-eula-accept');
@@ -1155,6 +1239,77 @@ document.getElementById('btn-tutorial-back')?.addEventListener('click', () => {
 });
 document.getElementById('btn-tutorial-skip')?.addEventListener('click', () => {
   closeOnboardingTutorial();
+});
+
+// ==================== ONBOARDING CAROUSEL (pre-login product tour) ====================
+// Opened from the "How it works" button on the Login/Register screen
+// (#btn-open-onboarding). Distinct from the post-login in-app walkthrough
+// above (TUTORIAL_STEPS / #tutorial-overlay), which only runs for signed-in
+// users. Copy is localized via the `onboarding.*` TRANSLATIONS keys; each
+// step's `image` is a placeholder — replace with a real screenshot path
+// (e.g. "/static/onboarding/step1.png") once available. Until then the
+// icon fallback (`icon`) is shown instead.
+const ONBOARDING_STEPS = [
+  { titleKey: 'onboarding.step1Title', bodyKey: 'onboarding.step1Body', image: '', icon: '<path d="M24 6C24 6 12 14 12 26C12 34.28 17.72 40 24 40C30.28 40 36 34.28 36 26C36 14 24 6 24 6Z" stroke="currentColor" stroke-width="2.2" fill="none"/><path d="M24 40V22" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>' },
+  { titleKey: 'onboarding.step2Title', bodyKey: 'onboarding.step2Body', image: '', icon: '<path d="M12 3v18M3 12h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>' },
+  { titleKey: 'onboarding.step3Title', bodyKey: 'onboarding.step3Body', image: '', icon: '<path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>' },
+  { titleKey: 'onboarding.step4Title', bodyKey: 'onboarding.step4Body', image: '', icon: '<path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>' },
+];
+let obStepIndex = 0;
+
+function obRenderStep() {
+  const step = ONBOARDING_STEPS[obStepIndex];
+  if (!step) return;
+  document.getElementById('ob-title').textContent = t(step.titleKey);
+  document.getElementById('ob-body').textContent = t(step.bodyKey);
+
+  const img = document.getElementById('ob-image');
+  const iconFallback = document.getElementById('ob-icon-fallback');
+  if (step.image) {
+    img.src = step.image;
+    img.hidden = false;
+    if (iconFallback) iconFallback.hidden = true;
+  } else {
+    img.hidden = true;
+    if (iconFallback) {
+      iconFallback.hidden = false;
+      iconFallback.innerHTML = `<svg viewBox="0 0 48 48" width="40" height="40">${step.icon}</svg>`;
+    }
+  }
+
+  const dots = document.getElementById('ob-dots');
+  if (dots) {
+    dots.innerHTML = ONBOARDING_STEPS.map((_, i) => `<span class="${i === obStepIndex ? 'active' : ''}"></span>`).join('');
+  }
+
+  const backBtn = document.getElementById('btn-onboarding-back');
+  if (backBtn) backBtn.hidden = obStepIndex === 0;
+  const nextBtn = document.getElementById('btn-onboarding-next');
+  if (nextBtn) nextBtn.textContent = (obStepIndex === ONBOARDING_STEPS.length - 1) ? t('onboarding.done') : t('onboarding.next');
+}
+
+function openOnboardingCarousel() {
+  obStepIndex = 0;
+  document.getElementById('onboarding-overlay')?.classList?.add('active');
+  obRenderStep();
+}
+function closeOnboardingCarousel() {
+  document.getElementById('onboarding-overlay')?.classList?.remove('active');
+}
+document.getElementById('btn-open-onboarding')?.addEventListener('click', openOnboardingCarousel);
+document.getElementById('btn-onboarding-close')?.addEventListener('click', closeOnboardingCarousel);
+document.getElementById('btn-onboarding-next')?.addEventListener('click', () => {
+  if (obStepIndex >= ONBOARDING_STEPS.length - 1) {
+    closeOnboardingCarousel();
+    return;
+  }
+  obStepIndex += 1;
+  obRenderStep();
+});
+document.getElementById('btn-onboarding-back')?.addEventListener('click', () => {
+  if (obStepIndex <= 0) return;
+  obStepIndex -= 1;
+  obRenderStep();
 });
 
 async function enterAppAfterAuth(data, opts) {
