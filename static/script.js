@@ -54,6 +54,12 @@ function escapeHtml(str) {
 const TRANSLATIONS = {
   en: {
     'topbar.dashboard': 'Home dashboard',
+    'topbar.income': 'Income (Actual vs Computed)',
+    'topbar.addExpense': 'Add Product & Expenses',
+    'topbar.records': 'View / Search Records',
+    'topbar.reports': 'Reports',
+    'topbar.support': 'Customer Service',
+    'topbar.subscribe': 'Subscribe',
     'nav.dashboard': 'Dashboard',
     'nav.addExpense': 'Add expense',
     'nav.income': 'Income',
@@ -216,6 +222,12 @@ const TRANSLATIONS = {
   },
   tl: {
     'topbar.dashboard': 'Home dashboard',
+    'topbar.income': 'Kita (Aktwal laban sa Kinukwenta)',
+    'topbar.addExpense': 'Magdagdag ng Produkto at Gastos',
+    'topbar.records': 'Tingnan / Hanapin ang mga Record',
+    'topbar.reports': 'Mga Ulat',
+    'topbar.support': 'Customer Service',
+    'topbar.subscribe': 'Mag-subscribe',
     'nav.dashboard': 'Dashboard',
     'nav.addExpense': 'Magdagdag ng gastos',
     'nav.income': 'Kita',
