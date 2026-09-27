@@ -257,6 +257,32 @@ const TRANSLATIONS = {
     'onboarding.step3Body': 'Compare your actual income against your computed income so you always know your true profit.',
     'onboarding.step4Title': 'Get support anytime',
     'onboarding.step4Body': 'Send a message through Customer Service and an admin will get back to you.',
+
+    // ---- About Us screen ----
+    'about.title': 'About Us',
+    'about.p1': 'Harvestly is a digital record-keeping application made to help farmers keep track of their farm produce, expenses, and income. We created Harvestly because recording everything on paper can be difficult, especially when there are many expenses and harvests to keep track of.',
+    'about.p2': 'Our goal is to make farm record keeping easier, faster, and more organized. With Harvestly, farmers can record their produce, expenses, and income in one place. They can also keep track of expenses such as seeds, fertilizer, pesticides, labor, fuel, transportation, and other farm expenses.',
+    'about.p3': 'Harvestly also helps farmers monitor their harvests and estimate their possible income. It has a pricing calculator that can help calculate the target sales, target profit, and price per kilo based on the expenses and desired profit margin. Farmers can also record their actual income after selling their produce and compare it with their expected income.',
+    'about.p4': 'We also included a harvest countdown to help farmers keep track of their estimated harvest date. This can make it easier for them to monitor their crops and plan ahead. We wanted Harvestly to be simple and easy to use, so we included both English and Tagalog languages. We also added a customer service feature where users can send their questions or concerns through the application.',
+    'about.p5': 'Overall, Harvestly was made to help farmers organize their records and have a better view of their farm expenses, produce, and income. We hope that this application can make record keeping less stressful and help farmers manage their farming activities more easily.',
+    'about.tagline': 'Harvestly, a simple way to keep track of your farm, from expenses to harvest.',
+    'about.contactLabel': 'Contact Us',
+    'about.contactText': 'Have a question or need help? Use Customer Service inside the app after logging in, or get in touch with us.',
+
+    // ---- Subscribe screen: usage-status banner (was hardcoded Tagalog
+    // regardless of language — see usageStatusText() below) ----
+    'subscribe.pendingRequest': 'You have a pending subscription request — waiting for the admin to verify and approve your GCash reference number. You\'ll be notified here in the app once it\'s approved.',
+    'subscribe.usageActive': 'Your subscription is active — {remaining} session(s) left ({used} / {total} used).',
+    'subscribe.usageLocked': "You've used up all your sessions ({used} / {total} used). Choose a plan below to add more sessions.",
+    'subscribe.freeTrial': 'Free trial — {used} / {total} sessions used.',
+    'subscribe.freeTrialLockedSuffix': ' Your free sessions are used up — choose a plan below to continue.',
+    'plan.sessionsWord': 'sessions',
+
+    // ---- Customer Service screen ----
+    'support.awaitingReply': 'Waiting for admin reply.',
+    'support.statusReplied': 'Replied',
+    'support.statusOpen': 'Open',
+    'support.replyFromAdmin': 'Reply from admin',
   },
   tl: {
     'topbar.dashboard': 'Home dashboard',
@@ -463,6 +489,31 @@ const TRANSLATIONS = {
     'onboarding.step3Body': 'Ikumpara ang aktwal mong kita sa kinukwentang kita para laging malaman ang tunay mong kita.',
     'onboarding.step4Title': 'Humingi ng tulong anumang oras',
     'onboarding.step4Body': 'Magpadala ng mensahe sa Customer Service at sasagutin ka ng admin.',
+
+    // ---- About Us screen ----
+    'about.title': 'Tungkol sa Amin',
+    'about.p1': 'Ang Harvestly ay isang digital record-keeping application na ginawa para tulungan ang mga magsasaka na masubaybayan ang kanilang mga ani, gastos, at kita. Ginawa namin ang Harvestly dahil mahirap ang pagtatala ng lahat sa papel, lalo na kung marami nang gastos at ani na dapat subaybayan.',
+    'about.p2': 'Layunin namin na gawing mas madali, mas mabilis, at mas organisado ang pagre-record ng sakahan. Sa Harvestly, maaaring itala ng mga magsasaka ang kanilang produce, gastos, at kita sa iisang lugar. Maaari rin nilang subaybayan ang mga gastos tulad ng binhi, abono, pestisidyo, labor, gasolina, transportasyon, at iba pang gastos sa sakahan.',
+    'about.p3': 'Tinutulungan din ng Harvestly ang mga magsasaka na subaybayan ang kanilang ani at tantiyahin ang posible nilang kita. May pricing calculator ito na tumutulong magkuwenta ng target na benta, target na kita, at presyo bawat kilo batay sa gastos at gustong profit margin. Maaari ring itala ng mga magsasaka ang kanilang aktwal na kita pagkatapos ibenta ang produkto at ikumpara ito sa inaasahang kita.',
+    'about.p4': 'Isinama rin namin ang harvest countdown para matulungan ang mga magsasaka na subaybayan ang tinatayang petsa ng ani. Nagpapadali ito sa pagsubaybay ng kanilang mga tanim at sa pagpaplano. Gusto naming maging simple at madaling gamitin ang Harvestly, kaya isinama namin ang parehong Ingles at Tagalog na wika. Idinagdag din namin ang customer service feature kung saan maaaring magpadala ang mga user ng kanilang tanong o concern sa loob ng application.',
+    'about.p5': 'Sa kabuuan, ginawa ang Harvestly upang tulungan ang mga magsasaka na maiayos ang kanilang mga record at magkaroon ng mas malinaw na tingin sa kanilang mga gastos, produce, at kita sa sakahan. Umaasa kami na mapapadali ng application na ito ang pagre-record at matutulungan ang mga magsasaka na mas madaling pamahalaan ang kanilang mga gawaing pansakahan.',
+    'about.tagline': 'Harvestly, isang simpleng paraan upang subaybayan ang iyong sakahan, mula sa gastos hanggang sa ani.',
+    'about.contactLabel': 'Makipag-ugnayan sa Amin',
+    'about.contactText': 'May tanong ka ba o kailangan ng tulong? Gamitin ang Customer Service sa loob ng app pagkatapos mag-login, o makipag-ugnayan sa amin.',
+
+    // ---- Subscribe screen: usage-status banner ----
+    'subscribe.pendingRequest': 'May pending ka pang subscription request — hinihintay pa ang pag-verify at pag-approve ng admin sa GCash reference number mo. Aabisuhan ka rito sa app kapag na-approve na.',
+    'subscribe.usageActive': 'Aktibo ang subscription mo — {remaining} session(s) pa ang natitira ({used} / {total} nagamit na).',
+    'subscribe.usageLocked': 'Naubos na ang mga sessions mo ({used} / {total} nagamit na). Pumili ng plan sa ibaba para magdagdag ng sessions.',
+    'subscribe.freeTrial': 'Free trial — {used} / {total} sessions ginamit na.',
+    'subscribe.freeTrialLockedSuffix': ' Naubos na ang free sessions — pumili ng plan sa ibaba para magpatuloy.',
+    'plan.sessionsWord': 'sessions',
+
+    // ---- Customer Service screen ----
+    'support.awaitingReply': 'Hinihintay pa ang reply ng admin.',
+    'support.statusReplied': 'Napagsagutan na',
+    'support.statusOpen': 'Bukas',
+    'support.replyFromAdmin': 'Sagot mula sa admin',
   },
 };
 let currentLanguage = localStorage.getItem('harvestly_lang') || 'en';
@@ -470,6 +521,17 @@ let currentLanguage = localStorage.getItem('harvestly_lang') || 'en';
 function t(key) {
   const dict = TRANSLATIONS[currentLanguage] || TRANSLATIONS.en;
   return (dict && dict[key]) || (TRANSLATIONS.en && TRANSLATIONS.en[key]) || key;
+}
+// Like t(), but substitutes {placeholder} tokens with values from `vars`
+// (e.g. tFormat('subscribe.usageActive', { remaining: 3, used: 4, total: 7 })).
+// Used for dynamic, data-driven strings that can't be a static data-i18n
+// element since they include numbers computed at render time.
+function tFormat(key, vars) {
+  let str = t(key);
+  Object.keys(vars || {}).forEach(k => {
+    str = str.replace(new RegExp(`\\{${k}\\}`, 'g'), vars[k]);
+  });
+  return str;
 }
 function applyLanguage(lang) {
   if (!TRANSLATIONS[lang]) lang = 'en';
@@ -516,6 +578,7 @@ async function saveLanguagePreference(lang) {
   if (typeof renderMySupportMessages === 'function' && document.getElementById('screen-support')?.classList?.contains('active')) renderMySupportMessages();
   if (typeof renderAdminSupportMessages === 'function' && document.getElementById('screen-admin-support')?.classList?.contains('active')) renderAdminSupportMessages();
   if (typeof renderAdminSubscriptions === 'function' && document.getElementById('screen-admin-subscriptions')?.classList?.contains('active')) renderAdminSubscriptions();
+  if (typeof updateSubscribeStatusText === 'function' && document.getElementById('screen-subscribe')?.classList?.contains('active')) updateSubscribeStatusText();
   try {
     await fetch('/api/language', {
       method: 'POST',
@@ -1595,7 +1658,7 @@ async function renderMySupportMessages() {
       const item = document.createElement('div');
       item.className = 'support-item';
       const badgeClass = m.status === 'replied' ? 'admin-badge--replied' : 'admin-badge--open';
-      const badgeLabel = m.status === 'replied' ? 'Replied' : 'Open';
+      const badgeLabel = m.status === 'replied' ? t('support.statusReplied') : t('support.statusOpen');
       item.innerHTML = `
         <div class="support-item-head">
           <span class="support-item-subject">${escapeHtml(m.subject || 'Concern')}</span>
@@ -1605,10 +1668,10 @@ async function renderMySupportMessages() {
         <p class="support-item-message">${escapeHtml(m.message)}</p>
         ${m.adminReply ? `
           <div class="support-reply-box">
-            <p class="support-reply-box-label">Reply from admin${m.repliedAt ? ' • ' + escapeHtml(m.repliedAt) : ''}</p>
+            <p class="support-reply-box-label">${t('support.replyFromAdmin')}${m.repliedAt ? ' • ' + escapeHtml(m.repliedAt) : ''}</p>
             <p>${escapeHtml(m.adminReply)}</p>
           </div>
-        ` : '<p class="empty-state" style="padding:0;">Hinihintay pa ang reply ng admin.</p>'}
+        ` : `<p class="empty-state" style="padding:0;">${t('support.awaitingReply')}</p>`}
       `;
       listEl.appendChild(item);
     });
@@ -1641,7 +1704,7 @@ async function renderAdminSupportMessages() {
       const item = document.createElement('div');
       item.className = 'support-item';
       const badgeClass = m.status === 'replied' ? 'admin-badge--replied' : 'admin-badge--open';
-      const badgeLabel = m.status === 'replied' ? 'Replied' : 'Open';
+      const badgeLabel = m.status === 'replied' ? t('support.statusReplied') : t('support.statusOpen');
       const replySection = m.status === 'replied'
         ? `<div class="support-reply-box">
              <p class="support-reply-box-label">Your reply${m.repliedAt ? ' • ' + escapeHtml(m.repliedAt) : ''}</p>
@@ -2908,17 +2971,18 @@ function updateSubscribeStatusText() {
   // hindi mag-akalang bug ang farmer kung bakit hindi pa dumadagdag ang
   // sessions niya agad-agad.
   if (usageStatus.hasPendingSubscription) {
-    el.textContent = 'May pending ka pang subscription request — hinihintay pa ang pag-verify at pag-approve ng admin sa GCash reference number mo. Aabisuhan ka rito sa app kapag na-approve na.';
+    el.textContent = t('subscribe.pendingRequest');
     return;
   }
   if (usageStatus.subscriptionStatus === 'active') {
     const remaining = Math.max(0, usageStatus.totalAllowed - usageStatus.cycleCount);
+    const vars = { remaining, used: usageStatus.cycleCount, total: usageStatus.totalAllowed };
     el.textContent = usageStatus.locked
-      ? `Naubos na ang mga sessions mo (${usageStatus.cycleCount} / ${usageStatus.totalAllowed} nagamit na). Pumili ng plan sa ibaba para magdagdag ng sessions.`
-      : `Aktibo ang subscription mo — ${remaining} session(s) pa ang natitira (${usageStatus.cycleCount} / ${usageStatus.totalAllowed} nagamit na).`;
+      ? tFormat('subscribe.usageLocked', vars)
+      : tFormat('subscribe.usageActive', vars);
   } else {
-    el.textContent = `Free trial — ${usageStatus.cycleCount} / ${usageStatus.totalAllowed} sessions ginamit na.` +
-      (usageStatus.locked ? ' Naubos na ang free sessions — pumili ng plan sa ibaba para magpatuloy.' : '');
+    el.textContent = tFormat('subscribe.freeTrial', { used: usageStatus.cycleCount, total: usageStatus.totalAllowed }) +
+      (usageStatus.locked ? t('subscribe.freeTrialLockedSuffix') : '');
   }
 }
 const btnSubscribeChoiceClose = document.getElementById('btn-subscribe-choice-close');
