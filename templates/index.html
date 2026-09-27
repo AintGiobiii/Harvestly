@@ -287,6 +287,17 @@
       <img src="{{ url_for('static', filename='cornfield1.png') }}" alt="Cornfield 1" class="cornfield-bg-img pic-1 active-slide">
       <img src="{{ url_for('static', filename='cornfield2.png') }}" alt="Cornfield 2" class="cornfield-bg-img pic-2">
     </div>
+    <!-- AUTH HEADER: language switcher + on-demand product tour, upper-right
+         corner of the Login/Register screen. Reuses the same language modal
+         as the in-app lang-pill (see openLanguageModal in script.js). -->
+    <div class="auth-topbar">
+      <button type="button" id="btn-auth-lang-switch" class="lang-pill" aria-label="Change language" title="Change language">
+        <span id="auth-lang-pill-label">EN</span>
+      </button>
+      <button type="button" id="btn-open-onboarding" class="auth-tutorial-btn" data-i18n="auth.tutorialBtn">
+        How it works
+      </button>
+    </div>
     <div class="auth-wrap">
       <div class="auth-brand">
         <div class="brand-mark" aria-hidden="true">
@@ -512,9 +523,13 @@
       </button>
     </div>
   </section>
-  <!-- EULA SCREEN (lalabas lang para sa BAGONG users, kaagad pagkatapos ng
-       welcome/splash screen at BAGO ang User Registration page. Kailangang
-       tanggapin ito bago makapagpatuloy sa pagre-register.) -->
+  <!-- DATA PRIVACY NOTICE SCREEN (formerly "EULA screen" — element IDs kept
+       as screen-eula / eula-* for backward compatibility with existing JS
+       and CSS bindings). Lalabas lang para sa BAGONG users, kaagad pagkatapos
+       ng welcome/splash screen at BAGO ang User Registration page. Kailangang
+       tanggapin ito bago makapagpatuloy sa pagre-register. Content is a
+       Data Privacy Act of 2012 (RA 10173) compliant notice, in English and
+       Filipino via data-i18n / TRANSLATIONS in script.js. -->
   <section id="screen-eula" class="screen screen--auth">
     <div class="auth-farmbg" aria-hidden="true">
       <img src="{{ url_for('static', filename='cornfield1.png') }}" alt="Cornfield 1" class="cornfield-bg-img pic-1 active-slide">
@@ -526,30 +541,34 @@
     </button>
     <div class="auth-wrap">
       <div class="auth-card about-card">
-        <h1 class="about-title">End User License Agreement</h1>
-        <p class="eula-sub">Basahin at tanggapin muna ang kasunduang ito bago gumawa ng bagong account sa Harvestly.</p>
+        <h1 class="about-title" data-i18n="dpn.title">Data Privacy Notice</h1>
+        <p class="eula-sub" data-i18n="dpn.sub">Please read and accept this notice, issued in compliance with the Data Privacy Act of 2012 (Republic Act No. 10173), before creating a new Harvestly account.</p>
         <div class="eula-text-box" id="eula-text-box" tabindex="0">
-          <h3>1. Pagtanggap sa Kasunduan</h3>
-          <p>Sa paggawa ng account at paggamit ng Harvestly, sumasang-ayon kang sundin ang mga tuntunin na nakasaad dito. Kung hindi ka sumasang-ayon, huwag magpatuloy sa pagre-register.</p>
-          <h3>2. Paggamit ng App</h3>
-          <p>Ang Harvestly ay isang digital record-keeping tool para sa pagsubaybay ng produce, gastos, at kita ng iyong sakahan. Ikaw ang responsable sa kawastuhan ng mga datos na iyong ilalagay.</p>
-          <h3>3. Account &amp; Seguridad</h3>
-          <p>Ikaw ang responsable sa pagpapanatili ng kumpidensyal na password mo. Ipagbigay-alam agad sa amin kung may hindi awtorisadong paggamit ng iyong account.</p>
-          <h3>4. Privacy</h3>
-          <p>Ang mga personal na impormasyong ibibigay mo (pangalan, email) ay gagamitin lamang para sa pagpapatakbo ng iyong account at hindi ipagbibili sa mga third party.</p>
-          <h3>5. Mga Bayarin</h3>
-          <p>Ang ilang feature ng app (hal. karagdagang sessions) ay maaaring may kaakibat na bayad, gaya ng nakasaad sa Subscription section ng app.</p>
-          <h3>6. Pagbabago sa Kasunduan</h3>
-          <p>Maaaring i-update ang kasunduang ito paminsan-minsan. Ang patuloy na paggamit ng app pagkatapos ng anumang pagbabago ay nangangahulugang tinatanggap mo ang mga bagong tuntunin.</p>
+          <h3 data-i18n="dpn.s1Title">1. Introduction</h3>
+          <p data-i18n="dpn.s1Body">Harvestly ("we", "us") is committed to protecting your personal data in accordance with the Data Privacy Act of 2012 (Republic Act No. 10173), its Implementing Rules and Regulations, and issuances of the National Privacy Commission (NPC). This notice explains what information we collect, why, and how we protect it.</p>
+          <h3 data-i18n="dpn.s2Title">2. Information We Collect</h3>
+          <p data-i18n="dpn.s2Body">We collect information you provide directly, such as your name, email address, and password, as well as the farm records you choose to log — produce and harvest entries, actual income, and operational expenses (e.g. seeds, fertilizer, pesticides, fuel, labor).</p>
+          <h3 data-i18n="dpn.s3Title">3. Purpose and Legal Basis for Processing</h3>
+          <p data-i18n="dpn.s3Body">We process your data to create and secure your account, operate the core record-keeping features of the app, respond to support requests, and administer paid subscriptions. Processing is based on your consent as a data subject and on what is necessary to perform our contract with you, consistent with Sections 12 and 13 of RA 10173.</p>
+          <h3 data-i18n="dpn.s4Title">4. How We Protect Your Data</h3>
+          <p data-i18n="dpn.s4Body">We apply reasonable organizational, physical, and technical security measures — including password hashing, access controls, and encrypted connections — to protect your data against unauthorized access, alteration, or disclosure, as required under Section 20 of RA 10173.</p>
+          <h3 data-i18n="dpn.s5Title">5. Data Sharing and Disclosure</h3>
+          <p data-i18n="dpn.s5Body">We do not sell your personal data. Your farm records are visible only to you and to authorized Harvestly administrators for support, moderation, and platform-improvement purposes. Aggregated or anonymized data may be used for statistics and will not identify you.</p>
+          <h3 data-i18n="dpn.s6Title">6. Data Retention</h3>
+          <p data-i18n="dpn.s6Body">We keep your personal and farm data for as long as your account remains active, or as needed to comply with legal, accounting, or reporting obligations. You may request deletion of your account and associated data at any time through Customer Service.</p>
+          <h3 data-i18n="dpn.s7Title">7. Your Rights as a Data Subject</h3>
+          <p data-i18n="dpn.s7Body">Under Section 16 of RA 10173, you have the right to be informed, to access, to object, to correct, to erase or block, to data portability, to file a complaint with the National Privacy Commission, and to claim damages for inaccurate, unlawfully obtained, or unauthorized use of your personal data.</p>
+          <h3 data-i18n="dpn.s8Title">8. Changes to this Notice</h3>
+          <p data-i18n="dpn.s8Body">We may update this notice from time to time. Continued use of the app after any changes means you accept the updated notice. Material changes will be flagged in-app.</p>
         </div>
         <label class="eula-accept-row">
           <input type="checkbox" id="eula-accept-checkbox">
-          <span>Nabasa at tinatanggap ko ang End User License Agreement na ito.</span>
+          <span data-i18n="dpn.checkbox">I have read and accept this Data Privacy Notice.</span>
         </label>
-        <p class="field-error" id="eula-error" hidden>Kailangan mo munang tanggapin ang EULA bago magpatuloy.</p>
+        <p class="field-error" id="eula-error" hidden data-i18n="dpn.error">You must accept the Data Privacy Notice before continuing.</p>
         <div class="modal-actions">
-          <button type="button" id="btn-eula-decline" class="btn btn-secondary btn-block">Decline</button>
-          <button type="button" id="btn-eula-accept" class="btn btn-primary btn-block" disabled>I Agree — Continue to Registration</button>
+          <button type="button" id="btn-eula-decline" class="btn btn-secondary btn-block" data-i18n="dpn.decline">Decline</button>
+          <button type="button" id="btn-eula-accept" class="btn btn-primary btn-block" disabled data-i18n="dpn.accept">I Agree — Continue to Registration</button>
         </div>
       </div>
     </div>
@@ -568,6 +587,30 @@
       <div class="tutorial-actions">
         <button type="button" id="btn-tutorial-back" class="btn btn-outline">Bumalik</button>
         <button type="button" id="btn-tutorial-next" class="btn btn-primary">Susunod</button>
+      </div>
+    </div>
+  </div>
+  <!-- ONBOARDING CAROUSEL (pre-login product tour, opened from the "How it
+       works" button on the Login/Register header). Distinct from the
+       post-login in-app walkthrough above (#tutorial-overlay): this one is
+       for prospective users who haven't registered yet, and is meant to be
+       filled with real screenshots. Steps live in ONBOARDING_STEPS in
+       script.js — swap the placeholder `image` paths there for real
+       screenshots once available; copy is already localized via
+       data-i18n / TRANSLATIONS (onboarding.* keys). -->
+  <div id="onboarding-overlay" class="onboarding-overlay">
+    <div class="onboarding-card">
+      <button type="button" id="btn-onboarding-close" class="onboarding-close-btn" aria-label="Close">&times;</button>
+      <div class="onboarding-image-wrap">
+        <img id="ob-image" class="onboarding-image" src="" alt="" hidden>
+        <div id="ob-icon-fallback" class="onboarding-icon-fallback" aria-hidden="true"></div>
+      </div>
+      <h2 class="onboarding-title" id="ob-title">-</h2>
+      <p class="onboarding-body" id="ob-body">-</p>
+      <div class="onboarding-dots" id="ob-dots"></div>
+      <div class="onboarding-actions">
+        <button type="button" id="btn-onboarding-back" class="btn btn-outline" hidden data-i18n="onboarding.back">Back</button>
+        <button type="button" id="btn-onboarding-next" class="btn btn-primary" data-i18n="onboarding.next">Next</button>
       </div>
     </div>
   </div>
