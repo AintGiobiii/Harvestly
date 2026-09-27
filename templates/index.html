@@ -16,8 +16,8 @@
   <div id="language-modal-backdrop" class="modal-backdrop">
     <div class="modal-card lang-modal-card">
       <div class="lang-modal-icon" aria-hidden="true">🌐</div>
-      <h2 class="modal-title" id="lang-modal-title">Choose your language</h2>
-      <p class="modal-sub" id="lang-modal-sub">Pumili ng gusto mong wika para sa app. Pwede mo itong palitan anumang oras sa taas, katabi ng username mo.</p>
+      <h2 class="modal-title" id="lang-modal-title" data-i18n="lang.modalTitle">Choose your language</h2>
+      <p class="modal-sub" id="lang-modal-sub" data-i18n="lang.modalSub">Pick your preferred language for the app. You can change this anytime up top, next to your username.</p>
       <div class="lang-choice-row">
         <button type="button" class="lang-choice-btn" data-lang="en">
           <span class="lang-choice-flag" aria-hidden="true">🇬🇧</span>
@@ -38,25 +38,25 @@
           <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
       </div>
-      <h2 id="modal-title" class="modal-title">Successfully Saved!</h2>
-      <p id="modal-sub" class="modal-sub">New data has been recorded into your farm monitoring.</p>
+      <h2 id="modal-title" class="modal-title" data-i18n="modal.successTitle">Successfully Saved!</h2>
+      <p id="modal-sub" class="modal-sub" data-i18n="modal.successSub">New data has been recorded into your farm monitoring.</p>
       <div class="modal-summary-box">
         <div class="modal-summary-row">
-          <span class="modal-summary-label">Name / Type:</span>
+          <span class="modal-summary-label" data-i18n="modal.nameType">Name / Type:</span>
           <span id="modal-sum-name" class="modal-summary-val">-</span>
         </div>
         <div class="modal-summary-row">
-          <span class="modal-summary-label">Date:</span>
+          <span class="modal-summary-label" data-i18n="common.date">Date:</span>
           <span id="modal-sum-date" class="modal-summary-val">-</span>
         </div>
         <div class="modal-summary-row">
-          <span class="modal-summary-label">Total Amount:</span>
+          <span class="modal-summary-label" data-i18n="modal.totalAmount">Total Amount:</span>
           <span id="modal-sum-amount" class="modal-summary-val">-</span>
         </div>
       </div>
       <div class="modal-actions">
-        <button id="btn-modal-view" class="btn btn-primary btn-block">View Records</button>
-        <button id="btn-modal-add-another" class="btn btn-secondary btn-block">Add Another Entry</button>
+        <button id="btn-modal-view" class="btn btn-primary btn-block" data-i18n="modal.viewRecordsBtn">View Records</button>
+        <button id="btn-modal-add-another" class="btn btn-secondary btn-block" data-i18n="modal.addAnotherBtn">Add Another Entry</button>
       </div>
     </div>
   </div>
@@ -68,24 +68,24 @@
           <path d="M9 3h6M12 3v6M4 21h16M6 21V9l6-3 6 3v12"/>
         </svg>
       </div>
-      <h2 class="modal-title">Computation Result</h2>
+      <h2 class="modal-title" data-i18n="comp.modalTitle">Computation Result</h2>
       <p class="modal-sub" id="comp-modal-sub">-</p>
       <div class="modal-summary-box">
         <div class="modal-summary-row">
-          <span class="modal-summary-label">Product Sales:</span>
+          <span class="modal-summary-label" data-i18n="comp.productSales">Product Sales:</span>
           <span id="comp-modal-sales" class="modal-summary-val">₱0.00</span>
         </div>
         <div class="modal-summary-row">
-          <span class="modal-summary-label">Expenses Entered:</span>
+          <span class="modal-summary-label" data-i18n="comp.expensesEntered">Linked Expenses:</span>
           <span id="comp-modal-exp" class="modal-summary-val">₱0.00</span>
         </div>
         <div class="modal-summary-row">
-          <span class="modal-summary-label">Computed Net Income:</span>
+          <span class="modal-summary-label" data-i18n="common.computedNetIncome">Computed Net Income:</span>
           <span id="comp-modal-net" class="modal-summary-val">₱0.00</span>
         </div>
       </div>
       <div class="modal-actions">
-        <button type="button" id="btn-comp-modal-close" class="btn btn-primary btn-block">Got it</button>
+        <button type="button" id="btn-comp-modal-close" class="btn btn-primary btn-block" data-i18n="comp.gotIt">Got it</button>
       </div>
     </div>
   </div>
@@ -97,8 +97,8 @@
           <path d="M12 3l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.2-5.4 3.2 1.3-6-4.6-4.1 6.1-.6z"/>
         </svg>
       </div>
-      <h2 class="modal-title">Rate this Harvest</h2>
-      <p class="modal-sub" id="harvest-rating-sub">How was <strong id="harvest-rating-product-name">this product</strong>'s harvest?</p>
+      <h2 class="modal-title" data-i18n="harvest.rateTitle">Rate this Harvest</h2>
+      <p class="modal-sub" id="harvest-rating-sub"><span data-i18n="harvest.howWas">How was</span> <strong id="harvest-rating-product-name">this product</strong><span data-i18n="harvest.harvestQuestion">'s harvest?</span></p>
       <div id="harvest-star-rating" class="star-rating" data-rating="0" style="justify-content: center; margin: 12px 0;">
         <button type="button" class="star-btn" data-value="1" aria-label="1 star">★</button>
         <button type="button" class="star-btn" data-value="2" aria-label="2 stars">★</button>
@@ -106,9 +106,9 @@
         <button type="button" class="star-btn" data-value="4" aria-label="4 stars">★</button>
         <button type="button" class="star-btn" data-value="5" aria-label="5 stars">★</button>
       </div>
-      <p class="pricing-guide-note">Makikita rin ang rating na ito sa Admin dashboard.</p>
+      <p class="pricing-guide-note" data-i18n="harvest.ratingNote">This rating will also show up on the Admin dashboard.</p>
       <div class="modal-actions">
-        <button type="button" id="btn-harvest-rating-close" class="btn btn-secondary btn-block">Skip</button>
+        <button type="button" id="btn-harvest-rating-close" class="btn btn-secondary btn-block" data-i18n="common.skip">Skip</button>
       </div>
     </div>
   </div>
@@ -120,8 +120,8 @@
           <path d="M12 3l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.2-5.4 3.2 1.3-6-4.6-4.1 6.1-.6z"/>
         </svg>
       </div>
-      <h2 class="modal-title">Naubos na ang Sessions Mo</h2>
-      <p class="modal-sub">Pumili ng plan para magpatuloy sa pag-record ng mga ani, gastos, at kita.</p>
+      <h2 class="modal-title" data-i18n="subChoice.title">You're Out of Sessions</h2>
+      <p class="modal-sub" data-i18n="subChoice.sub">Choose a plan to continue recording your harvests, expenses, and income.</p>
       <div class="plan-picker" id="subscribe-choice-plans">
         <button type="button" class="plan-option" data-plan="starter" data-price="30" data-sessions="4">
           <span class="plan-option-price">₱30</span>
@@ -137,7 +137,7 @@
         </button>
       </div>
       <div class="modal-actions">
-        <button type="button" id="btn-subscribe-choice-close" class="btn btn-secondary btn-block">Mamaya na lang</button>
+        <button type="button" id="btn-subscribe-choice-close" class="btn btn-secondary btn-block" data-i18n="subChoice.maybeLater">Maybe later</button>
       </div>
     </div>
   </div>
@@ -148,36 +148,36 @@
       <p class="modal-sub" id="pd-sub">Expenses for this product, and harvest countdown</p>
       <div class="modal-summary-box">
         <div class="modal-summary-row">
-          <span class="modal-summary-label">Price per kilo:</span>
+          <span class="modal-summary-label" data-i18n="pd.pricePerKilo">Price per kilo:</span>
           <span id="pd-price" class="modal-summary-val">-</span>
         </div>
         <div class="modal-summary-row">
-          <span class="modal-summary-label">Total Sales:</span>
+          <span class="modal-summary-label" data-i18n="common.totalSales">Total Sales:</span>
           <span id="pd-total" class="modal-summary-val">-</span>
         </div>
         <div class="modal-summary-row">
-          <span class="modal-summary-label">Date recorded:</span>
+          <span class="modal-summary-label" data-i18n="pd.dateRecorded">Date recorded:</span>
           <span id="pd-date" class="modal-summary-val">-</span>
         </div>
       </div>
       <div id="pd-locked-banner" class="pd-locked-banner" style="display: none;">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-        <span>Tapos na ang harvest cycle ng product na ito (naitala na ang Actual Income). Hindi na ito maaaring baguhin.</span>
+        <span data-i18n="pd.lockedBanner">This product's harvest cycle is finished (Actual Income already recorded). It can no longer be changed.</span>
       </div>
       <div class="panel pricing-guide-panel pd-inline-panel">
-        <div class="panel-head"><h2>Estimated Harvest Countdown</h2></div>
-        <p class="pricing-guide-sub">Typical growing duration for <strong id="pd-crop-name">this crop</strong>: <strong id="pd-harvest-months">-</strong></p>
-        <p class="pricing-guide-sub">Estimated harvest date: <strong id="pd-harvest-date">-</strong></p>
+        <div class="panel-head"><h2 data-i18n="pd.countdownTitle">Estimated Harvest Countdown</h2></div>
+        <p class="pricing-guide-sub"><span data-i18n="pd.typicalDuration">Typical growing duration for</span> <strong id="pd-crop-name">this crop</strong>: <strong id="pd-harvest-months">-</strong></p>
+        <p class="pricing-guide-sub"><span data-i18n="pd.estHarvestDate">Estimated harvest date:</span> <strong id="pd-harvest-date">-</strong></p>
         <div class="pricing-calc-row pricing-calc-row--highlight">
-          <span>Countdown</span>
+          <span data-i18n="pd.countdownLabel">Countdown</span>
           <strong id="pd-countdown">-</strong>
         </div>
-        <p class="pricing-guide-note">Estimate lang ito base sa karaniwang tagal ng pagtubo ng pananim — maaaring iba-iba depende sa lokasyon at klima.</p>
+        <p class="pricing-guide-note" data-i18n="pd.countdownNote">This is only an estimate based on typical growing duration for this crop — it can vary by location and climate.</p>
       </div>
       <div class="panel pd-inline-panel">
-        <div class="panel-head"><h2>Linked Expenses (hal. Fertilizer)</h2></div>
+        <div class="panel-head"><h2 data-i18n="pd.linkedExpensesTitle">Linked Expenses (e.g. Fertilizer)</h2></div>
         <div id="pd-expense-list" class="record-list"></div>
-        <p class="pricing-guide-sub" style="margin-top: 8px;">Total linked expenses: <strong id="pd-expense-total">₱0.00</strong></p>
+        <p class="pricing-guide-sub" style="margin-top: 8px;"><span data-i18n="pd.totalLinkedExpenses">Total linked expenses:</span> <strong id="pd-expense-total">₱0.00</strong></p>
         <form id="form-pd-add-expense" class="pd-add-expense-form">
           <select id="pd-expense-category">
             <option value="Fertilizer">Fertilizer</option>
@@ -192,38 +192,38 @@
             <span class="expense-peso">₱</span>
             <input type="number" id="pd-expense-amount" min="0" step="0.01" placeholder="0.00" required>
           </div>
-          <button type="submit" class="btn btn-primary">+ Add</button>
+          <button type="submit" class="btn btn-primary" data-i18n="common.addBtn">+ Add</button>
         </form>
-        <p class="pricing-guide-note">Kulang ang gastos (hal. fertilizer)? Mag-add ng bago. May sobra/mali? I-delete ang entry — mababawas ito agad sa total expenses ng produce na ito.</p>
+        <p class="pricing-guide-note" data-i18n="pd.linkedExpensesNote">Missing an expense (e.g. fertilizer)? Add a new one. Extra or wrong entry? Delete it — it'll be subtracted from this product's total expenses right away.</p>
       </div>
       <div class="panel pd-inline-panel">
-        <div class="panel-head"><h2>Pricing Calculator</h2></div>
+        <div class="panel-head"><h2 data-i18n="pd.calcTitle">Pricing Calculator</h2></div>
         <label class="field">
-          <span>Enter Profit Margin (1 - 50%)</span>
+          <span data-i18n="pd.profitMarginLabel">Enter Profit Margin (1 - 50%)</span>
           <div class="percent-input-wrap">
             <input type="number" id="produce-profit-margin" min="1" max="50" step="0.01" value="10" placeholder="Example: 28">
             <span class="percent-sign">%</span>
           </div>
         </label>
-        <p class="pricing-guide-sub">Total linked expenses (basis): <strong id="pricing-guide-expenses">₱0.00</strong></p>
-        <p class="pricing-guide-sub">Automatic Profit (Percentage): <strong id="pricing-margin-display">10%</strong></p>
+        <p class="pricing-guide-sub"><span data-i18n="pd.linkedExpensesBasis">Total linked expenses (basis):</span> <strong id="pricing-guide-expenses">₱0.00</strong></p>
+        <p class="pricing-guide-sub"><span data-i18n="pd.autoProfitPct">Automatic Profit (Percentage):</span> <strong id="pricing-margin-display">10%</strong></p>
         <div class="pricing-calc-results">
           <div class="pricing-calc-row pricing-calc-row--highlight">
-            <span>Total Sales Target (bawi + kita)</span>
+            <span data-i18n="pd.salesTarget">Total Sales Target (cost recovery + profit)</span>
             <strong id="pricing-target-sales">₱0.00</strong>
           </div>
           <div class="pricing-calc-row">
-            <span>Target Profit (amount)</span>
+            <span data-i18n="pd.targetProfit">Target Profit (amount)</span>
             <strong id="pricing-target-profit" class="record-amount--positive">₱0.00</strong>
           </div>
         </div>
-        <p class="pricing-guide-sub" style="margin-top: 14px;">Presyo per Kilo depende sa bilang ng aanihin (pumili ng pinaka-malapit sa inaasahan mong ani):</p>
+        <p class="pricing-guide-sub" style="margin-top: 14px;" data-i18n="pd.priceByKiloNote">Price per Kilo depends on how much you expect to harvest (choose the closest to your expected yield):</p>
         <div id="pricing-kilo-table" class="pricing-kilo-table"></div>
-        <p class="pricing-guide-note">Base lang ito sa iyong sariling gastos (expenses) at profit margin — hindi kinukwenta ang presyo sa palengke, para tiyak na mababawi mo ang puhunan.</p>
-        <button type="button" id="btn-pd-save-pricing" class="btn btn-primary btn-block" style="margin-top: 12px;" disabled>Save Pricing</button>
+        <p class="pricing-guide-note" data-i18n="pd.calcDisclaimer">This is based only on your own expenses and profit margin — it does not account for market price, so you're guaranteed to recover your capital.</p>
+        <button type="button" id="btn-pd-save-pricing" class="btn btn-primary btn-block" style="margin-top: 12px;" disabled data-i18n="pd.savePricingBtn">Save Pricing</button>
       </div>
       <div class="modal-actions">
-        <button type="button" id="btn-pd-close" class="btn btn-secondary btn-block">Close</button>
+        <button type="button" id="btn-pd-close" class="btn btn-secondary btn-block" data-i18n="common.close">Close</button>
       </div>
     </div>
   </div>
@@ -235,20 +235,20 @@
           <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
       </div>
-      <h2 class="modal-title">Pricing Saved!</h2>
-      <p class="modal-sub" id="pricing-saved-sub">Naitala na ang bagong presyo ng produkto na ito.</p>
+      <h2 class="modal-title" data-i18n="pd.pricingSavedTitle">Pricing Saved!</h2>
+      <p class="modal-sub" id="pricing-saved-sub" data-i18n="pd.pricingSavedSub">This product's new price has been recorded.</p>
       <div class="modal-summary-box">
         <div class="modal-summary-row">
-          <span class="modal-summary-label">Presyo per kilo:</span>
+          <span class="modal-summary-label" data-i18n="pd.pricePerKilo">Price per kilo:</span>
           <span id="pricing-saved-price" class="modal-summary-val">-</span>
         </div>
         <div class="modal-summary-row">
-          <span class="modal-summary-label">Batay sa bilang ng kilo:</span>
+          <span class="modal-summary-label" data-i18n="pd.basedOnKilos">Based on number of kilos:</span>
           <span id="pricing-saved-kg" class="modal-summary-val">-</span>
         </div>
       </div>
       <div class="modal-actions">
-        <button type="button" id="btn-pricing-saved-close" class="btn btn-primary btn-block">OK</button>
+        <button type="button" id="btn-pricing-saved-close" class="btn btn-primary btn-block" data-i18n="common.ok">OK</button>
       </div>
     </div>
   </div>
@@ -665,14 +665,14 @@
         </div>
         <div id="subscription-banner" class="panel subscription-banner" style="display: none;">
           <div id="subscription-banner-free">
-            <p class="subscription-banner-title">Free plan — <span id="cycle-count-label">0</span> / <span id="cycle-total-label">3</span> sessions used</p>
+            <p class="subscription-banner-title"><span data-i18n="dash.freePlanPrefix">Free plan —</span> <span id="cycle-count-label">0</span> / <span id="cycle-total-label">3</span> <span data-i18n="dash.freePlanSuffix">sessions used</span></p>
             <p class="subscription-banner-sub" data-i18n="dash.sessionExplainer">A session is used each time you add a new Product & its Expenses. Logging Actual Income is always free. Once your sessions are used up, adding new products will be locked until you subscribe.</p>
-            <button type="button" class="btn btn-primary" data-screen="subscribe">Tingnan ang mga Plan</button>
+            <button type="button" class="btn btn-primary" data-screen="subscribe" data-i18n="dash.viewPlansBtn">View Plans</button>
           </div>
         </div>
         <div class="panel" id="dashboard-latest-computation-panel" style="display: none;">
           <div class="panel-head">
-            <h2>Latest Income Computation</h2>
+            <h2 data-i18n="dash.latestComputationTitle">Latest Income Computation</h2>
           </div>
           <div class="pricing-calc-results">
             <div class="pricing-calc-row">
@@ -680,15 +680,15 @@
               <strong id="dash-comp-when">-</strong>
             </div>
             <div class="pricing-calc-row">
-              <span>Sales</span>
+              <span data-i18n="common.sales">Sales</span>
               <strong id="dash-comp-sales">₱0.00</strong>
             </div>
             <div class="pricing-calc-row">
-              <span>Expenses</span>
+              <span data-i18n="common.expenses">Expenses</span>
               <strong id="dash-comp-exp" style="color: var(--red);">₱0.00</strong>
             </div>
             <div class="pricing-calc-row pricing-calc-row--highlight">
-              <span>Computed Net Income</span>
+              <span data-i18n="common.computedNetIncome">Computed Net Income</span>
               <strong id="dash-comp-net">₱0.00</strong>
             </div>
           </div>
@@ -706,54 +706,54 @@
           <form id="form-actual-income" style="flex: 1; min-width: 280px; max-width: 500px;">
             <div class="panel">
               <label class="field">
-                <span>Enter Actual Income (Collected or On-hand Cash)</span>
+                <span data-i18n="income.enterActualLabel">Enter Actual Income (Collected or On-hand Cash)</span>
                 <div class="expense-input-wrap">
                   <span class="expense-peso">₱</span>
                   <input type="number" id="actual-income-input" min="0" step="0.01" placeholder="0.00" required>
                 </div>
               </label>
               <label class="field">
-                <span>Date Received / Encoded</span>
+                <span data-i18n="income.dateReceivedLabel">Date Received / Encoded</span>
                 <input type="date" id="actual-income-date" required>
               </label>
-              <button type="submit" class="btn btn-primary btn-block">Save Actual Income</button>
+              <button type="submit" class="btn btn-primary btn-block" data-i18n="income.saveBtn">Save Actual Income</button>
             </div>
           </form>
           <div class="panel pricing-guide-panel" style="flex: 1; min-width: 280px; max-width: 500px;">
-            <div class="panel-head"><h2>Computation & Comparison (Per Month / Product)</h2></div>
+            <div class="panel-head"><h2 data-i18n="income.compTitle">Computation & Comparison (Per Month / Product)</h2></div>
             <label class="field">
-              <span>Select Product</span>
+              <span data-i18n="income.selectProduct">Select Product</span>
               <select id="comp-product-select"></select>
             </label>
             <label class="field">
-              <span>Select Month</span>
+              <span data-i18n="income.selectMonth">Select Month</span>
               <select id="comp-month-select"></select>
             </label>
             <label class="field">
-              <span>Expenses for this Product</span>
+              <span data-i18n="income.expensesAutoLabel">Expenses for this Product (auto-calculated from linked expense records)</span>
               <div class="expense-input-wrap">
                 <span class="expense-peso">₱</span>
-                <input type="number" id="comp-product-expenses" min="0" step="0.01" placeholder="0.00">
+                <input type="number" id="comp-product-expenses" min="0" step="0.01" placeholder="0.00" readonly>
               </div>
             </label>
-            <button type="button" id="btn-compute-comparison" class="btn btn-primary btn-block">Compute</button>
-            <p class="pricing-guide-note" id="comp-prod-status-note">Select a product and month, then tap Compute to see the sales vs. expenses comparison for it.</p>
+            <button type="button" id="btn-compute-comparison" class="btn btn-primary btn-block" data-i18n="income.computeBtn">Compute</button>
+            <p class="pricing-guide-note" id="comp-prod-status-note" data-i18n="income.statusNoteDefault">Select a product and month, then tap Compute to see the sales vs. expenses comparison for it.</p>
           </div>
         </div>
         <div class="panel" style="margin-top: 20px;">
           <div class="panel-head">
-            <h2>Actual Income Monitoring History</h2>
+            <h2 data-i18n="income.historyTitle">Actual Income Monitoring History</h2>
           </div>
           <div class="table-scroll">
             <table class="records-table">
               <thead>
                 <tr>
-                  <th>Date Saved</th>
-                  <th>Product(s) This Month</th>
-                  <th class="align-right">Actual Income Collected</th>
-                  <th class="align-right">Computed Net Income</th>
-                  <th class="align-right">Discrepancy / Difference</th>
-                  <th>Action</th>
+                  <th data-i18n="income.thDateSaved">Date Saved</th>
+                  <th data-i18n="income.thProducts">Product(s) This Month</th>
+                  <th class="align-right" data-i18n="income.thActualCollected">Actual Income Collected</th>
+                  <th class="align-right" data-i18n="common.computedNetIncome">Computed Net Income</th>
+                  <th class="align-right" data-i18n="income.thDiscrepancy">Discrepancy / Difference</th>
+                  <th data-i18n="common.action">Action</th>
                 </tr>
               </thead>
               <tbody id="income-history-tbody">
@@ -763,7 +763,7 @@
         </div>
         <div class="panel" style="margin-top: 20px;">
           <div class="panel-head">
-            <h2>Income Monitoring per Product</h2>
+            <h2 data-i18n="income.perProductTitle">Income Monitoring per Product</h2>
           </div>
           <div class="table-scroll">
             <table class="records-table records-table--fixed">
@@ -776,11 +776,11 @@
               </colgroup>
               <thead>
                 <tr>
-                  <th>Product</th>
-                  <th class="align-right">Total Actual Income</th>
-                  <th class="align-right">Total Computed Net</th>
-                  <th class="align-right">Total Discrepancy</th>
-                  <th class="align-right">Entries</th>
+                  <th data-i18n="common.product">Product</th>
+                  <th class="align-right" data-i18n="income.thTotalActualIncome">Total Actual Income</th>
+                  <th class="align-right" data-i18n="income.thTotalComputedNet">Total Computed Net</th>
+                  <th class="align-right" data-i18n="income.thTotalDiscrepancy">Total Discrepancy</th>
+                  <th class="align-right" data-i18n="income.thEntries">Entries</th>
                 </tr>
               </thead>
               <tbody id="income-monitoring-product-tbody">
@@ -792,30 +792,30 @@
       <section id="screen-add-expense" class="screen">
         <form id="form-expense" class="record-form expense-form" novalidate>
           <label class="field">
-            <span>Crop / produce name</span>
-            <input type="text" id="produce-name" placeholder="e.g. Tomato" required>
+            <span data-i18n="expense.cropNameLabel">Crop / produce name</span>
+            <input type="text" id="produce-name" data-i18n-placeholder="expense.cropNamePlaceholder" placeholder="e.g. Tomato" required>
           </label>
           <div id="expense-rows-container">
             <!-- Dynamic expense rows go here -->
           </div>
-          <button type="button" id="btn-add-expense-row" class="btn btn-outline" style="margin-bottom: 20px;">
+          <button type="button" id="btn-add-expense-row" class="btn btn-outline" style="margin-bottom: 20px;" data-i18n="expense.addAnotherBtn">
             + Add another expense
           </button>
           <label class="field">
-            <span>Date</span>
+            <span data-i18n="common.date">Date</span>
             <input type="date" id="expense-date" required>
           </label>
-          <p class="expense-total-preview">Total Expense: <strong id="expense-calculated-total">₱0.00</strong></p>
-          <button type="submit" class="btn btn-primary btn-block">Save Product & Expenses</button>
+          <p class="expense-total-preview"><span data-i18n="expense.totalPreviewLabel">Total Expense:</span> <strong id="expense-calculated-total">₱0.00</strong></p>
+          <button type="submit" class="btn btn-primary btn-block" data-i18n="expense.saveBtn">Save Product & Expenses</button>
         </form>
       </section>
       <section id="screen-records" class="screen">
         <div class="records-toolbar">
-          <input type="text" id="records-search" placeholder="Search by product name...">
+          <input type="text" id="records-search" data-i18n-placeholder="records.searchPlaceholder" placeholder="Search by product name...">
         </div>
         <div id="panel-records-produce" class="panel">
           <div class="panel-head">
-            <h2>Expenses Details</h2>
+            <h2 data-i18n="records.detailsTitle">Expenses Details</h2>
           </div>
           <div class="table-scroll">
             <table class="records-table records-table--fixed records-table--produce">
@@ -829,12 +829,12 @@
               </colgroup>
               <thead>
                 <tr>
-                  <th>Product / Produce</th>
-                  <th class="align-right">Sales per Unit</th>
-                  <th class="align-right">Total Sales</th>
-                  <th class="align-right">Possible Profit</th>
-                  <th>Date</th>
-                  <th>Action</th>
+                  <th data-i18n="records.thProductProduce">Product / Produce</th>
+                  <th class="align-right" data-i18n="records.thSalesPerUnit">Sales per Unit</th>
+                  <th class="align-right" data-i18n="common.totalSales">Total Sales</th>
+                  <th class="align-right" data-i18n="records.thPossibleProfit">Possible Profit</th>
+                  <th data-i18n="common.date">Date</th>
+                  <th data-i18n="common.action">Action</th>
                 </tr>
               </thead>
               <tbody id="produce-tbody">
@@ -850,7 +850,7 @@
         </div>
         <div class="panel">
           <div class="panel-head">
-            <h2>Monthly Financial Monitoring Overview</h2>
+            <h2 data-i18n="reports.overviewTitle">Monthly Financial Monitoring Overview</h2>
           </div>
           <div class="table-scroll">
             <table class="records-table records-table--fixed">
@@ -862,10 +862,10 @@
               </colgroup>
               <thead>
                 <tr>
-                  <th>Month</th>
-                  <th class="align-right">Sales (Benta)</th>
-                  <th class="align-right">Expenses (Gastos)</th>
-                  <th class="align-right">Actual Income</th>
+                  <th data-i18n="common.month">Month</th>
+                  <th class="align-right" data-i18n="common.sales">Sales (Benta)</th>
+                  <th class="align-right" data-i18n="common.expenses">Expenses (Gastos)</th>
+                  <th class="align-right" data-i18n="common.actualIncome">Actual Income</th>
                 </tr>
               </thead>
               <tbody id="monthly-monitoring-tbody">
@@ -875,18 +875,18 @@
         </div>
         <div class="panel">
           <div class="panel-head">
-            <h2>Monthly Trend (Bar Graph)</h2>
+            <h2 data-i18n="reports.trendTitle">Monthly Trend (Bar Graph)</h2>
           </div>
           <div class="graph-legend">
-            <div class="legend-item"><span class="legend-dot sales"></span> Sales</div>
-            <div class="legend-item"><span class="legend-dot expenses"></span> Expenses</div>
+            <div class="legend-item"><span class="legend-dot sales"></span> <span data-i18n="common.sales">Sales</span></div>
+            <div class="legend-item"><span class="legend-dot expenses"></span> <span data-i18n="common.expenses">Expenses</span></div>
           </div>
           <div class="line-graph-container" id="line-graph-box">
           </div>
         </div>
         <div class="panel">
           <div class="panel-head">
-            <h2 id="monthly-expense-cat-title">Expense Breakdown by Category</h2>
+            <h2 id="monthly-expense-cat-title" data-i18n="reports.catBreakdownTitle">Expense Breakdown by Category</h2>
           </div>
           <div class="table-scroll">
             <table class="records-table records-table--fixed">
@@ -897,16 +897,16 @@
               </colgroup>
               <thead>
                 <tr>
-                  <th>Expense Category</th>
-                  <th class="align-right">Total Amount Spent</th>
-                  <th class="align-right">Category Share (%)</th>
+                  <th data-i18n="reports.thCategory">Expense Category</th>
+                  <th class="align-right" data-i18n="reports.thTotalSpent">Total Amount Spent</th>
+                  <th class="align-right" data-i18n="reports.thCategoryShare">Category Share (%)</th>
                 </tr>
               </thead>
               <tbody id="monthly-expense-cat-tbody">
               </tbody>
               <tfoot>
                 <tr>
-                  <td>Total Expenses (Kabuuang Gastos)</td>
+                  <td data-i18n="common.totalExpenses">Total Expenses (Kabuuang Gastos)</td>
                   <td class="align-right record-amount--negative" id="monthly-expense-total-val">₱0.00</td>
                   <td class="align-right">100.0%</td>
                 </tr>
@@ -916,7 +916,7 @@
         </div>
         <div class="panel">
           <div class="panel-head">
-            <h2 id="monthly-products-title">Merged Product Financial Summary</h2>
+            <h2 id="monthly-products-title" data-i18n="reports.mergedTitle">Merged Product Financial Summary</h2>
           </div>
           <div class="table-scroll">
             <table class="records-table records-table--fixed">
@@ -930,12 +930,12 @@
               </colgroup>
               <thead>
                 <tr>
-                  <th>Product / Produce</th>
-                  <th class="align-right">Total Qty</th>
-                  <th class="align-right">Total Sales</th>
-                  <th class="align-right">Estimated Expenses</th>
-                  <th class="align-right">Profit Margin (%)</th>
-                  <th class="align-right">Sales Share (%)</th>
+                  <th data-i18n="records.thProductProduce">Product / Produce</th>
+                  <th class="align-right" data-i18n="reports.thTotalQty">Total Qty</th>
+                  <th class="align-right" data-i18n="common.totalSales">Total Sales</th>
+                  <th class="align-right" data-i18n="reports.thEstExpenses">Estimated Expenses</th>
+                  <th class="align-right" data-i18n="reports.thProfitMargin">Profit Margin (%)</th>
+                  <th class="align-right" data-i18n="reports.thSalesShare">Sales Share (%)</th>
                 </tr>
               </thead>
               <tbody id="monthly-products-tbody">
@@ -947,47 +947,47 @@
       <section id="screen-support" class="screen">
         <div class="panel">
           <div class="panel-head">
-            <h2>Send a concern</h2>
+            <h2 data-i18n="support.sendTitle">Send a concern</h2>
           </div>
           <form id="form-support">
             <div class="field support-visibility-field">
-              <span>Send this message as</span>
+              <span data-i18n="support.sendAsLabel">Send this message as</span>
               <div class="support-visibility-toggle" role="radiogroup" aria-label="Send message as">
                 <label class="radio-pill">
                   <input type="radio" name="support-visibility" id="support-visibility-details" value="details" checked>
-                  <span>With My Details</span>
+                  <span data-i18n="support.withDetails">With My Details</span>
                 </label>
                 <label class="radio-pill">
                   <input type="radio" name="support-visibility" id="support-visibility-anon" value="anonymous">
-                  <span>Anonymous</span>
+                  <span data-i18n="support.anonymous">Anonymous</span>
                 </label>
               </div>
             </div>
             <label class="field">
-              <span>Subject (optional)</span>
+              <span data-i18n="support.subjectLabel">Subject (optional)</span>
               <select id="support-subject">
-                <option value="">-- Piliin ang paksa --</option>
-                <option value="Dashboard">Dashboard</option>
-                <option value="Magdagdag ng gastos">Magdagdag ng gastos</option>
-                <option value="Kita">Kita</option>
-                <option value="Tingnan / hanapin ang records">Tingnan / hanapin ang records</option>
-                <option value="Mga Ulat">Mga Ulat</option>
-                <option value="Mag-subscribe">Mag-subscribe</option>
-                <option value="Others">Others</option>
+                <option value="" data-i18n="support.subjectPlaceholder">-- Choose a subject --</option>
+                <option value="Dashboard" data-i18n="nav.dashboard">Dashboard</option>
+                <option value="Magdagdag ng gastos" data-i18n="nav.addExpense">Add expense</option>
+                <option value="Kita" data-i18n="nav.income">Income</option>
+                <option value="Tingnan / hanapin ang records" data-i18n="nav.records">View / search records</option>
+                <option value="Mga Ulat" data-i18n="nav.reports">Reports</option>
+                <option value="Mag-subscribe" data-i18n="nav.subscribe">Subscribe</option>
+                <option value="Others" data-i18n="common.others">Others</option>
               </select>
             </label>
             <label class="field">
-              <span>Message</span>
-              <textarea id="support-message" rows="4" maxlength="2000" placeholder="I-type dito ang concern mo..." required></textarea>
+              <span data-i18n="support.messageLabel">Message</span>
+              <textarea id="support-message" rows="4" maxlength="2000" data-i18n-placeholder="support.messagePlaceholder" placeholder="Type your concern here..." required></textarea>
             </label>
             <p class="field-error" id="support-error" hidden></p>
             <p class="field-success" id="support-success" hidden></p>
-            <button type="submit" class="btn btn-primary">Send</button>
+            <button type="submit" class="btn btn-primary" data-i18n="support.sendBtn">Send</button>
           </form>
         </div>
         <div class="panel" style="margin-top: 20px;">
           <div class="panel-head">
-            <h2>Your concerns</h2>
+            <h2 data-i18n="support.yourConcernsTitle">Your concerns</h2>
           </div>
           <div id="support-list"></div>
         </div>
@@ -996,15 +996,15 @@
       <section id="screen-subscribe" class="screen">
         <div class="panel">
           <div class="panel-head">
-            <h2>Kasalukuyang Plan</h2>
+            <h2 data-i18n="subscribe.currentPlanTitle">Current Plan</h2>
           </div>
           <p class="subscription-banner-sub" id="subscribe-status-text">-</p>
         </div>
         <div class="panel" style="margin-top: 20px;">
           <div class="panel-head">
-            <h2>Presyo per Session</h2>
+            <h2 data-i18n="subscribe.pricePerSessionTitle">Price per Session</h2>
           </div>
-          <p class="subscription-banner-sub">Ang isang session ay 1 produkto + mga gastos nito + aktwal na kita nito. Pumili ng plan sa ibaba, i-GCash ang halaga, at ilagay ang reference number para direktang maidagdag ang mga sessions sa account mo.</p>
+          <p class="subscription-banner-sub" data-i18n="subscribe.pricePerSessionDesc">A session is 1 product + its expenses + its actual income. Choose a plan below, send the amount via GCash, and enter the reference number to add sessions directly to your account.</p>
           <div class="plan-picker" id="plan-picker">
             <button type="button" class="plan-option" data-plan="starter" data-price="30" data-sessions="4">
               <span class="plan-option-price">₱30</span>
@@ -1020,17 +1020,17 @@
             </button>
           </div>
           <div id="gcash-payment-box" style="display: none; margin-top: 12px;">
-            <p class="subscription-banner-sub">I-GCash ang <strong id="gcash-selected-amount">₱0</strong> sa:</p>
+            <p class="subscription-banner-sub"><span data-i18n="subscribe.gcashPayPrefix">Send</span> <strong id="gcash-selected-amount">₱0</strong> <span data-i18n="subscribe.gcashPaySuffix">via GCash to:</span></p>
             <p class="gcash-info-line"><strong id="gcash-display-name">—</strong> — <span id="gcash-display-number">—</span></p>
             <div class="gcash-qr-wrap" id="gcash-qr-wrap" style="display: none;">
               <img src="{{ url_for('static', filename='gcash-qr.png') }}" alt="GCash QR Code" id="gcash-qr-img" class="gcash-qr-img">
-              <p class="pricing-guide-note" style="text-align: center;">O i-scan ang QR gamit ang GCash app mo</p>
+              <p class="pricing-guide-note" style="text-align: center;" data-i18n="subscribe.scanQrNote">Or scan the QR using your GCash app</p>
             </div>
             <label class="field" style="margin-top: 10px;">
-              <span>GCash Reference Number</span>
+              <span data-i18n="subscribe.refLabel">GCash Reference Number</span>
               <input type="text" id="subscription-payment-ref" placeholder="e.g. 1234567890123">
             </label>
-            <button type="button" id="btn-request-subscription" class="btn btn-primary">Subscribe Now</button>
+            <button type="button" id="btn-request-subscription" class="btn btn-primary" data-i18n="subscribe.subscribeNowBtn">Subscribe Now</button>
           </div>
         </div>
       </section>
