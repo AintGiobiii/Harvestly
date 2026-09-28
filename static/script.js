@@ -7,16 +7,41 @@
 (function setupCsrfProtectedFetch() {
   const originalFetch = window.fetch.bind(window);
   const unsafeMethods = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
-  window.fetch = function (input, init) {
+  window.fetch = async function (input, init) {
     const url = typeof input === 'string' ? input : (input && input.url) || '';
     const method = ((init && init.method) || (typeof input === 'object' && input.method) || 'GET').toUpperCase();
-    if (url.startsWith('/api/') && unsafeMethods.has(method)) {
-      const token = document.querySelector('meta[name="csrf-token"]')?.content || '';
-      init = init || {};
-      init.headers = new Headers(init.headers || {});
-      init.headers.set('X-CSRF-Token', token);
+    if (!(url.startsWith('/api/') && unsafeMethods.has(method))) {
+      return originalFetch(input, init);
     }
-    return originalFetch(input, init);
+    const metaEl = document.querySelector('meta[name="csrf-token"]');
+    const send = (token) => {
+      const i = Object.assign({}, init || {});
+      i.headers = new Headers((init && init.headers) || {});
+      i.headers.set('X-CSRF-Token', token);
+      return originalFetch(input, i);
+    };
+    let res = await send(metaEl?.content || '');
+    // SELF-HEAL: ang token sa <meta> ay nakukuha lang isang beses kapag
+    // nag-load ang page. Kapag nag-logout/login ang admin nang hindi nagre-
+    // refresh (nagre-reset ang session), o may bagong serverless instance,
+    // luma na ang token at 403 ang lahat ng POST (kasama ang reply sa
+    // Customer Service). Kukuha muna ng bagong token at susubukan ulit nang
+    // isang beses, para hindi kailangang mag-refresh ang user.
+    if (res.status === 403) {
+      let body = {};
+      try { body = await res.clone().json(); } catch (_) { /* hindi JSON */ }
+      if (/csrf/i.test(body.error || '')) {
+        try {
+          const r = await originalFetch('/api/csrf');
+          const d = await r.json();
+          if (d && d.csrfToken) {
+            metaEl?.setAttribute('content', d.csrfToken);
+            res = await send(d.csrfToken);
+          }
+        } catch (_) { /* iiwan ang orihinal na 403 response */ }
+      }
+    }
+    return res;
   };
 })();
 
@@ -77,12 +102,12 @@ const TRANSLATIONS = {
     'dash.addIncomeBtn': '+ Add Actual Income',
     'dash.recentRecords': 'Recent records',
     'dash.viewAll': 'View all',
-    'dash.sessionExplainer': 'A session is used each time you add a new Product & its Expenses. Logging Actual Income is always free. Once your sessions are used up, adding new products will be locked until you subscribe.',
+    'dash.sessionExplainer': 'A harvest is used each time you add a new Product & its Expenses. Logging Actual Income is always free. Once your harvests are used up, adding new products will be locked until you subscribe.',
     'dash.pendingPricingTitle': '⚠️ Some products still need a price',
     'dash.pendingPricingSub': 'These show ₱0.00 in your sales and reports until you set their pricing.',
     'dash.setPricingBtn': 'Set pricing',
     'dash.freePlanPrefix': 'Free plan —',
-    'dash.freePlanSuffix': 'sessions used',
+    'dash.freePlanSuffix': 'harvests used',
     'dash.latestComputationTitle': 'Latest Income Computation',
     'dash.viewPlansBtn': 'View Plans',
     'auth.email': 'Email',
@@ -189,12 +214,12 @@ const TRANSLATIONS = {
     'reports.trendTitle': 'Monthly Trend (Bar Graph)',
     'subChoice.maybeLater': 'Maybe later',
     'subChoice.sub': 'Choose a plan to continue recording your harvests, expenses, and income.',
-    'subChoice.title': 'You\'re Out of Sessions',
+    'subChoice.title': 'You\'re Out of Harvests',
     'subscribe.currentPlanTitle': 'Current Plan',
     'subscribe.gcashPayPrefix': 'Send',
     'subscribe.gcashPaySuffix': 'via GCash to:',
-    'subscribe.pricePerSessionDesc': 'A session is 1 product + its expenses + its actual income. Choose a plan below, send the amount via GCash, and enter the reference number to add sessions directly to your account.',
-    'subscribe.pricePerSessionTitle': 'Price per Session',
+    'subscribe.pricePerSessionDesc': 'A harvest is 1 product + its expenses + its actual income. Choose a plan below, send the amount via GCash, and enter the reference number to add harvests directly to your account.',
+    'subscribe.pricePerSessionTitle': 'Price per Harvest',
     'subscribe.refLabel': 'GCash Reference Number',
     'subscribe.scanQrNote': 'Or scan the QR using your GCash app',
     'subscribe.subscribeNowBtn': 'Subscribe Now',
@@ -268,21 +293,25 @@ const TRANSLATIONS = {
     'about.tagline': 'Harvestly, a simple way to keep track of your farm, from expenses to harvest.',
     'about.contactLabel': 'Contact Us',
     'about.contactText': 'Have a question or need help? Use Customer Service inside the app after logging in, or get in touch with us.',
+    'about.contactNumbers': 'You can also call or text us at:',
 
     // ---- Subscribe screen: usage-status banner (was hardcoded Tagalog
     // regardless of language — see usageStatusText() below) ----
     'subscribe.pendingRequest': 'You have a pending subscription request — waiting for the admin to verify and approve your GCash reference number. You\'ll be notified here in the app once it\'s approved.',
-    'subscribe.usageActive': 'Your subscription is active — {remaining} session(s) left ({used} / {total} used).',
-    'subscribe.usageLocked': "You've used up all your sessions ({used} / {total} used). Choose a plan below to add more sessions.",
-    'subscribe.freeTrial': 'Free trial — {used} / {total} sessions used.',
-    'subscribe.freeTrialLockedSuffix': ' Your free sessions are used up — choose a plan below to continue.',
-    'plan.sessionsWord': 'sessions',
+    'subscribe.usageActive': 'Your subscription is active — {remaining} harvest(s) left ({used} / {total} used).',
+    'subscribe.usageLocked': "You've used up all your harvests ({used} / {total} used). Choose a plan below to add more harvests.",
+    'subscribe.freeTrial': 'Free trial — {used} / {total} harvests used.',
+    'subscribe.freeTrialLockedSuffix': ' Your free harvests are used up — choose a plan below to continue.',
+    'plan.sessionsWord': 'harvests',
 
     // ---- Customer Service screen ----
     'support.awaitingReply': 'Waiting for admin reply.',
     'support.statusReplied': 'Replied',
     'support.statusOpen': 'Open',
     'support.replyFromAdmin': 'Reply from admin',
+    'support.replySent': 'Reply sent to the user.',
+    'support.replySendFailed': "Couldn't send your reply. Please try again.",
+    'support.replyNetworkError': "Couldn't reach the server. Check your connection and try again.",
   },
   tl: {
     'topbar.dashboard': 'Home dashboard',
@@ -309,12 +338,12 @@ const TRANSLATIONS = {
     'dash.addIncomeBtn': '+ Magdagdag ng Aktwal na Kita',
     'dash.recentRecords': 'Kamakailang mga record',
     'dash.viewAll': 'Tingnan lahat',
-    'dash.sessionExplainer': 'Nagagamit ang isang session tuwing magdadagdag ka ng bagong Produkto at ang mga Gastos nito. Libre lagi ang pag-log ng Aktwal na Kita. Kapag naubos na ang iyong mga session, mai-lock ang pagdagdag ng bagong produkto hangga\'t hindi ka nag-subscribe.',
+    'dash.sessionExplainer': 'Nagagamit ang isang harvest tuwing magdadagdag ka ng bagong Produkto at ang mga Gastos nito. Libre lagi ang pag-log ng Aktwal na Kita. Kapag naubos na ang iyong mga harvest, mai-lock ang pagdagdag ng bagong produkto hangga\'t hindi ka nag-subscribe.',
     'dash.pendingPricingTitle': '⚠️ May mga produktong kailangan pa ng presyo',
     'dash.pendingPricingSub': 'Nagpapakita ang mga ito ng ₱0.00 sa benta at reports mo hangga\'t hindi mo naitatakda ang presyo nila.',
     'dash.setPricingBtn': 'Itakda ang presyo',
     'dash.freePlanPrefix': 'Libreng plano —',
-    'dash.freePlanSuffix': 'sessions na nagamit',
+    'dash.freePlanSuffix': 'harvests na nagamit',
     'dash.latestComputationTitle': 'Pinakabagong Kalkulasyon ng Kita',
     'dash.viewPlansBtn': 'Tingnan ang mga Plano',
     'auth.email': 'Email',
@@ -421,12 +450,12 @@ const TRANSLATIONS = {
     'reports.trendTitle': 'Buwanang Trend (Bar Graph)',
     'subChoice.maybeLater': 'Sa ibang pagkakataon na lang',
     'subChoice.sub': 'Pumili ng plano para magpatuloy sa pagtala ng iyong mga ani, gastos, at kita.',
-    'subChoice.title': 'Naubos na ang Iyong mga Session',
+    'subChoice.title': 'Naubos na ang Iyong mga Harvest',
     'subscribe.currentPlanTitle': 'Kasalukuyang Plano',
     'subscribe.gcashPayPrefix': 'Magpadala ng',
     'subscribe.gcashPaySuffix': 'sa pamamagitan ng GCash sa:',
-    'subscribe.pricePerSessionDesc': 'Ang isang session ay 1 produkto + ang mga gastos nito + ang aktwal na kita nito. Pumili ng plano sa ibaba, magpadala ng halaga gamit ang GCash, at ilagay ang reference number para idagdag ang mga session diretso sa iyong account.',
-    'subscribe.pricePerSessionTitle': 'Presyo Bawat Session',
+    'subscribe.pricePerSessionDesc': 'Ang isang harvest ay 1 produkto + ang mga gastos nito + ang aktwal na kita nito. Pumili ng plano sa ibaba, magpadala ng halaga gamit ang GCash, at ilagay ang reference number para idagdag ang mga harvest diretso sa iyong account.',
+    'subscribe.pricePerSessionTitle': 'Presyo Bawat Harvest',
     'subscribe.refLabel': 'GCash Reference Number',
     'subscribe.scanQrNote': 'O i-scan ang QR gamit ang iyong GCash app',
     'subscribe.subscribeNowBtn': 'Mag-subscribe Ngayon',
@@ -500,20 +529,24 @@ const TRANSLATIONS = {
     'about.tagline': 'Harvestly, isang simpleng paraan upang subaybayan ang iyong sakahan, mula sa gastos hanggang sa ani.',
     'about.contactLabel': 'Makipag-ugnayan sa Amin',
     'about.contactText': 'May tanong ka ba o kailangan ng tulong? Gamitin ang Customer Service sa loob ng app pagkatapos mag-login, o makipag-ugnayan sa amin.',
+    'about.contactNumbers': 'Maaari mo rin kaming tawagan o i-text sa:',
 
     // ---- Subscribe screen: usage-status banner ----
     'subscribe.pendingRequest': 'May pending ka pang subscription request — hinihintay pa ang pag-verify at pag-approve ng admin sa GCash reference number mo. Aabisuhan ka rito sa app kapag na-approve na.',
-    'subscribe.usageActive': 'Aktibo ang subscription mo — {remaining} session(s) pa ang natitira ({used} / {total} nagamit na).',
-    'subscribe.usageLocked': 'Naubos na ang mga sessions mo ({used} / {total} nagamit na). Pumili ng plan sa ibaba para magdagdag ng sessions.',
-    'subscribe.freeTrial': 'Free trial — {used} / {total} sessions ginamit na.',
-    'subscribe.freeTrialLockedSuffix': ' Naubos na ang free sessions — pumili ng plan sa ibaba para magpatuloy.',
-    'plan.sessionsWord': 'sessions',
+    'subscribe.usageActive': 'Aktibo ang subscription mo — {remaining} harvest(s) pa ang natitira ({used} / {total} nagamit na).',
+    'subscribe.usageLocked': 'Naubos na ang mga harvest mo ({used} / {total} nagamit na). Pumili ng plan sa ibaba para magdagdag ng harvests.',
+    'subscribe.freeTrial': 'Free trial — {used} / {total} harvests ginamit na.',
+    'subscribe.freeTrialLockedSuffix': ' Naubos na ang free harvests — pumili ng plan sa ibaba para magpatuloy.',
+    'plan.sessionsWord': 'harvests',
 
     // ---- Customer Service screen ----
     'support.awaitingReply': 'Hinihintay pa ang reply ng admin.',
     'support.statusReplied': 'Napagsagutan na',
     'support.statusOpen': 'Bukas',
     'support.replyFromAdmin': 'Sagot mula sa admin',
+    'support.replySent': 'Naipadala na ang reply sa user.',
+    'support.replySendFailed': 'Hindi naipadala ang reply mo. Subukan ulit.',
+    'support.replyNetworkError': 'Hindi ma-reach ang server. Tingnan ang koneksyon mo at subukan ulit.',
   },
 };
 let currentLanguage = localStorage.getItem('harvestly_lang') || 'en';
@@ -521,6 +554,23 @@ let currentLanguage = localStorage.getItem('harvestly_lang') || 'en';
 function t(key) {
   const dict = TRANSLATIONS[currentLanguage] || TRANSLATIONS.en;
   return (dict && dict[key]) || (TRANSLATIONS.en && TRANSLATIONS.en[key]) || key;
+}
+// Small non-blocking notification (bottom-center). type: 'success' | 'error'.
+function showToast(message, type) {
+  let box = document.getElementById('toast-box');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'toast-box';
+    box.className = 'toast-box';
+    box.setAttribute('role', 'status');
+    box.setAttribute('aria-live', 'polite');
+    document.body.appendChild(box);
+  }
+  const el = document.createElement('div');
+  el.className = 'toast toast--' + (type || 'success');
+  el.textContent = message;
+  box.appendChild(el);
+  setTimeout(() => { el.classList.add('toast--out'); setTimeout(() => el.remove(), 300); }, 3500);
 }
 // Like t(), but substitutes {placeholder} tokens with values from `vars`
 // (e.g. tFormat('subscribe.usageActive', { remaining: 3, used: 4, total: 7 })).
@@ -1215,7 +1265,7 @@ const TUTORIAL_STEPS = [
   {
     screen: 'subscribe',
     title: 'Subscribe',
-    body: 'May 3 libreng sessions ka sa simula. Kapag naubos na ito, dito ka pipili ng plan at magbabayad via GCash para magpatuloy sa pagdagdag ng records.',
+    body: 'May 3 libreng harvests ka sa simula. Kapag naubos na ito, dito ka pipili ng plan at magbabayad via GCash para magpatuloy sa pagdagdag ng records.',
     icon: '<path d="M12 3l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.2-5.4 3.2 1.3-6-4.6-4.1 6.1-.6z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'
   }
 ];
@@ -1712,6 +1762,7 @@ async function renderAdminSupportMessages() {
            </div>`
         : `<form class="support-reply-form" data-id="${m.id}">
              <textarea placeholder="I-type ang reply mo dito..." required></textarea>
+             <p class="field-error support-reply-error" hidden></p>
              <button type="submit" class="btn btn-primary btn-sm">Send reply</button>
            </form>`;
       const submitterLabel = m.isAnonymous
@@ -1732,14 +1783,41 @@ async function renderAdminSupportMessages() {
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const textarea = form.querySelector('textarea');
+        const errorEl = form.querySelector('.support-reply-error');
+        const submitBtn = form.querySelector('button[type="submit"]');
         const reply = textarea?.value.trim() || '';
+        if (errorEl) { errorEl.hidden = true; errorEl.textContent = ''; }
         if (!reply) return;
-        await fetch(`/api/admin/support/${form.dataset.id}/reply`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ reply })
-        });
-        renderAdminSupportMessages();
+        if (submitBtn) submitBtn.disabled = true;
+        // BUG FIX: dati, hindi tinitingnan kung nag-succeed ba talaga ang
+        // request bago i-re-render ang buong listahan — kaya kahit mag-fail
+        // ang reply (e.g. session expired, admin access lost, network
+        // error), ni-re-render pa rin ito, na siyang nagpapawala sa buong
+        // form (kasama ang na-type na reply) na parang "nawala nang walang
+        // paalam" pero hindi naman talaga naipadala. Ngayon, ang textarea at
+        // ang typed text ay nananatili at may makikitang error message
+        // kapag hindi natuloy ang pagpapadala.
+        try {
+          const res = await fetch(`/api/admin/support/${form.dataset.id}/reply`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reply })
+          });
+          let data = {};
+          try { data = await res.json(); } catch (_) { /* wala/hindi JSON na sagot */ }
+          if (!res.ok) {
+            if (errorEl) { errorEl.textContent = data.error || `${t('support.replySendFailed')} (HTTP ${res.status})`; errorEl.hidden = false; }
+            showToast(data.error || t('support.replySendFailed'), 'error');
+            if (submitBtn) submitBtn.disabled = false;
+            return;
+          }
+          showToast(t('support.replySent'), 'success');
+          renderAdminSupportMessages();
+        } catch (err) {
+          if (errorEl) { errorEl.textContent = t('support.replyNetworkError'); errorEl.hidden = false; }
+          showToast(t('support.replyNetworkError'), 'error');
+          if (submitBtn) submitBtn.disabled = false;
+        }
       });
     });
   } catch (e) {
@@ -2020,7 +2098,7 @@ async function renderAdminSubscriptions() {
         : '';
       item.innerHTML = `
         <div class="support-item-head">
-          <span class="support-item-subject">${escapeHtml(r.plan || '-')} — ${escapeHtml(r.sessionsGranted)} sessions <span class="empty-state" style="padding:0;">— ${escapeHtml(r.fullName)} (${escapeHtml(r.username)})</span></span>
+          <span class="support-item-subject">${escapeHtml(r.plan || '-')} — ${escapeHtml(r.sessionsGranted)} harvests <span class="empty-state" style="padding:0;">— ${escapeHtml(r.fullName)} (${escapeHtml(r.username)})</span></span>
           <span class="admin-badge ${statusClass[r.status] || ''}">${statusLabels[r.status] || r.status}</span>
         </div>
         <p class="support-item-meta">Requested: ${escapeHtml(r.requestedAt)}${r.reviewedAt ? ' • Reviewed: ' + escapeHtml(r.reviewedAt) : ''}</p>
@@ -2455,7 +2533,7 @@ if (formActualIncome) {
   formActualIncome.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (usageStatus.locked) {
-      alert("You've used all your available sessions. Please subscribe from the Subscribe page to continue.");
+      alert("You've used all your available harvests. Please subscribe from the Subscribe page to continue.");
       return;
     }
     const incInput = document.getElementById('actual-income-input');
@@ -2620,7 +2698,7 @@ if (formExpense) {
   formExpense.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (usageStatus.locked) {
-      alert("You've used all your available sessions. Please subscribe from the Subscribe page to continue.");
+      alert("You've used all your available harvests. Please subscribe from the Subscribe page to continue.");
       return;
     }
     const name = document.getElementById('produce-name')?.value.trim();
@@ -3371,7 +3449,7 @@ if (formPdAddExpense) {
       return;
     }
     if (usageStatus.locked) {
-      alert("You've used all your available sessions. Please subscribe from the Subscribe page to continue.");
+      alert("You've used all your available harvests. Please subscribe from the Subscribe page to continue.");
       return;
     }
     const category = document.getElementById('pd-expense-category')?.value || 'Fertilizer';
