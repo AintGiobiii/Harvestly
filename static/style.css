@@ -530,6 +530,42 @@ button, input, select {
 .about-text { font-size: 14px; line-height: 1.6; color: var(--ink); margin: 0 0 14px; }
 .about-contact-block { text-align: center; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border); }
 .about-contact-label { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--forest); margin: 0 0 8px; }
+/* ABOUT US — wide layout: the card uses ~80% of the screen width and most of
+   its height (instead of the narrow 380px login-sized column). Paragraphs
+   flow in two columns on desktop so lines stay readable at this width. */
+#screen-about { padding: 68px 10vw 28px; align-items: stretch; }
+#screen-about .auth-wrap { max-width: none; width: 100%; margin: 0 auto; }
+#screen-about .about-card {
+  padding: 36px 56px 32px;
+  min-height: calc(100vh - 96px);
+  min-height: calc(100dvh - 96px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#screen-about .about-title { font-size: 32px; margin-bottom: 22px; }
+#screen-about .about-text { font-size: clamp(15px, 1.15vw, 19px); line-height: 1.7; }
+.about-columns { column-count: 2; column-gap: 56px; }
+.about-columns .about-text { break-inside: avoid-column; }
+.about-tagline {
+  text-align: center; font-family: var(--font-display); font-weight: 600;
+  color: var(--forest); margin: 8px 0 0;
+}
+#screen-about .about-contact-label { font-size: 20px; }
+.about-contact-numbers { margin: 4px 0 0; display: flex; justify-content: center; align-items: center; gap: 14px; flex-wrap: wrap; }
+.about-contact-numbers a {
+  font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--forest);
+  text-decoration: none; letter-spacing: 0.02em;
+}
+.about-contact-numbers a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.about-contact-sep { color: var(--muted); }
+.about-contact-numbers-label { margin: 10px 0 4px; }
+@media (max-width: 900px) {
+  #screen-about { padding: 64px 14px 24px; }
+  #screen-about .about-card { padding: 24px 20px; min-height: 0; }
+  #screen-about .about-title { font-size: 26px; }
+  .about-columns { column-count: 1; }
+}
 /* EMAIL VERIFICATION / FORGOT PASSWORD (new) */
 .auth-forgot-link-wrap { text-align: right; margin: -6px 0 16px; }
 .auth-forgot-link-wrap .auth-switch-link { font-weight: 600; font-size: 13px; }
@@ -1732,3 +1768,31 @@ button, input, select {
   .tutorial-card { max-width: 100%; padding: 18px 18px 16px; border-radius: 16px 16px 0 0; }
   .tutorial-title { font-size: 18px; }
 }
+
+/* TOAST NOTIFICATIONS (e.g. "Reply sent to the user.") */
+.toast-box {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  pointer-events: none;
+  max-width: calc(100vw - 32px);
+}
+.toast {
+  background: var(--forest, #1F4D36);
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 11px 18px;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  animation: tutSlideUp .25s ease;
+  transition: opacity .3s ease;
+}
+.toast--error { background: var(--red, #b3261e); }
+.toast--out { opacity: 0; }
