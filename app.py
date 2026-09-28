@@ -570,6 +570,13 @@ def check_csrf_token():
         if not sent_token or not real_token or not secrets.compare_digest(sent_token, real_token):
             return jsonify({'error': 'Invalid o missing CSRF token.'}), 403
 
+@app.route('/api/csrf', methods=['GET'])
+def get_csrf_token():
+    # Nagbibigay ng kasalukuyang CSRF token ng session, para makabawi ang
+    # frontend kapag luma na ang token sa <meta> (hal. pagkatapos mag-logout/
+    # login nang hindi nagre-refresh ang page).
+    return jsonify({'csrfToken': session.get('csrf_token', '')})
+
 def usage_status(user):
     total_allowed = FREE_CYCLE_LIMIT + user.purchased_cycles
     locked = (
@@ -1175,7 +1182,7 @@ def request_subscription():
         db.session.add(req)
         db.session.commit()
         return jsonify({
-            'message': f"Naipadala ang request mo para sa {plan['sessions']} sessions ({plan_key}). Ire-review muna ito ng admin bago ma-activate.",
+            'message': f"Naipadala ang request mo para sa {plan['sessions']} harvests ({plan_key}). Ire-review muna ito ng admin bago ma-activate.",
             'usage': usage_status(user)
         })
     except Exception as e:
@@ -1233,7 +1240,7 @@ def admin_approve_subscription(req_id):
         req.status = 'approved'
         req.reviewed_at = datetime.utcnow().strftime('%Y-%m-%d %H:%M')
         db.session.commit()
-        return jsonify({'message': f"Na-approve ang request — {req.sessions_granted} sessions na-grant kay {user.full_name}."})
+        return jsonify({'message': f"Na-approve ang request — {req.sessions_granted} harvests na-grant kay {user.full_name}."})
     except Exception as e:
         db.session.rollback()
         print(f"Error sa pag-approve ng subscription: {e}")
