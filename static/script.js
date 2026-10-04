@@ -3659,3 +3659,16 @@ function renderMonthlyBarGraph(monthsToShow) {
     </svg>
   `;
 }``
+
+// OFFLINE APP SHELL (PWA, "Level 1"): rehistruhin ang service worker para
+// ma-cache ang app shell at gumana ito kahit walang signal pagkatapos
+// mabuksan nang isang beses habang may signal. Hindi ito nag-a-apekto sa
+// /api/* calls (login, pag-save ng record, atbp.) — dumadaan pa rin iyon
+// nang direkta sa server, tulad ng dati. Tingnan ang static/sw.js.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch((err) => {
+      console.warn('[sw] registration failed (hindi kritikal, gagana pa rin ang app online):', err);
+    });
+  });
+}
