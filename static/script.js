@@ -310,6 +310,10 @@ const TRANSLATIONS = {
     'support.statusOpen': 'Open',
     'support.replyFromAdmin': 'Reply from admin',
     'support.replySent': 'Reply sent to the user.',
+
+    // ---- Network error messages (used across every form) ----
+    'net.offline': "You're offline. Connect to the internet and try again.",
+    'net.serverUnreachable': 'Cannot connect to server. Please try again in a moment.',
     'support.replySendFailed': "Couldn't send your reply. Please try again.",
     'support.replyNetworkError': "Couldn't reach the server. Check your connection and try again.",
   },
@@ -545,6 +549,10 @@ const TRANSLATIONS = {
     'support.statusOpen': 'Bukas',
     'support.replyFromAdmin': 'Sagot mula sa admin',
     'support.replySent': 'Naipadala na ang reply sa user.',
+
+    // ---- Network error messages (used across every form) ----
+    'net.offline': 'Wala kang signal/internet. Kumonekta at subukan ulit.',
+    'net.serverUnreachable': 'Hindi maka-konekta sa server. Pakisubukan muli sa ilang saglit.',
     'support.replySendFailed': 'Hindi naipadala ang reply mo. Subukan ulit.',
     'support.replyNetworkError': 'Hindi ma-reach ang server. Tingnan ang koneksyon mo at subukan ulit.',
   },
@@ -571,6 +579,14 @@ function showToast(message, type) {
   el.textContent = message;
   box.appendChild(el);
   setTimeout(() => { el.classList.add('toast--out'); setTimeout(() => el.remove(), 300); }, 3500);
+}
+// Message shown whenever a fetch() to our own server fails (catch block).
+// Distinguishes "you're offline" from "the server itself is unreachable",
+// since the old blanket "Make sure app.py is running." message confused
+// real users testing the app with no signal (that line was meant for local
+// development only).
+function netErrMsg() {
+  return navigator.onLine ? t('net.serverUnreachable') : t('net.offline');
 }
 // Like t(), but substitutes {placeholder} tokens with values from `vars`
 // (e.g. tFormat('subscribe.usageActive', { remaining: 3, used: 4, total: 7 })).
@@ -996,7 +1012,7 @@ if (formLogin) {
         if (err) { err.textContent = data.error || 'Invalid credentials.'; err.hidden = false; }
       }
     } catch (error) {
-      if (err) { err.textContent = 'Cannot connect to server. Make sure app.py is running.'; err.hidden = false; }
+      if (err) { err.textContent = netErrMsg(); err.hidden = false; }
     }
   });
 }
@@ -1093,7 +1109,7 @@ if (btnSignupStep2Next) {
         if (err) { err.textContent = data.error || 'Registration failed.'; err.hidden = false; }
       }
     } catch (error) {
-      if (err) { err.textContent = 'Cannot connect to server.'; err.hidden = false; }
+      if (err) { err.textContent = netErrMsg(); err.hidden = false; }
     } finally {
       btnSignupStep2Next.disabled = false;
       btnSignupStep2Next.textContent = 'Next';
@@ -1138,7 +1154,7 @@ if (btnSignupStep3Next) {
         if (err) { err.textContent = data.error || 'Invalid or expired code.'; err.hidden = false; }
       }
     } catch (error) {
-      if (err) { err.textContent = 'Cannot connect to server.'; err.hidden = false; }
+      if (err) { err.textContent = netErrMsg(); err.hidden = false; }
     } finally {
       btnSignupStep3Next.disabled = false;
       btnSignupStep3Next.textContent = 'Verify';
@@ -1166,7 +1182,7 @@ if (btnSignupResendCode) {
         if (err) { err.textContent = data.error || 'Could not resend the code.'; err.hidden = false; }
       }
     } catch (error) {
-      if (err) { err.textContent = 'Cannot connect to server.'; err.hidden = false; }
+      if (err) { err.textContent = netErrMsg(); err.hidden = false; }
     }
   });
 }
@@ -1210,7 +1226,7 @@ if (formSignup) {
         if (err) { err.textContent = data.error || 'Could not create the account.'; err.hidden = false; }
       }
     } catch (error) {
-      if (err) { err.textContent = 'Cannot connect to server.'; err.hidden = false; }
+      if (err) { err.textContent = netErrMsg(); err.hidden = false; }
     } finally {
       if (submitBtn) submitBtn.disabled = false;
     }
@@ -1499,7 +1515,7 @@ if (formVerify) {
         if (err) { err.textContent = data.error || 'Hindi na-verify ang email.'; err.hidden = false; }
       }
     } catch (error) {
-      if (err) { err.textContent = 'Cannot connect to server.'; err.hidden = false; }
+      if (err) { err.textContent = netErrMsg(); err.hidden = false; }
     }
   });
 }
@@ -1525,7 +1541,7 @@ if (btnResendCode) {
         if (err) { err.textContent = data.error || 'Hindi ma-resend ang code.'; err.hidden = false; }
       }
     } catch (error) {
-      if (err) { err.textContent = 'Cannot connect to server.'; err.hidden = false; }
+      if (err) { err.textContent = netErrMsg(); err.hidden = false; }
     }
   });
 }
@@ -1561,7 +1577,7 @@ if (formForgot) {
         if (err) { err.textContent = data.error || 'Hindi maipadala ang reset code.'; err.hidden = false; }
       }
     } catch (error) {
-      if (err) { err.textContent = 'Cannot connect to server.'; err.hidden = false; }
+      if (err) { err.textContent = netErrMsg(); err.hidden = false; }
     }
   });
 }
@@ -1603,7 +1619,7 @@ if (formReset) {
         if (err) { err.textContent = data.error || 'Hindi na-reset ang password.'; err.hidden = false; }
       }
     } catch (error) {
-      if (err) { err.textContent = 'Cannot connect to server.'; err.hidden = false; }
+      if (err) { err.textContent = netErrMsg(); err.hidden = false; }
     }
   });
 }
@@ -1687,7 +1703,7 @@ if (formSupport) {
         if (errEl) { errEl.textContent = data.error || 'May naganap na error.'; errEl.hidden = false; }
       }
     } catch (error) {
-      if (errEl) { errEl.textContent = 'Cannot connect to server.'; errEl.hidden = false; }
+      if (errEl) { errEl.textContent = netErrMsg(); errEl.hidden = false; }
     }
   });
 }
