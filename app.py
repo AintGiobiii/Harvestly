@@ -5,13 +5,27 @@ import time
 import requests
 
 from functools import wraps
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from werkzeug.middleware.proxy_fix import ProxyFix
 from datetime import datetime, timedelta
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
+
+# OFFLINE APP SHELL (PWA, "Level 1"): ang service worker ay kailangang
+# ma-serve mula sa root path (/sw.js), hindi /static/sw.js, para masakop
+# nito ang BUONG app sa halip na /static/ lang. Ang file mismo ay nasa
+# static/sw.js — dito lang ito ina-alias papuntang /sw.js.
+# Cache-Control: no-cache ang kailangan dito dahil kung mag-ca-cache ang
+# browser (o ang Vercel CDN) ng lumang sw.js, hindi makikita ng mga user
+# ang mga bagong update kahit mag-redeploy ka pa.
+@app.route('/sw.js')
+def service_worker():
+    resp = send_from_directory(app.static_folder, 'sw.js', mimetype='application/javascript')
+    resp.headers['Cache-Control'] = 'no-cache'
+    resp.headers['Service-Worker-Allowed'] = '/'
+    return resp
 
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1)
 
@@ -171,7 +185,7 @@ def send_verification_email(user):
     code = generate_code()
     user.verification_code = code
     user.verification_code_expires = make_expiry(VERIFICATION_CODE_TTL_MINUTES)
-    send_email(
+    sent = send_email(
         user.email,
         'Harvestly - Patunayan ang iyong email (Verification Code)',
         f"""<div style="font-family:sans-serif">
@@ -185,6 +199,7 @@ def send_verification_email(user):
     )
     mark_code_sent(user.email)
     clear_code_attempts('verify:' + user.email)
+    return sent
 
 def send_reset_email(user):
     code = generate_code()
@@ -207,6 +222,173 @@ def send_reset_email(user):
 
 
 EMAIL_RE = re.compile(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
+
+# =====================================================================
+# EMAIL DELIVERABILITY CHECK (para sa Registration)
+# Layered ito para hindi na magpadala ng verification code sa mga email na
+# halatang peke o hindi umiiral:
+#   1. Mahigpit na syntax check
+#   2. Typo ng sikat na domain (gmial.com -> gmail.com)
+#   3. Disposable / pansamantalang email domains
+#   4. Gmail username rules (6-30 chars; letra, numero, tuldok lang)
+#   5. DNS check: may MX (o A) record ba ang domain? (kailangan ng dnspython)
+#   6. OPTIONAL: tunay na mailbox check gamit ang ZeroBounce API kapag may
+#      ZEROBOUNCE_API_KEY env var (ito lang ang paraan para malaman kung
+#      totoo ang mismong mailbox, hal. random@gmail.com).
+# Fail-open ang DNS at API layers: kapag nag-timeout o nag-error ang mga ito,
+# hindi hinaharang ang user (ang verification code pa rin ang huling proteksyon).
+# =====================================================================
+try:
+    import dns.resolver
+    import dns.exception
+    _HAS_DNS = True
+except Exception:
+    _HAS_DNS = False
+
+app.config['ZEROBOUNCE_API_KEY'] = os.environ.get('ZEROBOUNCE_API_KEY', '')
+
+_LOCAL_RE = re.compile(r"^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+$")
+_LABEL_RE = re.compile(r'^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$')
+
+TYPO_DOMAINS = {
+    'gmial.com': 'gmail.com', 'gmai.com': 'gmail.com', 'gamil.com': 'gmail.com',
+    'gmail.co': 'gmail.com', 'gmail.con': 'gmail.com', 'gmal.com': 'gmail.com',
+    'gmaill.com': 'gmail.com', 'gnail.com': 'gmail.com', 'gmil.com': 'gmail.com',
+    'gmail.om': 'gmail.com', 'gmail.cm': 'gmail.com', 'gmeil.com': 'gmail.com',
+    'yahooo.com': 'yahoo.com', 'yaho.com': 'yahoo.com', 'yahoo.con': 'yahoo.com',
+    'yhoo.com': 'yahoo.com', 'yahoo.co': 'yahoo.com', 'yahho.com': 'yahoo.com',
+    'hotmial.com': 'hotmail.com', 'hotmal.com': 'hotmail.com', 'hotmail.con': 'hotmail.com',
+    'homail.com': 'hotmail.com', 'outlok.com': 'outlook.com', 'outlook.con': 'outlook.com',
+    'iclod.com': 'icloud.com', 'icloud.con': 'icloud.com',
+}
+DISPOSABLE_DOMAINS = {
+    'mailinator.com', 'guerrillamail.com', 'guerrillamail.net', 'guerrillamail.org',
+    'sharklasers.com', 'grr.la', '10minutemail.com', '10minutemail.net', 'tempmail.com',
+    'temp-mail.org', 'temp-mail.io', 'tempmail.net', 'throwawaymail.com', 'yopmail.com',
+    'yopmail.net', 'yopmail.fr', 'trashmail.com', 'trashmail.net', 'getnada.com',
+    'nada.email', 'maildrop.cc', 'dispostable.com', 'fakeinbox.com', 'mailnesia.com',
+    'mintemail.com', 'mohmal.com', 'emailondeck.com', 'spamgourmet.com', 'moakt.com',
+    'tmpmail.org', 'tmpmail.net', 'burnermail.io', 'mytemp.email', 'inboxkitten.com',
+    'discard.email', 'mailcatch.com', 'spambox.us', 'tempinbox.com', 'anonaddy.me',
+    'tempr.email', 'emailfake.com', 'fakemail.net', 'mail.tm', '1secmail.com',
+}
+GMAIL_DOMAINS = {'gmail.com', 'googlemail.com'}
+
+_email_check_cache = {}   # key -> (expires_epoch, result)
+
+def _cache_get(key):
+    hit = _email_check_cache.get(key)
+    if hit and hit[0] > time.time():
+        return hit[1]
+    return None
+
+def _cache_set(key, value, ttl_seconds):
+    if len(_email_check_cache) > 2000:
+        _email_check_cache.clear()
+    _email_check_cache[key] = (time.time() + ttl_seconds, value)
+
+def _domain_has_mail_server(domain):
+    """True/False kung may MX (o A) record ang domain; None kapag hindi matukoy
+    (walang dnspython, timeout, atbp.) para hindi mahadlangan ang totoong user."""
+    if not _HAS_DNS:
+        return None
+    cached = _cache_get('dns:' + domain)
+    if cached is not None:
+        return cached[0]
+    result = None
+    try:
+        resolver = dns.resolver.Resolver()
+        resolver.lifetime = 4
+        resolver.timeout = 3
+        try:
+            answers = resolver.resolve(domain, 'MX')
+            hosts = [str(r.exchange).rstrip('.') for r in answers]
+            # "Null MX" (.) = tahasang sinasabi ng domain na wala itong email
+            result = any(h for h in hosts)
+        except dns.resolver.NoAnswer:
+            try:
+                resolver.resolve(domain, 'A')
+                result = True   # walang MX pero may A record (RFC fallback)
+            except dns.resolver.NoAnswer:
+                result = False
+        except dns.resolver.NXDOMAIN:
+            result = False
+    except dns.resolver.NXDOMAIN:
+        result = False
+    except (dns.exception.Timeout, dns.resolver.NoNameservers, Exception) as e:
+        print(f"[email-check] DNS lookup para sa {domain} ay hindi natapos: {e}")
+        result = None
+    _cache_set('dns:' + domain, (result,), 6 * 3600 if result is not None else 60)
+    return result
+
+def _zerobounce_check(email):
+    """Tunay na mailbox verification. Returns 'invalid' | 'valid' | None
+    (None = hindi matukoy / walang API key / nag-error)."""
+    api_key = app.config.get('ZEROBOUNCE_API_KEY')
+    if not api_key:
+        return None
+    cached = _cache_get('zb:' + email)
+    if cached is not None:
+        return cached[0]
+    verdict = None
+    try:
+        resp = requests.get(
+            'https://api.zerobounce.net/v2/validate',
+            params={'api_key': api_key, 'email': email, 'ip_address': ''},
+            timeout=8
+        )
+        if resp.status_code == 200:
+            data = resp.json()
+            status = (data.get('status') or '').lower()
+            if status in ('invalid', 'do_not_mail', 'spamtrap', 'abuse'):
+                verdict = 'invalid'
+            elif status == 'valid':
+                verdict = 'valid'
+            # catch-all / unknown -> None (papayagan; code pa rin ang panghuling check)
+        else:
+            print(f"[email-check] ZeroBounce HTTP {resp.status_code}: {resp.text[:200]}")
+    except Exception as e:
+        print(f"[email-check] ZeroBounce error: {e}")
+    _cache_set('zb:' + email, (verdict,), 24 * 3600 if verdict else 300)
+    return verdict
+
+def validate_signup_email(raw_email):
+    """Returns (ok, error_code, extra_dict). error_code ay key para sa
+    translation sa frontend (signup.err.<code>)."""
+    email = (raw_email or '').strip().lower()
+    if len(email) > 254 or email.count('@') != 1:
+        return False, 'invalidFormat', {}
+    local, domain = email.split('@')
+    if (not local or len(local) > 64 or not _LOCAL_RE.match(local)
+            or local.startswith('.') or local.endswith('.') or '..' in local):
+        return False, 'invalidFormat', {}
+    labels = domain.split('.')
+    if (len(labels) < 2 or not all(_LABEL_RE.match(l) for l in labels)
+            or not re.match(r'^[a-z]{2,}$', labels[-1])):
+        return False, 'invalidFormat', {}
+
+    if domain in TYPO_DOMAINS:
+        return False, 'emailTypo', {'suggestion': local + '@' + TYPO_DOMAINS[domain]}
+    if domain in DISPOSABLE_DOMAINS:
+        return False, 'disposable', {}
+
+    if domain in GMAIL_DOMAINS:
+        base = local.split('+')[0]
+        core = base.replace('.', '')
+        if not re.match(r'^[a-z0-9.]+$', base) or not (6 <= len(core) <= 30):
+            return False, 'gmailInvalid', {}
+
+    if _domain_has_mail_server(domain) is False:
+        return False, 'domainNotFound', {}
+
+    if _zerobounce_check(email) == 'invalid':
+        return False, 'mailboxNotFound', {}
+
+    return True, None, {}
+
+def email_sending_configured():
+    return bool(app.config.get('BREVO_API_KEY') and app.config.get('BREVO_SENDER_EMAIL'))
+
 # STEP 4 (Password Setup) validation: dapat may kahit isang letra AT isang
 # numero (alphanumeric), hindi bababa sa 7 characters ang haba.
 PASSWORD_RE = re.compile(r'^(?=.*[A-Za-z])(?=.*\d).{7,}$')
@@ -648,9 +830,19 @@ def signup():
             return jsonify({'error': 'Kailangan ng username.'}), 400
         if not contact:
             return jsonify({'error': 'Kailangan ng email para sa pagpaparehistro.'}), 400
-        if not EMAIL_RE.match(contact):
-            return jsonify({'error': 'Hindi valid ang email address.'}), 400
         email_val = contact.lower()
+        email_ok, email_err, email_extra = validate_signup_email(email_val)
+        if not email_ok:
+            SIGNUP_EMAIL_ERRORS = {
+                'invalidFormat': 'Hindi valid ang email address.',
+                'emailTypo': 'Mali ba ang pagkaka-type ng email? Baka ang ibig mong sabihin ay ' + email_extra.get('suggestion', '') + '.',
+                'disposable': 'Hindi tinatanggap ang pansamantalang (disposable) na email. Gumamit ng totoong email.',
+                'gmailInvalid': 'Hindi valid na Gmail address ito. Ang Gmail username ay 6 hanggang 30 characters at letra, numero, o tuldok lang.',
+                'domainNotFound': 'Hindi umiiral ang domain ng email na ito. Pakisuri ang email address.',
+                'mailboxNotFound': 'Hindi umiiral ang email address na ito. Pakisuri at gumamit ng totoong email.',
+            }
+            return jsonify({'error': SIGNUP_EMAIL_ERRORS.get(email_err, 'Hindi valid ang email address.'),
+                            'errorCode': email_err, **email_extra}), 400
 
         existing_username = User.query.filter_by(username=username).first()
         existing_email = User.query.filter_by(email=email_val).first()
@@ -676,7 +868,10 @@ def signup():
             pending_reuse.middle_name = middle_name or None
             pending_reuse.email = email_val
             pending_reuse.avatar = avatar
-            send_verification_email(pending_reuse)
+            sent_ok = send_verification_email(pending_reuse)
+            if not sent_ok and email_sending_configured():
+                db.session.rollback()
+                return jsonify({'error': 'Hindi naipadala ang verification code. Pakisuri kung tama ang email, at subukan ulit.', 'errorCode': 'sendFailed'}), 502
             db.session.commit()
             return jsonify({
                 'message': 'Ipinadala ang verification code sa email mo.',
@@ -702,7 +897,10 @@ def signup():
         )
         db.session.add(new_user)
         db.session.flush()
-        send_verification_email(new_user)
+        sent_ok = send_verification_email(new_user)
+        if not sent_ok and email_sending_configured():
+            db.session.rollback()
+            return jsonify({'error': 'Hindi naipadala ang verification code. Pakisuri kung tama ang email, at subukan ulit.', 'errorCode': 'sendFailed'}), 502
         db.session.commit()
         return jsonify({
             'message': 'Ipinadala ang verification code sa email mo.',
