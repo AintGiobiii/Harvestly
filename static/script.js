@@ -1654,6 +1654,11 @@ document.getElementById('btn-onboarding-back')?.addEventListener('click', () => 
 
 async function enterAppAfterAuth(data, opts) {
   opts = opts || {};
+  // OFFLINE SESSION: isang beses lang kailangan itong i-save — saanman sa
+  // app pumasok dito (regular login, pagkatapos mag-verify ng bagong
+  // account, o session restore sa page load), gagana na ang offline resume
+  // sa susunod nilang pagbukas ng app nang walang signal.
+  offlineSessionSave(data);
   currentUser = data.username;
   currentRole = data.role || 'farmer';
   currentAvatar = data.avatar || '🌾';
@@ -1710,7 +1715,6 @@ async function restoreSessionIfAny() {
     const res = await fetch('/api/me');
     const data = await res.json();
     if (data && data.loggedIn) {
-      offlineSessionSave(data);
       await enterAppAfterAuth(data);
     } else {
       offlineSessionClear();
