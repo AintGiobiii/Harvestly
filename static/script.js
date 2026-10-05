@@ -314,6 +314,27 @@ const TRANSLATIONS = {
     // ---- Network error messages (used across every form) ----
     'net.offline': "You're offline. Connect to the internet and try again.",
     'net.serverUnreachable': 'Cannot connect to server. Please try again in a moment.',
+
+    // ---- Offline queue (Level 2 + 3: view & add records with no signal) ----
+    'offline.viewingCachedData': "You're offline — showing your last saved data.",
+    'offline.viewingCachedDataAt': "You're offline — showing data saved on {time}.",
+    'offline.savedOfflineTitle': 'Saved on This Device',
+    'offline.harvestSavedOfflineBody': "{name} and {count} expense item(s) were saved on this device. They'll upload automatically once you're back online.",
+    'offline.incomeSavedOfflineBody': "Income for {name} was saved on this device. It'll upload automatically once you're back online.",
+    'offline.pendingTag': 'Pending sync',
+    'offline.pendingNote': 'Waiting to sync',
+    'offline.pendingCount': '{n} item(s) waiting to sync.',
+    'offline.allFailed': 'Some items could not be synced.',
+    'offline.syncing': 'Syncing…',
+    'offline.syncNow': 'Sync Now',
+    'offline.waitingForSignal': 'Waiting for signal…',
+    'offline.incomeEntry': 'Income entry',
+    'offline.harvestEntry': 'Harvest entry',
+    'offline.syncFailed': 'Sync failed.',
+    'offline.retry': 'Retry',
+    'offline.discard': 'Discard',
+    'offline.confirmDiscard': 'Discard this item? It was never saved to the server and this cannot be undone.',
+    'offline.confirmLogoutWithPending': "You have items waiting to sync. They'll stay saved on this device and sync next time you're online and logged in — log out anyway?",
     'support.replySendFailed': "Couldn't send your reply. Please try again.",
     'support.replyNetworkError': "Couldn't reach the server. Check your connection and try again.",
   },
@@ -553,6 +574,27 @@ const TRANSLATIONS = {
     // ---- Network error messages (used across every form) ----
     'net.offline': 'Wala kang signal/internet. Kumonekta at subukan ulit.',
     'net.serverUnreachable': 'Hindi maka-konekta sa server. Pakisubukan muli sa ilang saglit.',
+
+    // ---- Offline queue (Level 2 + 3: view & add records with no signal) ----
+    'offline.viewingCachedData': 'Wala kang signal — ipinapakita ang huling na-save mong datos.',
+    'offline.viewingCachedDataAt': 'Wala kang signal — ipinapakita ang datos na na-save noong {time}.',
+    'offline.savedOfflineTitle': 'Na-save sa Device na Ito',
+    'offline.harvestSavedOfflineBody': 'Na-save sa device na ito ang {name} at {count} expense item(s). Awtomatikong mauupload ito kapag bumalik na ang signal.',
+    'offline.incomeSavedOfflineBody': 'Na-save sa device na ito ang income para sa {name}. Awtomatikong mauupload ito kapag bumalik na ang signal.',
+    'offline.pendingTag': 'Hinihintay i-sync',
+    'offline.pendingNote': 'Hinihintay i-sync',
+    'offline.pendingCount': '{n} item ang hinihintay i-sync.',
+    'offline.allFailed': 'May mga item na hindi na-sync.',
+    'offline.syncing': 'Nagsa-sync…',
+    'offline.syncNow': 'I-sync Ngayon',
+    'offline.waitingForSignal': 'Hinihintay ang signal…',
+    'offline.incomeEntry': 'Income entry',
+    'offline.harvestEntry': 'Harvest entry',
+    'offline.syncFailed': 'Hindi na-sync.',
+    'offline.retry': 'Subukan Ulit',
+    'offline.discard': 'Tanggalin',
+    'offline.confirmDiscard': 'Tanggalin ang item na ito? Hindi pa ito na-save sa server at hindi na mababawi ang aksyong ito.',
+    'offline.confirmLogoutWithPending': 'May mga item kang hinihintay i-sync. Mananatili itong naka-save sa device na ito at awtomatikong mag-sync sa susunod mong pag-login habang may signal — magpatuloy ba sa pag-logout?',
     'support.replySendFailed': 'Hindi naipadala ang reply mo. Subukan ulit.',
     'support.replyNetworkError': 'Hindi ma-reach ang server. Tingnan ang koneksyon mo at subukan ulit.',
   },
@@ -580,6 +622,175 @@ function showToast(message, type) {
   box.appendChild(el);
   setTimeout(() => { el.classList.add('toast--out'); setTimeout(() => el.remove(), 300); }, 3500);
 }
+// ============================================================================
+// OFFLINE QUEUE (Level 2 + 3): nagpapahintulot sa user na buksan ang app at
+// MAKAPAG-DAGDAG ng bagong harvest (produce + expenses) o actual income
+// kahit walang signal. Ang mga entry ay nase-save muna sa device
+// (localStorage) at awtomatikong sine-sync papunta sa server sa sandaling
+// bumalik ang signal.
+//
+// Paano gumagana:
+// 1. OFFLINE_CACHE — huling successful na "/api/data" response (records,
+//    income history, usage status). Ito ang ipinapakita kapag nabuksan ang
+//    app habang walang signal.
+// 2. OFFLINE_QUEUE — listahan ng mga "pending" na harvest/income na idinagdag
+//    habang walang signal (o habang nabigo ang request). Ipinapakita agad
+//    ito sa Dashboard/Records/Income bilang "pending sync" entries, kahit
+//    hindi pa naka-abot sa server.
+// 3. Kapag may signal (window 'online' event, o successful data fetch),
+//    sinusubukang i-sync ang queue paisa-isa, by order ng pagkaka-dagdag.
+//    Kapag OK ang isang item, tinatanggal ito sa queue. Kapag tinanggihan
+//    ng server (hal. naubusan na ng harvests), minamarkahan itong "failed"
+//    — hindi ito awtomatikong susubukan ulit, kailangan ng Retry mula sa
+//    user, para hindi ito maulit nang paulit-ulit nang walang pakialam.
+const OFFLINE_CACHE_KEY = 'harvestly_offline_cache_v1';
+const OFFLINE_QUEUE_KEY = 'harvestly_offline_queue_v1';
+let offlineSyncInProgress = false;
+
+function offlineCacheSave(data) {
+  try { localStorage.setItem(OFFLINE_CACHE_KEY, JSON.stringify({ ...data, cachedAt: Date.now() })); } catch (e) { /* storage disabled/full — hindi kritikal */ }
+}
+function offlineCacheLoad() {
+  try { const raw = localStorage.getItem(OFFLINE_CACHE_KEY); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
+}
+function offlineCacheClear() {
+  try { localStorage.removeItem(OFFLINE_CACHE_KEY); } catch (e) {}
+}
+function offlineQueueGet() {
+  try { const raw = localStorage.getItem(OFFLINE_QUEUE_KEY); return raw ? JSON.parse(raw) : []; } catch (e) { return []; }
+}
+function offlineQueueSave(queue) {
+  try { localStorage.setItem(OFFLINE_QUEUE_KEY, JSON.stringify(queue)); } catch (e) { /* hindi kritikal */ }
+}
+function offlineQueueAdd(item) {
+  const queue = offlineQueueGet();
+  const entry = {
+    localId: 'local-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8),
+    status: 'pending', error: null, createdAt: Date.now(), ...item,
+  };
+  queue.push(entry);
+  offlineQueueSave(queue);
+  return entry;
+}
+function offlineQueueUpdate(localId, patch) {
+  offlineQueueSave(offlineQueueGet().map(q => (q.localId === localId ? { ...q, ...patch } : q)));
+}
+function offlineQueueRemove(localId) {
+  offlineQueueSave(offlineQueueGet().filter(q => q.localId !== localId));
+}
+// Inaalis ang optimistic (pending-sync) na record mula sa in-memory state
+// kapag na-discard ng user ang isang item sa queue, para hindi na ito
+// lumabas sa Dashboard/Records/Income.
+function removeOptimisticRecord(localId) {
+  records = records.filter(r => !(r._offlinePending && String(r.id).startsWith(localId)));
+  actualIncomeHistory = actualIncomeHistory.filter(r => !(r._offlinePending && String(r.id) === localId));
+  currentActualIncome = actualIncomeHistory.reduce((s, r) => s + (r.amount || 0), 0);
+  rebuildProductsByMonthCache();
+  updateDashboard(); renderRecords(); renderReports(); renderIncomeHistoryTable(); renderIncomeMonitoringByProduct(); initComputationDropdowns();
+}
+// Kapag muling nabuksan ang app habang offline pa rin, ipinapasok muli dito
+// ang mga naka-queue na pending entry sa records/actualIncomeHistory (mula
+// localStorage), para patuloy silang makita ng user bilang "pending sync".
+function applyOfflineQueueOverlay() {
+  offlineQueueGet().forEach(item => {
+    if (item.kind === 'harvest') {
+      const already = records.some(r => String(r.id).startsWith(item.localId));
+      if (!already) {
+        item.payload.forEach((r, i) => records.push({ ...r, id: `${item.localId}-${i}`, _offlinePending: true }));
+      }
+    } else if (item.kind === 'income') {
+      const already = actualIncomeHistory.some(r => r.id === item.localId);
+      if (!already) actualIncomeHistory.push({ ...item.payload, id: item.localId, _offlinePending: true });
+    }
+  });
+  currentActualIncome = actualIncomeHistory.reduce((s, r) => s + (r.amount || 0), 0);
+  rebuildProductsByMonthCache();
+}
+function renderOfflineQueueBanner() {
+  const queue = offlineQueueGet();
+  let banner = document.getElementById('offline-queue-banner');
+  if (queue.length === 0) { banner?.remove(); return; }
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'offline-queue-banner';
+    banner.className = 'offline-queue-banner';
+    document.querySelector('.main')?.prepend(banner);
+  }
+  const pendingCount = queue.filter(q => q.status === 'pending' || q.status === 'syncing').length;
+  const failedItems = queue.filter(q => q.status === 'failed');
+  const syncing = queue.some(q => q.status === 'syncing');
+  banner.innerHTML = `
+    <div class="offline-queue-head">
+      <span>${pendingCount > 0 ? tFormat('offline.pendingCount', { n: pendingCount }) : t('offline.allFailed')}</span>
+      ${syncing ? `<span class="offline-queue-waiting">${t('offline.syncing')}</span>`
+        : navigator.onLine ? `<button type="button" id="btn-offline-sync-now" class="offline-queue-sync-btn">${t('offline.syncNow')}</button>`
+        : `<span class="offline-queue-waiting">${t('offline.waitingForSignal')}</span>`}
+    </div>
+    ${failedItems.map(f => `
+      <div class="offline-queue-failed-item">
+        <span>${escapeHtml(f.meta?.name || (f.kind === 'income' ? t('offline.incomeEntry') : t('offline.harvestEntry')))} — ${escapeHtml(f.error || t('offline.syncFailed'))}</span>
+        <span class="offline-queue-failed-actions">
+          <button type="button" class="offline-retry-btn" data-id="${f.localId}">${t('offline.retry')}</button>
+          <button type="button" class="offline-discard-btn" data-id="${f.localId}">${t('offline.discard')}</button>
+        </span>
+      </div>
+    `).join('')}
+  `;
+  document.getElementById('btn-offline-sync-now')?.addEventListener('click', () => syncOfflineQueue());
+  banner.querySelectorAll('.offline-retry-btn').forEach(btn => btn.addEventListener('click', () => {
+    offlineQueueUpdate(btn.dataset.id, { status: 'pending', error: null });
+    renderOfflineQueueBanner();
+    syncOfflineQueue();
+  }));
+  banner.querySelectorAll('.offline-discard-btn').forEach(btn => btn.addEventListener('click', () => {
+    if (confirm(t('offline.confirmDiscard'))) {
+      removeOptimisticRecord(btn.dataset.id);
+      offlineQueueRemove(btn.dataset.id);
+      renderOfflineQueueBanner();
+    }
+  }));
+}
+// Sinusubukang i-sync ang bawat "pending" na item sa queue, by order.
+// Kapag may nabigong item na dulot ng aktwal na pagka-offline (hindi
+// pag-reject ng server), itinitigil ang buong sync run at iiwan pa ring
+// "pending" ang natitira — susubukan na lang ulit sa susunod na 'online'
+// event, imbes na paulit-ulit na mag-alert sa user.
+async function syncOfflineQueue() {
+  if (offlineSyncInProgress || !navigator.onLine) return;
+  const toSync = offlineQueueGet().filter(q => q.status === 'pending');
+  if (toSync.length === 0) return;
+  offlineSyncInProgress = true;
+  for (const item of toSync) {
+    offlineQueueUpdate(item.localId, { status: 'syncing', error: null });
+    renderOfflineQueueBanner();
+    try {
+      const endpoint = item.kind === 'harvest' ? '/api/records' : '/api/income';
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(item.payload),
+      });
+      const resData = await res.json().catch(() => ({}));
+      if (res.ok) {
+        offlineQueueRemove(item.localId);
+      } else {
+        offlineQueueUpdate(item.localId, { status: 'failed', error: resData.error || t('offline.syncFailed') });
+      }
+    } catch (err) {
+      // Nawalan ng signal habang nagsa-sync — itigil muna, hindi ito failure
+      // ng validation kaya panatilihing "pending" para subukan ulit mamaya.
+      offlineQueueUpdate(item.localId, { status: 'pending', error: null });
+      offlineSyncInProgress = false;
+      renderOfflineQueueBanner();
+      return;
+    }
+  }
+  offlineSyncInProgress = false;
+  await fetchUserDataFromBackend(); // i-reconcile ang optimistic records gamit ang totoong datos mula sa server
+  renderOfflineQueueBanner();
+}
+window.addEventListener('online', () => { syncOfflineQueue(); });
+
 // Message shown whenever a fetch() to our own server fails (catch block).
 // Distinguishes "you're offline" from "the server itself is unreachable",
 // since the old blanket "Make sure app.py is running." message confused
@@ -1474,14 +1685,49 @@ async function enterAppAfterAuth(data, opts) {
 // tab) — kasama na rito ang admin, para hindi na "nawawala"/nababalik sa
 // login screen ang admin dashboard sa bawat refresh. Kung walang session,
 // wala itong ginagawa — mananatiling naka-splash screen gaya ng dati.
+// OFFLINE SESSION: para masundan ng Level 2/3 offline features, kailangang
+// makapasok sa app ang isang dati nang naka-login na user kahit walang
+// signal pa mismo sa oras na binuksan niya ang app (hal. isinara niya ang
+// browser/PWA kagabi habang naka-login, binuksan ulit ngayon sa bukid na
+// walang signal). Ang "session" dito ay HINDI isang bagong paraan ng
+// pag-login — isa lang itong LOCAL na tanda (naka-save sa device na ito)
+// na "huling beses akong nag-login dito bilang ganito." Hindi ito
+// nagbibigay ng access sa server — sa sandaling bumalik ang signal, ang
+// bawat API call (fetchUserDataFromBackend, pag-sync ng queue, atbp.) ay
+// talagang nagre-recheck pa rin sa totoong session cookie, gaya ng dati.
+const OFFLINE_SESSION_KEY = 'harvestly_offline_session_v1';
+function offlineSessionSave(data) {
+  try { localStorage.setItem(OFFLINE_SESSION_KEY, JSON.stringify(data)); } catch (e) {}
+}
+function offlineSessionLoad() {
+  try { const raw = localStorage.getItem(OFFLINE_SESSION_KEY); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
+}
+function offlineSessionClear() {
+  try { localStorage.removeItem(OFFLINE_SESSION_KEY); } catch (e) {}
+}
 async function restoreSessionIfAny() {
   try {
     const res = await fetch('/api/me');
     const data = await res.json();
     if (data && data.loggedIn) {
+      offlineSessionSave(data);
       await enterAppAfterAuth(data);
+    } else {
+      offlineSessionClear();
     }
   } catch (e) {
+    // OFFLINE: kung dati nang naka-login ang user dito sa device na ito
+    // (may na-save mula sa huling successful na pagbukas habang may
+    // signal), ipagpalagay munang naka-login pa rin siya at ipasok agad
+    // sa app gamit ang cached data, sa halip na iwanan siya sa splash
+    // screen nang walang magawa.
+    if (!navigator.onLine) {
+      const cachedSession = offlineSessionLoad();
+      if (cachedSession) {
+        await enterAppAfterAuth(cachedSession);
+        return;
+      }
+    }
     // Walang session o hindi ma-reach ang server — normal lang, mananatili
     // sa splash screen gaya ng dati, walang epekto sa user.
   }
@@ -1626,7 +1872,16 @@ if (formReset) {
 const btnLogout = document.getElementById('btn-logout');
 if (btnLogout) {
   btnLogout.addEventListener('click', async () => {
+    // Kung may hindi pa na-sync na harvest/income (naidagdag habang
+    // offline), babalaan muna bago pumayag mag-logout — hindi burahin ang
+    // queue mismo (hinihintay pa rin nitong ma-sync pag bumalik ang
+    // koneksyon/pag-login ulit), pero ang offline cache lang (panoorin-
+    // lang na kopya ng records) ang lilinisin para hindi makita ng ibang
+    // gagamit ng device na ito.
+    if (offlineQueueGet().some(q => q.status !== 'synced') && !confirm(t('offline.confirmLogoutWithPending'))) return;
     await fetch('/api/logout', { method: 'POST' });
+    offlineSessionClear();
+    offlineCacheClear();
     appShell?.classList?.remove('active');
     screenAuth?.classList?.add('active');
     currentUser = null;
@@ -1641,6 +1896,8 @@ const btnAdminLogout = document.getElementById('btn-admin-logout');
 if (btnAdminLogout) {
   btnAdminLogout.addEventListener('click', async () => {
     await fetch('/api/logout', { method: 'POST' });
+    offlineSessionClear();
+    offlineCacheClear();
     if (adminShell) adminShell.style.display = 'none';
     screenAuth?.classList?.add('active');
     currentUser = null;
@@ -2161,6 +2418,12 @@ currentRole = data.role || 'farmer';
       // Dashboard "Actual Income" should reflect ALL saved income entries combined,
       // not just the most recently added one — same as Sales, Expenses, and Profit.
       currentActualIncome = actualIncomeHistory.reduce((s, r) => s + (r.amount || 0), 0);
+      // OFFLINE: i-save ang bagong datos na ito bilang offline fallback, at
+      // ipasok muli ang anumang pending (hindi pa na-sync) na entry sa ibabaw
+      // nito, para hindi mawala sa view ang mga kasalukuyang "pending sync"
+      // na item habang hindi pa tapos ang sync run.
+      offlineCacheSave({ records, incomeHistory: actualIncomeHistory, role: currentRole, usage: usageStatus });
+      applyOfflineQueueOverlay();
       updateDashboard();
       renderRecords();
       renderReports();
@@ -2169,13 +2432,59 @@ currentRole = data.role || 'farmer';
       initComputationDropdowns();
       updateSubscriptionUI();
       hideDataLoadErrorBanner();
+      hideOfflineModeBanner();
+      renderOfflineQueueBanner();
+      syncOfflineQueue();
     } else {
       showDataLoadErrorBanner();
     }
   } catch (error) {
     console.error("Error loading data from backend:", error);
-    showDataLoadErrorBanner();
+    // OFFLINE FALLBACK: kung may huling na-cache na datos (mula sa
+    // huling successful na load habang may signal), ipakita iyon sa halip
+    // na iwanang blangko ang Dashboard/Records/Reports. Ipapakita na lang
+    // ang mas malinaw na "offline mode" na banner sa halip na error banner.
+    const cached = offlineCacheLoad();
+    if (cached) {
+      records = cached.records || [];
+      actualIncomeHistory = cached.incomeHistory || [];
+      currentRole = cached.role || 'farmer';
+      usageStatus = cached.usage || usageStatus;
+      rebuildProductsByMonthCache();
+      currentActualIncome = actualIncomeHistory.reduce((s, r) => s + (r.amount || 0), 0);
+      applyOfflineQueueOverlay();
+      updateDashboard();
+      renderRecords();
+      renderReports();
+      renderIncomeHistoryTable();
+      renderIncomeMonitoringByProduct();
+      initComputationDropdowns();
+      updateSubscriptionUI();
+      hideDataLoadErrorBanner();
+      showOfflineModeBanner(cached.cachedAt);
+      renderOfflineQueueBanner();
+    } else {
+      showDataLoadErrorBanner();
+    }
   }
+}
+// "Showing offline data from ..." — ipinapakita kapag nag-load gamit ang
+// naka-cache na datos sa halip na live mula sa server.
+function showOfflineModeBanner(cachedAt) {
+  let banner = document.getElementById('offline-mode-banner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'offline-mode-banner';
+    banner.className = 'offline-mode-banner';
+    document.querySelector('.main')?.prepend(banner);
+  }
+  const when = cachedAt ? new Date(cachedAt).toLocaleString(currentLanguage === 'tl' ? 'fil-PH' : 'en-PH', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : '';
+  banner.textContent = when ? tFormat('offline.viewingCachedDataAt', { time: when }) : t('offline.viewingCachedData');
+  banner.style.display = 'block';
+}
+function hideOfflineModeBanner() {
+  const banner = document.getElementById('offline-mode-banner');
+  if (banner) banner.style.display = 'none';
 }
 // Kapag nabigo ang /api/data (hal. cold start ng free-tier hosting, o
 // network hiccup), ipinapakita ito nang malinaw sa halip na tahimik na
@@ -2575,6 +2884,22 @@ if (formActualIncome) {
       discrepancy: val - computedNet,
       date: incDate
     };
+    // OFFLINE: i-save muna sa device at i-sync na lang pagbalik ng signal,
+    // sa halip na mawala ang in-type na amount kapag nabigo ang request.
+    const saveIncomeOffline = () => {
+      const entry = offlineQueueAdd({ kind: 'income', payload: newIncomeRecord, meta: { name: `Income (${productName})` } });
+      actualIncomeHistory.push({ ...newIncomeRecord, id: entry.localId, _offlinePending: true });
+      currentActualIncome = actualIncomeHistory.reduce((s, r) => s + (r.amount || 0), 0);
+      updateDashboard();
+      renderIncomeHistoryTable();
+      renderIncomeMonitoringByProduct();
+      if (incInput) incInput.value = '';
+      showSuccessModal(t('offline.savedOfflineTitle'), tFormat('offline.incomeSavedOfflineBody', { name: productName }), {
+        name: `Income (${productName})`, date: incDate, type: 'income', amount: val,
+      });
+      renderOfflineQueueBanner();
+    };
+    if (!navigator.onLine) { saveIncomeOffline(); return; }
     try {
       const res = await fetch('/api/income', {
         method: 'POST',
@@ -2613,7 +2938,7 @@ if (formActualIncome) {
         alert(resData.error || "You've reached the free usage limit.");
       }
     } catch (err) {
-      alert("Error saving actual income to backend.");
+      saveIncomeOffline();
     }
   });
 }
@@ -2641,8 +2966,10 @@ function renderIncomeHistoryTable() {
     tbody.appendChild(headerRow);
     entries.forEach(item => {
       const tr = document.createElement('tr');
+      const isPending = !!item._offlinePending;
+      if (isPending) tr.classList.add('row-pending-sync');
       tr.innerHTML = `
-        <td><strong>${escapeHtml(item.date)}</strong></td>
+        <td><strong>${escapeHtml(item.date)}</strong>${isPending ? ` <span class="pending-sync-tag">${t('offline.pendingTag')}</span>` : ''}</td>
         <td><span class="type-badge type-badge--produce">${escapeHtml(item.productName || productsThisMonth)}</span></td>
         <td class="align-right record-amount--positive">₱${item.amount.toFixed(2)}</td>
         <td class="align-right">₱${(item.computedNet || 0).toFixed(2)}</td>
@@ -2651,7 +2978,9 @@ function renderIncomeHistoryTable() {
             ${(item.discrepancy || 0) >= 0 ? '+' : ''}₱${(item.discrepancy || 0).toFixed(2)}
           </span>
         </td>
-        <td><button class="row-delete" onclick="deleteIncomeHistoryRecord(${item.idx})">Delete</button></td>
+        <td>${isPending
+          ? `<span class="pending-sync-note">${t('offline.pendingNote')}</span>`
+          : `<button class="row-delete" onclick="deleteIncomeHistoryRecord(${item.idx})">Delete</button>`}</td>
       `;
       tbody.appendChild(tr);
     });
@@ -2758,6 +3087,27 @@ if (formExpense) {
     // Isang batch request: produce record muna, susundan ng mga expense —
     // awtomatiko itong ma-li-link sa backend gamit ang bagong produce id.
     const batch = [produceRecord, ...newExpenses];
+    // OFFLINE: kung walang signal, o kung hindi maabot ang server, i-save
+    // muna ito sa device (hindi mawawala ang pagkaka-encode ng user) at
+    // i-sync na lang kapag bumalik ang signal, sa halip na basta sabihing
+    // "Error saving product and expenses."
+    const saveHarvestOffline = () => {
+      const entry = offlineQueueAdd({ kind: 'harvest', payload: batch, meta: { name, expenseCount: newExpenses.length } });
+      batch.forEach((r, i) => records.push({ ...r, id: `${entry.localId}-${i}`, _offlinePending: true }));
+      rebuildProductsByMonthCache();
+      updateDashboard();
+      renderRecords();
+      renderReports();
+      initComputationDropdowns();
+      formExpense.reset();
+      resetExpenseForm();
+      document.getElementById('expense-date').value = date;
+      showSuccessModal(t('offline.savedOfflineTitle'), tFormat('offline.harvestSavedOfflineBody', { name, count: newExpenses.length }), {
+        name: name, date: date, type: 'produce', amount: 0,
+      });
+      renderOfflineQueueBanner();
+    };
+    if (!navigator.onLine) { saveHarvestOffline(); return; }
     try {
       const res = await fetch('/api/records', {
         method: 'POST',
@@ -2784,7 +3134,7 @@ if (formExpense) {
         alert(resData.error || "Error saving record.");
       }
     } catch (err) {
-      alert("Error saving product and expenses.");
+      saveHarvestOffline();
     }
   });
 }
@@ -3204,14 +3554,17 @@ function renderRecords() {
 
     const pricePerUnit = Number(item.pricePerUnit) || 0;
     const amount = Number(item.amount) || 0;
+    const isPending = !!item._offlinePending;
+    if (isPending) tr.classList.add('row-pending-sync');
 
     tr.innerHTML = `
-      <td><strong>${escapeHtml(item.name || '')}</strong></td>
+      <td><strong>${escapeHtml(item.name || '')}</strong>${isPending ? ` <span class="pending-sync-tag">${t('offline.pendingTag')}</span>` : ''}</td>
       <td class="align-right">₱${pricePerUnit.toFixed(2)}</td>
       <td class="align-right record-amount--positive">₱${amount.toFixed(2)}</td>
       <td class="align-right">₱${(amount * 0.1).toFixed(2)}</td>
       <td>${escapeHtml(item.date || '')}</td>
       <td class="row-actions-cell">
+        ${isPending ? `<span class="pending-sync-note">${t('offline.pendingNote')}</span>` : `
         <button
           class="btn-view-details"
           onclick="openProduceDetail('${item.id}')">
@@ -3222,6 +3575,7 @@ function renderRecords() {
           onclick="deleteRecord('${item.id}')">
           Delete
         </button>
+        `}
       </td>
     `;
 
