@@ -103,7 +103,7 @@ const TRANSLATIONS = {
     'dash.recentRecords': 'Recent records',
     'dash.viewAll': 'View all',
     'dash.sessionExplainer': 'A harvest is used each time you add a new Product & its Expenses. Logging Actual Income is always free. Once your harvests are used up, adding new products will be locked until you subscribe.',
-    'dash.pendingPricingTitle': '⚠️ Some products still need a price',
+    'dash.pendingPricingTitle': 'Some products still need a price',
     'dash.pendingPricingSub': 'These show ₱0.00 in your sales and reports until you set their pricing.',
     'dash.setPricingBtn': 'Set pricing',
     'dash.freePlanPrefix': 'Free plan —',
@@ -335,6 +335,27 @@ const TRANSLATIONS = {
     'offline.discard': 'Discard',
     'offline.confirmDiscard': 'Discard this item? It was never saved to the server and this cannot be undone.',
     'offline.confirmLogoutWithPending': "You have items waiting to sync. They'll stay saved on this device and sync next time you're online and logged in — log out anyway?",
+
+    // ---- My Profile screen ----
+    'topbar.profile': 'My Profile',
+    'profile.detailsTitle': 'My Profile',
+    'profile.avatarLabel': 'Avatar',
+    'profile.fullNameLabel': 'Full Name',
+    'profile.usernameLabel': 'Username',
+    'profile.emailLabel': 'Email',
+    'profile.readonlyNote': "Username and email can't be changed here — message Customer Service if you need help with either.",
+    'profile.saveBtn': 'Save Changes',
+    'profile.passwordTitle': 'Change Password',
+    'profile.currentPasswordLabel': 'Current Password',
+    'profile.newPasswordLabel': 'New Password',
+    'profile.confirmPasswordLabel': 'Confirm New Password',
+    'profile.changePasswordBtn': 'Change Password',
+    'profile.nameRequired': "Full name can't be blank.",
+    'profile.saved': 'Your profile has been updated.',
+    'profile.saveFailed': 'Could not save your changes.',
+    'profile.passwordTooShort': 'New password must be at least 6 characters.',
+    'profile.passwordMismatch': "New password and confirmation don't match.",
+    'profile.passwordChanged': 'Your password has been changed.',
     'support.replySendFailed': "Couldn't send your reply. Please try again.",
     'support.replyNetworkError': "Couldn't reach the server. Check your connection and try again.",
   },
@@ -364,7 +385,7 @@ const TRANSLATIONS = {
     'dash.recentRecords': 'Kamakailang mga record',
     'dash.viewAll': 'Tingnan lahat',
     'dash.sessionExplainer': 'Nagagamit ang isang harvest tuwing magdadagdag ka ng bagong Produkto at ang mga Gastos nito. Libre lagi ang pag-log ng Aktwal na Kita. Kapag naubos na ang iyong mga harvest, mai-lock ang pagdagdag ng bagong produkto hangga\'t hindi ka nag-subscribe.',
-    'dash.pendingPricingTitle': '⚠️ May mga produktong kailangan pa ng presyo',
+    'dash.pendingPricingTitle': 'May mga produktong kailangan pa ng presyo',
     'dash.pendingPricingSub': 'Nagpapakita ang mga ito ng ₱0.00 sa benta at reports mo hangga\'t hindi mo naitatakda ang presyo nila.',
     'dash.setPricingBtn': 'Itakda ang presyo',
     'dash.freePlanPrefix': 'Libreng plano —',
@@ -595,6 +616,27 @@ const TRANSLATIONS = {
     'offline.discard': 'Tanggalin',
     'offline.confirmDiscard': 'Tanggalin ang item na ito? Hindi pa ito na-save sa server at hindi na mababawi ang aksyong ito.',
     'offline.confirmLogoutWithPending': 'May mga item kang hinihintay i-sync. Mananatili itong naka-save sa device na ito at awtomatikong mag-sync sa susunod mong pag-login habang may signal — magpatuloy ba sa pag-logout?',
+
+    // ---- My Profile screen ----
+    'topbar.profile': 'Aking Profile',
+    'profile.detailsTitle': 'Aking Profile',
+    'profile.avatarLabel': 'Avatar',
+    'profile.fullNameLabel': 'Buong Pangalan',
+    'profile.usernameLabel': 'Username',
+    'profile.emailLabel': 'Email',
+    'profile.readonlyNote': 'Hindi mababago ang username at email dito — mag-message sa Customer Service kung kailangan ng tulong tungkol dito.',
+    'profile.saveBtn': 'I-save ang mga Pagbabago',
+    'profile.passwordTitle': 'Palitan ang Password',
+    'profile.currentPasswordLabel': 'Kasalukuyang Password',
+    'profile.newPasswordLabel': 'Bagong Password',
+    'profile.confirmPasswordLabel': 'Kumpirmahin ang Bagong Password',
+    'profile.changePasswordBtn': 'Palitan ang Password',
+    'profile.nameRequired': 'Hindi puwedeng blangko ang buong pangalan.',
+    'profile.saved': 'Na-update na ang iyong profile.',
+    'profile.saveFailed': 'Hindi ma-save ang mga pagbabago mo.',
+    'profile.passwordTooShort': 'Dapat hindi bababa sa 6 characters ang bagong password.',
+    'profile.passwordMismatch': 'Hindi magkatugma ang bagong password at kumpirmasyon.',
+    'profile.passwordChanged': 'Napalitan na ang iyong password.',
     'support.replySendFailed': 'Hindi naipadala ang reply mo. Subukan ulit.',
     'support.replyNetworkError': 'Hindi ma-reach ang server. Tingnan ang koneksyon mo at subukan ulit.',
   },
@@ -922,8 +964,44 @@ document.querySelectorAll('.radio-pill input[type="radio"]').forEach(radio => {
   });
   if (radio.checked) radio.closest('.radio-pill')?.classList.add('is-checked');
 });
-// Avatar picker (Register) — simple preset selection, no upload needed
-const avatarOptionBtns = document.querySelectorAll('.avatar-option');
+// ==================== AVATAR ICONS ====================
+// Ang "avatar" na naka-save sa database ay nananatiling emoji string
+// (hal. '🌾') bilang ID/key lang — HINDI ito binago para hindi masira ang
+// mga dati nang account. Pero saanman ito ipinapakita sa screen, ginagawa
+// itong SVG icon (hindi na emoji) sa pamamagitan ng avatarIconHtml() para
+// pare-pareho ang itsura sa lahat ng device at hindi nakadepende sa font
+// ng emoji ng phone.
+const AVATAR_ICONS = {
+  "🌾": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 21V9\"/><path d=\"M12 9c0-2.5-2-3.5-3.5-3.5\"/><path d=\"M8.5 5.5C7 5.5 6 6.5 6 8\"/><path d=\"M12 9c0-2.5 2-3.5 3.5-3.5\"/><path d=\"M15.5 5.5c1.5 0 2.5 1 2.5 2.5\"/><path d=\"M12 13c0-2.2-1.8-3-3-3\"/><path d=\"M9 10c-1.3 0-2.2 1-2.2 2.2\"/><path d=\"M12 13c0-2.2 1.8-3 3-3\"/><path d=\"M15 10c1.3 0 2.2 1 2.2 2.2\"/><path d=\"M12 17c0-1.8-1.5-2.6-2.6-2.6\"/><path d=\"M9.4 14.4c-1.1 0-2 .9-2 2\"/><path d=\"M12 17c0-1.8 1.5-2.6 2.6-2.6\"/><path d=\"M14.6 14.4c1.1 0 2 .9 2 2\"/></svg>",
+  "🌽": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 2c3.3 0 5 3 5 8s-1.7 11-5 11-5-6-5-11 1.7-8 5-8Z\"/><path d=\"M8.3 6.5h7.4M7.7 9.5h8.6M7.5 12.5h9M7.7 15.5h8.6M8.5 18.3h7\"/></svg>",
+  "🍅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"13.5\" r=\"7\"/><path d=\"M12 6.5V4\"/><path d=\"M12 6.5c-1.4-1.6-3-1.8-4.2-1M12 6.5c1.4-1.6 3-1.8 4.2-1M12 6.5c-.9-1.5-.4-2.4.3-3.2M12 6.5c.9-1.5.4-2.4-.3-3.2\"/></svg>",
+  "🥕": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8.6 9c0-1.3 1.5-2.3 3.4-2.3s3.4 1 3.4 2.3L12 21.5Z\"/><path d=\"M9.6 12.3h2M12.6 15h1.9M10.6 15.8h1.3\"/><path d=\"M12 6.7V2.8M12 6.7 9 3.9M12 6.7l3-2.8\"/></svg>",
+  "🍓": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 7c4 0 6.5 3 6.5 6.5 0 4-3 8-6.5 8s-6.5-4-6.5-8C5.5 10 8 7 12 7Z\"/><path d=\"M9 3.5 12 7l3-3.5M7 5l2.3 2M17 5l-2.3 2\"/><circle cx=\"9.5\" cy=\"12\" r=\".5\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"13.5\" cy=\"11\" r=\".5\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"11\" cy=\"15.5\" r=\".5\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"14.5\" cy=\"15\" r=\".5\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"9.5\" cy=\"17.5\" r=\".5\" fill=\"currentColor\" stroke=\"none\"/></svg>",
+  "🐄": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6.8 8.5C4.8 8.7 3.6 8 3.4 6.2c1.8-.1 3 .5 3.9 1.6\"/><path d=\"M17.2 8.5c2 .2 3.2-.5 3.4-2.3-1.8-.1-3 .5-3.9 1.6\"/><path d=\"M6.5 9.5c0-3.3 2.2-5.3 5.5-5.3s5.5 2 5.5 5.3c0 3.3-1 6.7-2.3 8.2-.8 1-1.8 1.4-3.2 1.4s-2.4-.4-3.2-1.4C7.5 16.2 6.5 12.8 6.5 9.5Z\"/><circle cx=\"9.7\" cy=\"10.5\" r=\".6\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"14.3\" cy=\"10.5\" r=\".6\" fill=\"currentColor\" stroke=\"none\"/><ellipse cx=\"12\" cy=\"15.3\" rx=\"2.6\" ry=\"1.8\"/><circle cx=\"11\" cy=\"15.3\" r=\".4\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"13\" cy=\"15.3\" r=\".4\" fill=\"currentColor\" stroke=\"none\"/></svg>",
+  "🐓": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"9.5\" r=\"4\"/><path d=\"M9.6 6c-.5-1.3.2-2.5 1.4-2.4.4-1.2 1.9-1.4 2.5-.3 1.1-.4 2.1.6 1.6 1.8\"/><path d=\"M8.3 9.6 4.6 10.8l3.7.9\"/><path d=\"M9 12.6c-.5 1.4-.1 2.6 1 3\"/><circle cx=\"11\" cy=\"8.9\" r=\".6\" fill=\"currentColor\" stroke=\"none\"/><path d=\"M9.2 13.6C7.8 16 7.7 19 8.5 21.2M15.5 12.8c1.8 2.4 2 5.6 1 8.4M8.5 21.2h8\"/></svg>",
+  "👩‍🌾": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"8\" rx=\"8\" ry=\"2\"/><path d=\"M7.5 7.7C7.8 4.8 9.6 3.3 12 3.3s4.2 1.5 4.5 4.4\"/><path d=\"M8.8 10.3c.4 2.4 1.7 3.5 3.2 3.5s2.8-1.1 3.2-3.5\"/><path d=\"M5.5 21c0-3.4 2.9-5.6 6.5-5.6s6.5 2.2 6.5 5.6\"/><path d=\"M8.8 10.5c-.7 1.4-.7 3 0 4.6M15.2 10.5c.7 1.4.7 3 0 4.6\"/></svg>",
+  "👨‍🌾": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"8\" rx=\"8\" ry=\"2\"/><path d=\"M7.5 7.7C7.8 4.8 9.6 3.3 12 3.3s4.2 1.5 4.5 4.4\"/><path d=\"M8.8 10.3c.4 2.4 1.7 3.5 3.2 3.5s2.8-1.1 3.2-3.5\"/><path d=\"M5.5 21c0-3.4 2.9-5.6 6.5-5.6s6.5 2.2 6.5 5.6\"/></svg>"
+};
+function avatarIconHtml(key) {
+  return AVATAR_ICONS[key] || AVATAR_ICONS['🌾'];
+}
+// Pinupuno ang lahat ng avatar picker button (Register + My Profile) ng
+// kaukulang icon. Ang data-avatar attribute ay hindi ginagalaw.
+function renderAvatarPickerIcons() {
+  document.querySelectorAll('.avatar-option').forEach(btn => {
+    btn.innerHTML = avatarIconHtml(btn.dataset.avatar);
+  });
+}
+function setTopbarAvatar(el, key) {
+  if (el) el.innerHTML = avatarIconHtml(key);
+}
+renderAvatarPickerIcons();
+
+// Avatar picker (Register) — simple preset selection, no upload needed.
+// Scoped to #avatar-picker specifically (not the generic .avatar-option
+// class) so it doesn't also pick up the separate avatar picker on the My
+// Profile screen, which has its own independent handler further below.
+const avatarOptionBtns = document.querySelectorAll('#avatar-picker .avatar-option');
 avatarOptionBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     avatarOptionBtns.forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed', 'false'); });
@@ -939,6 +1017,116 @@ function resetAvatarPicker() {
   avatarOptionBtns[0].setAttribute('aria-pressed', 'true');
   selectedAvatar = avatarOptionBtns[0].dataset.avatar;
 }
+// ==================== MY PROFILE (opened via avatar/name in the topbar) ====================
+// Sariling avatar picker ito, hiwalay sa #avatar-picker ng Register form sa
+// itaas — may sarili itong "currently selected" state, hindi dapat
+// magkahalo ang dalawa.
+let profileSelectedAvatar = '🌾';
+const profileAvatarBtns = document.querySelectorAll('#profile-avatar-picker .avatar-option');
+profileAvatarBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    profileAvatarBtns.forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed', 'false'); });
+    btn.classList.add('selected');
+    btn.setAttribute('aria-pressed', 'true');
+    profileSelectedAvatar = btn.dataset.avatar;
+  });
+});
+async function loadProfileScreen() {
+  const err = document.getElementById('profile-error');
+  const success = document.getElementById('profile-success');
+  if (err) err.hidden = true;
+  if (success) success.hidden = true;
+  try {
+    const res = await fetch('/api/profile');
+    if (!res.ok) { if (err) { err.textContent = netErrMsg(); err.hidden = false; } return; }
+    const data = await res.json();
+    const nameInput = document.getElementById('profile-full-name');
+    if (nameInput) nameInput.value = data.fullName || '';
+    const usernameDisplay = document.getElementById('profile-username-display');
+    if (usernameDisplay) usernameDisplay.textContent = data.username || '—';
+    const emailDisplay = document.getElementById('profile-email-display');
+    if (emailDisplay) emailDisplay.textContent = data.email || '—';
+    profileSelectedAvatar = data.avatar || '🌾';
+    profileAvatarBtns.forEach(b => {
+      const isSelected = b.dataset.avatar === profileSelectedAvatar;
+      b.classList.toggle('selected', isSelected);
+      b.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+    });
+  } catch (e) {
+    // OFFLINE: hindi kailangang i-block ang buong screen — ipakita na lang
+    // ang error, panatilihin pa rin ang mga dati nang laman ng fields (kung
+    // meron) para makita pa rin ng user ang huling alam nilang profile.
+    if (err) { err.textContent = netErrMsg(); err.hidden = false; }
+  }
+}
+document.getElementById('btn-open-profile')?.addEventListener('click', () => navigateToScreen('profile'));
+document.getElementById('form-profile')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const err = document.getElementById('profile-error');
+  const success = document.getElementById('profile-success');
+  if (err) err.hidden = true;
+  if (success) success.hidden = true;
+  const fullName = document.getElementById('profile-full-name')?.value.trim() || '';
+  if (!fullName) {
+    if (err) { err.textContent = t('profile.nameRequired'); err.hidden = false; }
+    return;
+  }
+  try {
+    const res = await fetch('/api/profile', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fullName, avatar: profileSelectedAvatar }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok) {
+      currentUser = data.fullName || fullName;
+      currentAvatar = data.avatar || profileSelectedAvatar;
+      const topbarUser = document.getElementById('topbar-username');
+      if (topbarUser) topbarUser.textContent = currentUser;
+      const topbarAvatar = document.getElementById('topbar-avatar');
+      setTopbarAvatar(topbarAvatar, currentAvatar);
+      if (success) { success.textContent = t('profile.saved'); success.hidden = false; }
+    } else {
+      if (err) { err.textContent = data.error || t('profile.saveFailed'); err.hidden = false; }
+    }
+  } catch (e) {
+    if (err) { err.textContent = netErrMsg(); err.hidden = false; }
+  }
+});
+document.getElementById('form-profile-password')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const err = document.getElementById('profile-password-error');
+  const success = document.getElementById('profile-password-success');
+  if (err) err.hidden = true;
+  if (success) success.hidden = true;
+  const currentPassword = document.getElementById('profile-current-password')?.value || '';
+  const newPassword = document.getElementById('profile-new-password')?.value || '';
+  const confirmPassword = document.getElementById('profile-confirm-password')?.value || '';
+  if (newPassword.length < 6) {
+    if (err) { err.textContent = t('profile.passwordTooShort'); err.hidden = false; }
+    return;
+  }
+  if (newPassword !== confirmPassword) {
+    if (err) { err.textContent = t('profile.passwordMismatch'); err.hidden = false; }
+    return;
+  }
+  try {
+    const res = await fetch('/api/profile/password', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ currentPassword, newPassword }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok) {
+      if (success) { success.textContent = t('profile.passwordChanged'); success.hidden = false; }
+      document.getElementById('form-profile-password')?.reset();
+    } else {
+      if (err) { err.textContent = data.error || t('profile.saveFailed'); err.hidden = false; }
+    }
+  } catch (e) {
+    if (err) { err.textContent = netErrMsg(); err.hidden = false; }
+  }
+});
 function clearAuthFields() {
   const formLogin = document.getElementById('form-login');
   const formSignup = document.getElementById('form-signup');
@@ -1678,7 +1866,7 @@ async function enterAppAfterAuth(data, opts) {
   const topbarUser = document.getElementById('topbar-username');
   if (topbarUser) topbarUser.textContent = currentUser;
   const topbarAvatar = document.getElementById('topbar-avatar');
-  if (topbarAvatar) topbarAvatar.textContent = currentAvatar;
+  setTopbarAvatar(topbarAvatar, currentAvatar);
   initApp();
   await fetchUserDataFromBackend();
   if (opts.showTutorial) startOnboardingTutorial();
@@ -1916,7 +2104,7 @@ async function enterAdminApp() {
   const adminTopbarUser = document.getElementById('admin-topbar-username');
   if (adminTopbarUser) adminTopbarUser.textContent = currentUser;
   const adminTopbarAvatar = document.getElementById('admin-topbar-avatar');
-  if (adminTopbarAvatar) adminTopbarAvatar.textContent = currentAvatar;
+  setTopbarAvatar(adminTopbarAvatar, currentAvatar);
   // Dashboard ang unang makikita; kinukuha pa rin ang support/subscriptions
   // list para lang sa badge counts.
   await renderAdminDashboard();
@@ -2678,7 +2866,8 @@ function navigateToScreen(targetScreen) {
     'records': 'topbar.records',
     'reports': 'topbar.reports',
     'support': 'topbar.support',
-    'subscribe': 'topbar.subscribe'
+    'subscribe': 'topbar.subscribe',
+    'profile': 'topbar.profile'
   };
   const topbarTitle = document.getElementById('topbar-title');
   if (topbarTitle) {
@@ -2695,6 +2884,7 @@ function navigateToScreen(targetScreen) {
   if (targetScreen === 'records') renderRecords();
   if (targetScreen === 'reports') renderReports();
   if (targetScreen === 'support') renderMySupportMessages();
+  if (targetScreen === 'profile') loadProfileScreen();
   // Dashboard at Reports: laging kumuha ng FRESH data mula backend sa bawat
   // pagbisita dito, hindi lang umaasa sa huling naka-cache na `records` sa
   // memory. Nililinis nito ang tsansang magkaiba ang makikita sa Dashboard/
