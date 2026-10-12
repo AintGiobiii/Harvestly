@@ -698,6 +698,23 @@ button, input, select {
   padding: 0; width: 30px; height: 30px; font-size: 16px;
   display: flex; align-items: center; justify-content: center;
 }
+/* Clicking the avatar/name opens My Profile. Reset button defaults so it
+   still looks like the plain avatar+name it always was, just with a
+   pointer cursor and a soft hover/focus state as the "this is clickable"
+   affordance. */
+.topbar-identity {
+  display: flex; align-items: center; gap: 8px;
+  background: none; border: none; padding: 2px; margin: 0;
+  font: inherit; color: inherit; cursor: pointer;
+  border-radius: 999px; transition: background .12s ease;
+}
+.topbar-identity:hover, .topbar-identity:focus-visible { background: rgba(31, 77, 54, 0.08); }
+.admin-shell .topbar-identity:hover, .admin-shell .topbar-identity:focus-visible { background: rgba(255,255,255,0.08); }
+
+/* PROFILE SCREEN */
+.profile-readonly-row { display: flex; gap: 24px; flex-wrap: wrap; margin: 4px 0 14px; }
+.profile-readonly-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.profile-readonly-value { margin: 2px 0 0; font-weight: 600; color: var(--ink); }
 /* AVATAR PICKER (Register) */
 .avatar-picker { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 2px; }
 .avatar-option {
@@ -1065,15 +1082,34 @@ button, input, select {
   .stat-row { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 600px) {
-  .stat-row { grid-template-columns: 1fr; }
+  /* 2 columns instead of 1 — four full-width stacked cards were pushing
+     "Recent records" below the fold on a phone. Smaller padding/font on
+     each card keeps the pair legible in half the screen width. */
+  .stat-row { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 18px; }
+  .stat-card { padding: 13px 14px 15px; }
+  .stat-label { font-size: 10px; margin-bottom: 4px; }
+  .stat-value { font-size: 17px; }
   .sidebar {
     position: fixed; left: 0; top: 0; bottom: 0; transform: translateX(-100%);
     transition: transform .2s ease; z-index: 20; box-shadow: 4px 0 20px rgba(0,0,0,0.2);
   }
   .sidebar.open { transform: translateX(0); }
   .menu-toggle { display: inline-flex; }
-  .main .screen { padding: 22px 18px 0; }
-  .topbar { padding: 16px 18px; }
+  .main .screen { padding: 16px 14px 0; }
+  .panel { padding: 16px 16px; margin-bottom: 16px; }
+  .quick-actions { gap: 8px; margin-bottom: 20px; }
+  .quick-actions .btn { padding: 10px 16px; font-size: 13px; }
+  .topbar { padding: 14px 16px; gap: 8px; }
+  .topbar h1 {
+    font-size: 16.5px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  /* Hindi na kasya ang buong pangalan sa tabi ng maikling title sa isang
+     linya — pinapaikli na lang ito sa halip na hayaang pumunta sa 3 linya
+     at pisilin ang title (na siyang nangyayari dati). Nananatiling
+     makikita ang buong pangalan sa loob ng My Profile screen. */
+  .topbar-user { font-size: 12px; gap: 6px; flex-shrink: 0; }
+  #topbar-username { max-width: 68px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; }
+  .topbar-user span { padding: 5px 9px; }
   .field-row { flex-direction: column; gap: 0; }
   .expense-row {
     grid-template-columns: 1fr;
@@ -1879,3 +1915,29 @@ button, input, select {
 }
 .pending-sync-note { color: var(--muted); font-size: 12.5px; font-style: italic; }
 tr.row-pending-sync { background: #FFFBF2; }
+
+
+/* ====================================================================
+   ICONS (replacing emoji): avatar picker, topbar avatar, language modal,
+   flags, admin greeting, and the pending-pricing warning.
+   ==================================================================== */
+.avatar-option { color: var(--ink); }
+.avatar-option svg { width: 24px; height: 24px; display: block; }
+.avatar-option.selected { color: var(--forest); }
+.avatar-option:focus-visible { outline: 2px solid var(--forest); outline-offset: 2px; }
+.topbar-user .topbar-avatar svg { width: 18px; height: 18px; display: block; }
+.lang-modal-icon { color: var(--forest); display: flex; justify-content: center; }
+.lang-modal-icon svg { width: 40px; height: 40px; }
+.lang-choice-flag { display: flex; align-items: center; justify-content: center; }
+.lang-choice-flag svg { border-radius: 4px; box-shadow: 0 0 0 1px rgba(0,0,0,0.12); display: block; }
+.adm-wave svg { vertical-align: -3px; }
+.pending-pricing-title { display: flex; align-items: center; gap: 8px; }
+.pending-pricing-title::before {
+  content: "";
+  flex-shrink: 0;
+  width: 18px; height: 18px;
+  background: no-repeat center / contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238a5a10' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z'/><path d='M12 9v4M12 17h.01'/></svg>");
+}
+@media (max-width: 600px) {
+  .avatar-option svg { width: 21px; height: 21px; }
+}
