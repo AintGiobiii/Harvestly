@@ -23,16 +23,16 @@
        ang language pill sa tabi ng username sa topbar. -->
   <div id="language-modal-backdrop" class="modal-backdrop">
     <div class="modal-card lang-modal-card">
-      <div class="lang-modal-icon" aria-hidden="true">🌐</div>
+      <div class="lang-modal-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19"/><path d="M12 2.5c2.6 2.7 4 5.9 4 9.5s-1.4 6.8-4 9.5c-2.6-2.7-4-5.9-4-9.5s1.4-6.8 4-9.5Z"/></svg></div>
       <h2 class="modal-title" id="lang-modal-title" data-i18n="lang.modalTitle">Choose your language</h2>
       <p class="modal-sub" id="lang-modal-sub" data-i18n="lang.modalSub">Pick your preferred language for the app. You can change this anytime up top, next to your username.</p>
       <div class="lang-choice-row">
         <button type="button" class="lang-choice-btn" data-lang="en">
-          <span class="lang-choice-flag" aria-hidden="true">🇬🇧</span>
+          <span class="lang-choice-flag" aria-hidden="true"><svg viewBox="0 0 60 40" width="36" height="24"><rect width="60" height="40" rx="4" fill="#1F3C88"/><path d="M0 0l60 40M60 0 0 40" stroke="#fff" stroke-width="7"/><path d="M0 0l60 40M60 0 0 40" stroke="#C8102E" stroke-width="3"/><path d="M30 0v40M0 20h60" stroke="#fff" stroke-width="12"/><path d="M30 0v40M0 20h60" stroke="#C8102E" stroke-width="7"/></svg></span>
           <span class="lang-choice-name">English</span>
         </button>
         <button type="button" class="lang-choice-btn" data-lang="tl">
-          <span class="lang-choice-flag" aria-hidden="true">🇵🇭</span>
+          <span class="lang-choice-flag" aria-hidden="true"><svg viewBox="0 0 60 40" width="36" height="24"><rect width="60" height="40" rx="4" fill="#0038A8"/><path d="M0 20h60v16a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4Z" fill="#CE1126"/><path d="M0 0v40l26-20Z" fill="#fff"/><circle cx="8.5" cy="20" r="3.2" fill="#FCD116"/></svg></span>
           <span class="lang-choice-name">Tagalog</span>
         </button>
       </div>
@@ -436,15 +436,15 @@
             <div class="field">
               <span>Choose an avatar</span>
               <div class="avatar-picker" id="avatar-picker" role="group" aria-label="Choose an avatar">
-                <button type="button" class="avatar-option selected" data-avatar="🌾" aria-pressed="true">🌾</button>
-                <button type="button" class="avatar-option" data-avatar="🌽" aria-pressed="false">🌽</button>
-                <button type="button" class="avatar-option" data-avatar="🍅" aria-pressed="false">🍅</button>
-                <button type="button" class="avatar-option" data-avatar="🥕" aria-pressed="false">🥕</button>
-                <button type="button" class="avatar-option" data-avatar="🍓" aria-pressed="false">🍓</button>
-                <button type="button" class="avatar-option" data-avatar="🐄" aria-pressed="false">🐄</button>
-                <button type="button" class="avatar-option" data-avatar="🐓" aria-pressed="false">🐓</button>
-                <button type="button" class="avatar-option" data-avatar="👩‍🌾" aria-pressed="false">👩‍🌾</button>
-                <button type="button" class="avatar-option" data-avatar="👨‍🌾" aria-pressed="false">👨‍🌾</button>
+                <button type="button" class="avatar-option selected" data-avatar="🌾" aria-pressed="true"></button>
+                <button type="button" class="avatar-option" data-avatar="🌽" aria-pressed="false"></button>
+                <button type="button" class="avatar-option" data-avatar="🍅" aria-pressed="false"></button>
+                <button type="button" class="avatar-option" data-avatar="🥕" aria-pressed="false"></button>
+                <button type="button" class="avatar-option" data-avatar="🍓" aria-pressed="false"></button>
+                <button type="button" class="avatar-option" data-avatar="🐄" aria-pressed="false"></button>
+                <button type="button" class="avatar-option" data-avatar="🐓" aria-pressed="false"></button>
+                <button type="button" class="avatar-option" data-avatar="👩‍🌾" aria-pressed="false"></button>
+                <button type="button" class="avatar-option" data-avatar="👨‍🌾" aria-pressed="false"></button>
               </div>
             </div>
             <p class="pricing-guide-note">Sa pag-tap ng Next, magpapadala kami ng verification code sa email na inilagay mo.</p>
@@ -680,7 +680,9 @@
           <button type="button" id="btn-lang-switch" class="lang-pill" aria-label="Change language" title="Change language">
             <span id="lang-pill-label">EN</span>
           </button>
-          <span class="topbar-avatar" id="topbar-avatar">🌾</span><span id="topbar-username">—</span>
+          <button type="button" class="topbar-identity" id="btn-open-profile" aria-label="My Profile" title="My Profile">
+            <span class="topbar-avatar" id="topbar-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9"/><path d="M12 9c0-2.5-2-3.5-3.5-3.5"/><path d="M8.5 5.5C7 5.5 6 6.5 6 8"/><path d="M12 9c0-2.5 2-3.5 3.5-3.5"/><path d="M15.5 5.5c1.5 0 2.5 1 2.5 2.5"/><path d="M12 13c0-2.2-1.8-3-3-3"/><path d="M9 10c-1.3 0-2.2 1-2.2 2.2"/><path d="M12 13c0-2.2 1.8-3 3-3"/><path d="M15 10c1.3 0 2.2 1 2.2 2.2"/><path d="M12 17c0-1.8-1.5-2.6-2.6-2.6"/><path d="M9.4 14.4c-1.1 0-2 .9-2 2"/><path d="M12 17c0-1.8 1.5-2.6 2.6-2.6"/><path d="M14.6 14.4c1.1 0 2 .9 2 2"/></svg></span><span id="topbar-username">—</span>
+          </button>
         </div>
       </header>
       <section id="screen-dashboard" class="screen active">
@@ -711,7 +713,7 @@
           <button type="button" class="btn btn-outline" data-screen="actual-income" data-i18n="dash.addIncomeBtn">+ Add Actual Income</button>
         </div>
         <div id="pending-pricing-banner" class="panel pending-pricing-banner" style="display: none;">
-          <p class="pending-pricing-title" data-i18n="dash.pendingPricingTitle">⚠️ Some products still need a price</p>
+          <p class="pending-pricing-title" data-i18n="dash.pendingPricingTitle">Some products still need a price</p>
           <p class="pending-pricing-sub" data-i18n="dash.pendingPricingSub">These show ₱0.00 in your sales and reports until you set their pricing.</p>
           <div id="pending-pricing-list" class="pending-pricing-list"></div>
         </div>
@@ -1044,6 +1046,70 @@
           <div id="support-list"></div>
         </div>
       </section>
+      <!-- MY PROFILE SCREEN (opened by clicking the avatar/name in the topbar) -->
+      <section id="screen-profile" class="screen">
+        <div class="panel">
+          <div class="panel-head">
+            <h2 data-i18n="profile.detailsTitle">My Profile</h2>
+          </div>
+          <form id="form-profile">
+            <label class="field">
+              <span data-i18n="profile.avatarLabel">Avatar</span>
+              <div class="avatar-picker" id="profile-avatar-picker" role="group" aria-label="Choose an avatar">
+                <button type="button" class="avatar-option" data-avatar="🌾" aria-pressed="false"></button>
+                <button type="button" class="avatar-option" data-avatar="🌽" aria-pressed="false"></button>
+                <button type="button" class="avatar-option" data-avatar="🍅" aria-pressed="false"></button>
+                <button type="button" class="avatar-option" data-avatar="🥕" aria-pressed="false"></button>
+                <button type="button" class="avatar-option" data-avatar="🍓" aria-pressed="false"></button>
+                <button type="button" class="avatar-option" data-avatar="🐄" aria-pressed="false"></button>
+                <button type="button" class="avatar-option" data-avatar="🐓" aria-pressed="false"></button>
+                <button type="button" class="avatar-option" data-avatar="👩‍🌾" aria-pressed="false"></button>
+                <button type="button" class="avatar-option" data-avatar="👨‍🌾" aria-pressed="false"></button>
+              </div>
+            </label>
+            <label class="field">
+              <span data-i18n="profile.fullNameLabel">Full Name</span>
+              <input type="text" id="profile-full-name" maxlength="100" required>
+            </label>
+            <div class="profile-readonly-row">
+              <div>
+                <span class="profile-readonly-label" data-i18n="profile.usernameLabel">Username</span>
+                <p class="profile-readonly-value" id="profile-username-display">—</p>
+              </div>
+              <div>
+                <span class="profile-readonly-label" data-i18n="profile.emailLabel">Email</span>
+                <p class="profile-readonly-value" id="profile-email-display">—</p>
+              </div>
+            </div>
+            <p class="lede" data-i18n="profile.readonlyNote">Username and email can't be changed here — message Customer Service if you need help with either.</p>
+            <p class="field-error" id="profile-error" hidden></p>
+            <p class="field-success" id="profile-success" hidden></p>
+            <button type="submit" class="btn btn-primary" data-i18n="profile.saveBtn">Save Changes</button>
+          </form>
+        </div>
+        <div class="panel" style="margin-top: 20px;">
+          <div class="panel-head">
+            <h2 data-i18n="profile.passwordTitle">Change Password</h2>
+          </div>
+          <form id="form-profile-password">
+            <label class="field">
+              <span data-i18n="profile.currentPasswordLabel">Current Password</span>
+              <input type="password" id="profile-current-password" required>
+            </label>
+            <label class="field">
+              <span data-i18n="profile.newPasswordLabel">New Password</span>
+              <input type="password" id="profile-new-password" minlength="6" required>
+            </label>
+            <label class="field">
+              <span data-i18n="profile.confirmPasswordLabel">Confirm New Password</span>
+              <input type="password" id="profile-confirm-password" minlength="6" required>
+            </label>
+            <p class="field-error" id="profile-password-error" hidden></p>
+            <p class="field-success" id="profile-password-success" hidden></p>
+            <button type="submit" class="btn btn-primary" data-i18n="profile.changePasswordBtn">Change Password</button>
+          </form>
+        </div>
+      </section>
       <!-- SUBSCRIBE SCREEN -->
       <section id="screen-subscribe" class="screen">
         <div class="panel">
@@ -1131,12 +1197,12 @@
           <button type="button" id="btn-admin-lang-switch" class="lang-pill" aria-label="Change language" title="Change language">
             <span id="admin-lang-pill-label">EN</span>
           </button>
-          <span class="topbar-avatar" id="admin-topbar-avatar">🌾</span><span id="admin-topbar-username">—</span>
+          <span class="topbar-avatar" id="admin-topbar-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9"/><path d="M12 9c0-2.5-2-3.5-3.5-3.5"/><path d="M8.5 5.5C7 5.5 6 6.5 6 8"/><path d="M12 9c0-2.5 2-3.5 3.5-3.5"/><path d="M15.5 5.5c1.5 0 2.5 1 2.5 2.5"/><path d="M12 13c0-2.2-1.8-3-3-3"/><path d="M9 10c-1.3 0-2.2 1-2.2 2.2"/><path d="M12 13c0-2.2 1.8-3 3-3"/><path d="M15 10c1.3 0 2.2 1 2.2 2.2"/><path d="M12 17c0-1.8-1.5-2.6-2.6-2.6"/><path d="M9.4 14.4c-1.1 0-2 .9-2 2"/><path d="M12 17c0-1.8 1.5-2.6 2.6-2.6"/><path d="M14.6 14.4c1.1 0 2 .9 2 2"/></svg></span><span id="admin-topbar-username">—</span>
         </div>
       </header>
       <section id="screen-admin-dashboard" class="screen active">
         <div class="adm-greet">
-          <h2>Welcome back, <span id="adm-greet-name">Admin</span> <span class="adm-wave" aria-hidden="true">👋</span></h2>
+          <h2>Welcome back, <span id="adm-greet-name">Admin</span> <span class="adm-wave" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg></span></h2>
           <p class="adm-greet-sub" id="adm-period">Buod ng buong Harvestly</p>
         </div>
 
